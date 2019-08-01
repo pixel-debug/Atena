@@ -41,7 +41,14 @@ clock = pygame.time.Clock()
 class Controle_Remoto:
 	try:
 		while (True):
+			clock.tick(30)
+			key=pygame.key.get_pressed()
+			motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 
+			if key[pygame.K_UP]:
+				motor.movimento_frente(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)	
+
+finally:
 
 	finally:
 		print("Cleaning up")
