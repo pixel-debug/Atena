@@ -39,4 +39,11 @@ screen = pygame.display.set_mode((400,200))
 clock = pygame.time.Clock()
 
 class Controle_Remoto:
+	try:
+		while (True):
+
+
+	finally:
+		print("Cleaning up")
+		GPIO.cleanup()
 
