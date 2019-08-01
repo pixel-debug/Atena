@@ -15,13 +15,12 @@
 import RPi.GPIO as GPIO
 import Variaveis as var
 
-class Configuracoes:
 
-	def configuracoes():
-		GPIO.setup(var.pin_pwm_motor_direita, GPIO.OUT)
-		GPIO.setup(var.pin_motor_direita_frente, GPIO.OUT)	
-		GPIO.setup(var.pin_motor_direita_tras, GPIO.OUT)
+def configuracoes():
+	GPIO.setup(var.pin_ENA, GPIO.OUT)
+	GPIO.setup(var.pin_IN1, GPIO.OUT)	
+	GPIO.setup(var.pin_IN2, GPIO.OUT)
 
-		GPIO.setup(var.pin_pwm_motor_esquerda, GPIO.OUT)
-		GPIO.setup(var.pin_motor_esquerda_frente, GPIO.OUT)	
-		GPIO.setup(var.pin_motor_esquerda_tras, GPIO.OUT)
+	GPIO.setup(var.pin_ENB, GPIO.OUT)
+	GPIO.setup(var.pin_IN3, GPIO.OUT)	
+	GPIO.setup(var.pin_IN4, GPIO.OUT)
