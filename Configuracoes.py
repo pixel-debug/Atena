@@ -12,5 +12,10 @@
 
 # --------------------------------------------------------
 
+import RPi.GPIO as GPIO
+import Variaveis as var
+
 class Configuracoes:
 
+	def configuracoes():
+		
