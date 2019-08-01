@@ -12,5 +12,20 @@
 
 # --------------------------------------------------------
 
+import RPi.GPIO as GPIO
+import Configuracoes as definir
+import Motores as motor
+import Variaveis as var
+import time
+
+import pygame, sys
+from pygame.locals import *
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setwarnings(False)
+
+definir.configuracoes()
+
 class Controle_Remoto:
 
