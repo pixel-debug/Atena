@@ -18,4 +18,8 @@ import Variaveis as var
 class Configuracoes:
 
 	def configuracoes():
-		
+		GPIO.setup(var.pin_pwm_motor_direita, GPIO.OUT)
+		GPIO.setup(var.pin_motor_direita_frente, GPIO.OUT)	
+		GPIO.setup(var.pin_motor_direita_tras, GPIO.OUT)
+
+
