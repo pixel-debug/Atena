@@ -13,7 +13,7 @@
 # --------------------------------------------------------
 
 # Velocidade Geral
-velocidade = 60
+velocidade = 80
 
 # Motores da Direita
 pin_ENA = 12	# PWM motor da direita
