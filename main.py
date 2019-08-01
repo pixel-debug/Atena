@@ -33,8 +33,17 @@ controle_velocidade_esquerda.start(0)
 class main:
 	try:
 		while (True):
-		
+			motor.movimento_frente(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+			time.sleep(2)
 
+			motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+			time.sleep(2)
+
+			motor.movimento_tras(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+			time.sleep(2)
+
+			motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+			time.sleep(2)
 	finally:
 		print("Cleaning up")
 		GPIO.cleanup()
