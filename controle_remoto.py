@@ -27,5 +27,11 @@ GPIO.setwarnings(False)
 
 definir.configuracoes()
 
+controle_velocidade_direita = GPIO.PWM(var.pin_ENA, 500)
+controle_velocidade_direita.start(0)
+
+controle_velocidade_esquerda = GPIO.PWM(var.pin_ENB, 500)
+controle_velocidade_esquerda.start(0)
+
 class Controle_Remoto:
 
