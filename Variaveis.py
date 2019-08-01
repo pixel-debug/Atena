@@ -1,14 +1,26 @@
-import RPi.GPIO as GPIO
+#-*- coding utf-8 -*-
 
-class Variaveis:
+# ------------------ Projeto Atena -----------------------
 
-	def __init__(self):
-		self.velocidade = 60
+# 	Autores: Estanislau Filho e José Antônio
+# 	Ano: 2019
+# 	Orientadora: Natália Batista
+#	Instituição: CEFET-MG	
+# 	Link github: https://github.com/EstanislauFilho/Atena
 
-		self.pin_pwm_motor_direita = 13
-		self.pin_motor_direita_frente = 19
-		self.pin_motor_direita_tras = 26
+#	Classe: Variáveis
 
-		self.pin_pwm_motor_esquerda = 12
-		self.pin_motor_esquerda_frente = 16
-		self.pin_motor_esquerda_tras = 20
+# --------------------------------------------------------
+
+# Velocidade Geral
+velocidade = 60
+
+# Motores da Direita
+pin_ENA = 12	# PWM motor da direita
+pin_IN1 = 16	# Sentido Horário
+pin_IN2 = 20	# Sentido Anti-horário
+
+# Motores da Esquerda
+pin_ENB = 13	# PWM motor da esquerda
+pin_IN3 = 5		# Sentido Horário
+pin_IN4 = 6		# Sentido Anti-horário
