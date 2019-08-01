@@ -47,6 +47,9 @@ class Controle_Remoto:
 
 			if key[pygame.K_UP]:
 				motor.movimento_frente(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)	
+			if key[pygame.K_RIGHT]:
+				motor.movimento_direita(var.velocidade-30, controle_velocidade_direita, controle_velocidade_esquerda)
+			
 
 finally:
 
