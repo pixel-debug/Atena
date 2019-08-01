@@ -33,5 +33,10 @@ controle_velocidade_direita.start(0)
 controle_velocidade_esquerda = GPIO.PWM(var.pin_ENB, 500)
 controle_velocidade_esquerda.start(0)
 
+pygame.init()
+
+screen = pygame.display.set_mode((400,200))
+clock = pygame.time.Clock()
+
 class Controle_Remoto:
 
