@@ -53,3 +53,13 @@ class Motores:
 		GPIO.output(var.pin_motor_esquerda_frente, False)
 		GPIO.output(var.pin_motor_esquerda_tras, True)
 		controle_velocidade_esquerda.ChangeDutyCycle(velocidade-5)
+
+
+	def movimento_direita(velocidade, controle_velocidade_direita, controle_velocidade_esquerda):
+		GPIO.output(var.pin_motor_direita_frente, False)
+		GPIO.output(var.pin_motor_direita_tras, True)
+		controle_velocidade_direita.ChangeDutyCycle(velocidade-5)
+
+		GPIO.output(var.pin_motor_esquerda_frente, True)
+		GPIO.output(var.pin_motor_esquerda_tras, False)
+		controle_velocidade_esquerda.ChangeDutyCycle(velocidade-5)
