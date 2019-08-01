@@ -16,3 +16,12 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 import cv2
+
+# Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+time.sleep(0.1)
+
+
