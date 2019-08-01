@@ -49,7 +49,7 @@ class Controle_Remoto:
 				motor.movimento_frente(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)	
 			if key[pygame.K_RIGHT]:
 				motor.movimento_direita(var.velocidade-30, controle_velocidade_direita, controle_velocidade_esquerda)
-if key[pygame.K_LEFT]:
+			if key[pygame.K_LEFT]:
 				motor.movimento_esquerda(var.velocidade-30, controle_velocidade_direita, controle_velocidade_esquerda)
 			if key[pygame.K_DOWN]:
 				motor.movimento_tras(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
@@ -58,10 +58,6 @@ if key[pygame.K_LEFT]:
 					sys.exit()
 				elif event.type == KEYDOWN and event.key == K_ESCAPE:
 					sys.exit()			
-
-
-finally:
-
 	finally:
 		print("Cleaning up")
 		GPIO.cleanup()
