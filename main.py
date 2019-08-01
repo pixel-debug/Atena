@@ -31,6 +31,10 @@ controle_velocidade_esquerda = GPIO.PWM(var.pin_pwm_motor_esquerda, 500)
 controle_velocidade_esquerda.start(0)
 
 class main:
+	try:
+		while (True):
+		
 
-	def __init__(self):
-		self.a = False
+	finally:
+		print("Cleaning up")
+		GPIO.cleanup()
