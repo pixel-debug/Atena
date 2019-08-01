@@ -22,4 +22,6 @@ class Configuracoes:
 		GPIO.setup(var.pin_motor_direita_frente, GPIO.OUT)	
 		GPIO.setup(var.pin_motor_direita_tras, GPIO.OUT)
 
-
+		GPIO.setup(var.pin_pwm_motor_esquerda, GPIO.OUT)
+		GPIO.setup(var.pin_motor_esquerda_frente, GPIO.OUT)	
+		GPIO.setup(var.pin_motor_esquerda_tras, GPIO.OUT)
