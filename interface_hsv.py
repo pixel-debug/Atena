@@ -55,6 +55,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     val_maximo_S = cv2.getTrackbarPos("Valor Maximo - S", "Interface_HSV")
     val_maximo_V = cv2.getTrackbarPos("Valor Maximo - V", "Interface_HSV")
 
+
+	valores_maximos_hsv = np.array([val_maximo_H, val_maximo_S, val_maximo_V])
+    valores_minimos_hsv = np.array([val_minimo_H, val_minimo_S, val_minimo_V])
+    mascara = cv2.inRange(imagem_hsv, valores_minimos_hsv, valores_maximos_hsv)
+    imagem_resultado = cv2.bitwise_and(imagem, imagem, mask=mascara)
+
+
 	# Armazenamento das dimensoes dos frames e criacao do vetor com referencia aos pixels do centro da imagem
 	(h, w) = imagem.shape[:2]
 	centro_imagem = (w / 2, h / 2)
@@ -64,6 +71,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	# Realiza a rotacao da imagem a partir das funcoes determinadas acima
 	imagem_rotacionada = cv2.warpAffine(imagem, M, (w, h))
+
 
 	# Apresentacao dos frames em tempo real
 	cv2.imshow("Streaming Camera Atena", imagem_rotacionada)
