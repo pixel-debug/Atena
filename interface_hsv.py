@@ -39,6 +39,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Realiza a rotacao da imagem a partir das funcoes determinadas acima
 	imagem_rotacionada = cv2.warpAffine(imagem, M, (w, h))
 
+	# Apresenta as imagens capturas por meio dos frames
+	cv2.imshow("Streaming Camera Atena", imagem_rotacionada)
+
 
 
 
