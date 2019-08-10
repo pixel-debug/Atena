@@ -29,9 +29,15 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 
-	# Armazenamento das dimensoes padrao dos frames a serem capturados e criacao do vetor com os pontos centrais da imagem
+	# Armazenamento das dimensoes dos frames e criacao do vetor com referencia aos pixels do centro da imagem
 	(h, w) = imagem.shape[:2]
 	centro_imagem = (w / 2, h / 2)
+
+	# Utilizacao da funcao RotationMatrix2D para realizar a rotacao da imagem a partir do ponto central
+	M = cv2.getRotationMatrix2D(centro_imagem, 180, 1.0)
+
+	# Realiza a rotacao da imagem a partir das funcoes determinadas acima
+	imagem_rotacionada = cv2.warpAffine(imagem, M, (w, h))
 
 
 
