@@ -24,6 +24,7 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
 
+def nada(x): pass
 
 # -------------------------- Interface HSV ------------------------------------
 cv2.namedWindow("Interface_HSV")
@@ -41,6 +42,9 @@ cv2.createTrackbar("Valor Maximo - V", "Interface_HSV", 255, 255, nada) #Value
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
+
+	# Conversao da imagem para HSV
+	imagem_hsv = cv2.cvtColor(imagem, cv2.COLOR_BGR2HSV)
 
 	# Armazenamento das dimensoes dos frames e criacao do vetor com referencia aos pixels do centro da imagem
 	(h, w) = imagem.shape[:2]
