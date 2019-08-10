@@ -19,10 +19,23 @@ import cv2
 
 # Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
 camera = PiCamera()
-camera.resolution = (800, 600)
+camera.resolution = (640, 480)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(800, 600))
+rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
+
+
+# -------------------------- Interface HSV ------------------------------------
+cv2.namedWindow("Interface_HSV")
+
+cv2.createTrackbar("Valor Minimo - H", "Interface_HSV", 0, 179, nada) #Hue
+cv2.createTrackbar("Valor Minimo - S", "Interface_HSV", 0, 255, nada) #Saturation
+cv2.createTrackbar("Valor Minimo - V", "Interface_HSV", 0, 255, nada) #Value
+
+cv2.createTrackbar("Valor Maximo - H", "Interface_HSV", 179, 179, nada) #Hue
+cv2.createTrackbar("Valor Maximo - S", "Interface_HSV", 255, 255, nada) #Saturation
+cv2.createTrackbar("Valor Maximo - V", "Interface_HSV", 255, 255, nada) #Value
+# -----------------------------------------------------------------------------
 
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
