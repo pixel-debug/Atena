@@ -46,6 +46,15 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Conversao da imagem para HSV
 	imagem_hsv = cv2.cvtColor(imagem, cv2.COLOR_BGR2HSV)
 
+	# Obtencao dos valores maximos e minimos dos parametros do HSV definidos pelas barras na interface
+	val_minimo_H = cv2.getTrackbarPos("Valor Minimo - H", "Interface_HSV")
+    val_minimo_S = cv2.getTrackbarPos("Valor Minimo - S", "Interface_HSV")
+    val_minimo_V = cv2.getTrackbarPos("Valor Minimo - V", "Interface_HSV")
+    
+    val_maximo_H = cv2.getTrackbarPos("Valor Maximo - H", "Interface_HSV")
+    val_maximo_S = cv2.getTrackbarPos("Valor Maximo - S", "Interface_HSV")
+    val_maximo_V = cv2.getTrackbarPos("Valor Maximo - V", "Interface_HSV")
+
 	# Armazenamento das dimensoes dos frames e criacao do vetor com referencia aos pixels do centro da imagem
 	(h, w) = imagem.shape[:2]
 	centro_imagem = (w / 2, h / 2)
