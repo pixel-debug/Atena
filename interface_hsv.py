@@ -28,3 +28,12 @@ time.sleep(0.1)
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
+
+	# Armazenamento das dimensoes padrao dos frames a serem capturados e criacao do vetor com os pontos centrais da imagem
+	(h, w) = imagem.shape[:2]
+	centro_imagem = (w / 2, h / 2)
+
+
+
+
+
