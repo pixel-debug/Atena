@@ -24,3 +24,18 @@ camera.resolution = (480, 320)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(480, 320))
 time.sleep(0.1)
+
+
+# Função para rotacionar imagem 180º
+def rotaciona_imagem(img):
+	# Armazenamento das dimensoes dos frames e criacao do vetor com referencia aos pixels do centro da imagem
+	(h, w) = img.shape[:2]
+	centro_imagem = (w / 2, h / 2)
+
+	# Utilizacao da funcao RotationMatrix2D para realizar a rotacao da imagem a partir do ponto central
+	M = cv2.getRotationMatrix2D(centro_imagem, 180, 1.0)
+
+	# Realiza a rotacao da imagem a partir das funcoes determinadas acima
+	img_rotacionada = cv2.warpAffine(img, M, (w, h))
+
+	return img_rotacionada
