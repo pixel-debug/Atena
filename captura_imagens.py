@@ -50,8 +50,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	if cv2.waitKey(1) & 0xFF == ord('c'):
 		salva_imagem = cv2.resize(imagem[y:y + h, x:x + w], (largura_imagem, altura_imagem))
+		salva_imagem = rotaciona_imagem(salva_imagem)
 		cv2.imwrite("Imagens/" + str(cont_imagem) + ".jpg",salva_imagem)
 		print(str(cont_imagem)+"º imagem capturada com sucesso! Pressione 'ESC' para encerrar...")
 		cont_imagem += 1    
 		
+	
+	cv2.imshow("Streaming Camera Atena", saçva_imagem)
+
+
 
