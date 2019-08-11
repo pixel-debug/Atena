@@ -26,6 +26,9 @@ rawCapture = PiRGBArray(camera, size=(480, 320))
 time.sleep(0.1)
 
 
+largura_imagem, altura_imagem = 400, 400
+cont_imagem = 1
+
 # Função para rotacionar imagem 180º
 def rotaciona_imagem(img):
 	# Armazenamento das dimensoes dos frames e criacao do vetor com referencia aos pixels do centro da imagem
@@ -44,3 +47,11 @@ def rotaciona_imagem(img):
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
+
+	if cv2.waitKey(1) & 0xFF == ord('c'):
+		salva_imagem = cv2.resize(imagem[y:y + h, x:x + w], (largura_imagem, altura_imagem))
+		cv2.imwrite("Imagens/" + str(cont_imagem) + ".jpg",salva_imagem)
+		print(str(cont_imagem)+"º imagem capturada com sucesso! Pressione 'ESC' para encerrar...")
+		cont_imagem += 1    
+		
+
