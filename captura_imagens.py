@@ -58,5 +58,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	
 	cv2.imshow("Streaming Camera Atena", saçva_imagem)
 
+    if cv2.waitKey(1) & 0xFF == 27:
+        break
 
+cv2.destroyAllWindows()
 
