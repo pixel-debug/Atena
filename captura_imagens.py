@@ -39,3 +39,8 @@ def rotaciona_imagem(img):
 	img_rotacionada = cv2.warpAffine(img, M, (w, h))
 
 	return img_rotacionada
+
+
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# O vetor com os frames capturados sao armazenados no vetor image	
+	imagem = frame.array
