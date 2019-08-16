@@ -26,6 +26,8 @@ copia_imagem = np.copy(imagem)
 
 imagem_cinza = cv2.cvtColor(copia_imagem, cv2.COLOR_RGB2GRAY)
 
-cv2.imshow("",imagem_cinza)
+imagem_blur = cv2.GaussianBlur(imagem_cinza, (5,5), 0)
+
+cv2.imshow("",imagem_blur)
 cv2.waitKey(0)
 
