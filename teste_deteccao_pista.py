@@ -48,13 +48,13 @@ imagem_blur = blur(copia_imagem) # Distorce a imagem
 
 imagem_canny = canny(copia_imagem) # A função distingue todas as cores em preto e branco
 
-cv2.imshow("",imagem)
-cv2.waitKey(0)
-cv2.imshow("",imagem_cinza)
-cv2.waitKey(0)
-cv2.imshow("",imagem_blur)
-cv2.waitKey(0)
-cv2.imshow("",imagem_canny)
-cv2.waitKey(0)
+plt.imshow(imagem)
+plt.show()
+plt.imshow(imagem_cinza, cmap="gray")
+plt.show()
+plt.imshow(imagem_blur, cmap="gray")
+plt.show()
+plt.imshow(imagem_canny, cmap="gray")
+plt.show()
 
 
