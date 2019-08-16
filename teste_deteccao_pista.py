@@ -38,6 +38,17 @@ def canny(imagem):
 	imagem_canny = cv2.Canny(imagem_blur, 50, 150)
 	return imagem_canny
 
+
+# Criação de uma função para destacar a região de interesse na imagem, neste caso irá projetar um triangulo.
+def regiao_interesse(imagem):
+	altura = imagem.shape[0]
+	polygons = np.array([
+	[(200, altura), (1100, altura), (550, 250)]
+	]) # Definindo os pontos dos vertices do triangulo
+	mask = np.zeros_like(imagem) # Definindo como preto todas as outras cores da imagem.
+	cv2.fillPoly(mask, polygons, 255) # Colore a região de interesse de branco
+	return mask
+
 imagem = cv2.imread("Imagens/imagem_teste.jpg")
 
 copia_imagem = np.copy(imagem)
@@ -48,13 +59,19 @@ imagem_blur = blur(copia_imagem) # Distorce a imagem
 
 imagem_canny = canny(copia_imagem) # A função distingue todas as cores em preto e branco
 
+'''
 plt.imshow(imagem)
 plt.show()
 plt.imshow(imagem_cinza, cmap="gray")
 plt.show()
 plt.imshow(imagem_blur, cmap="gray")
 plt.show()
-plt.imshow(imagem_canny, cmap="gray")
+'''
+plt.imshow(regiao_interesse(imagem_canny), cmap="gray")
 plt.show()
+
+
+#cv2.imshow("Resultado",regiao_interesse(imagem_canny))
+#cv2.waitKey(0)
 
 
