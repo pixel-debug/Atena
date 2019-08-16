@@ -26,8 +26,13 @@ copia_imagem = np.copy(imagem)
 
 imagem_cinza = cv2.cvtColor(copia_imagem, cv2.COLOR_RGB2GRAY)
 
-imagem_blur = cv2.GaussianBlur(imagem_cinza, (5,5), 0)
+imagem_blur = cv2.GaussianBlur(imagem_cinza, (5,5), 0) # Distorce a imagem
 
+cv2.imshow("",imagem)
+cv2.waitKey(0)
+cv2.imshow("",imagem_cinza)
+cv2.waitKey(0)
 cv2.imshow("",imagem_blur)
 cv2.waitKey(0)
+
 
