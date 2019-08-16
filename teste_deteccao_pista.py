@@ -28,11 +28,15 @@ imagem_cinza = cv2.cvtColor(copia_imagem, cv2.COLOR_RGB2GRAY)
 
 imagem_blur = cv2.GaussianBlur(imagem_cinza, (5,5), 0) # Distorce a imagem
 
+imagem_canny = cv2.Canny(imagem_blur, 50, 150) # A função distingue todas as cores em preto e branco
+
 cv2.imshow("",imagem)
 cv2.waitKey(0)
 cv2.imshow("",imagem_cinza)
 cv2.waitKey(0)
 cv2.imshow("",imagem_blur)
+cv2.waitKey(0)
+cv2.imshow("",imagem_canny)
 cv2.waitKey(0)
 
 
