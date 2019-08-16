@@ -11,3 +11,7 @@
 #	Classe: Teste de Detecção da Pista
 
 # --------------------------------------------------------
+
+import cv2
+
+imagem = cv2.imread("Imagens/imagem_teste.jpg")
