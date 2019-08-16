@@ -62,6 +62,8 @@ imagem_canny = canny(copia_imagem) # A função distingue todas as cores em pret
 
 imagem_limpa = regiao_interesse(imagem_canny)
 
+linhas = cv2.HoughLinesP(imagem_limpa, 2, np.pi/180, 100, np.array([]),minLineLength=40, maxLineGap=5)
+
 '''
 plt.imshow(imagem)
 plt.show()
