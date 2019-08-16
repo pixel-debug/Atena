@@ -12,13 +12,20 @@
 
 # --------------------------------------------------------
 
+# Processos:
+# 1º Conversão da imagem para escala de cinza
+# 2º Aplicação do Gaussiano Blur
+
 import cv2
+import numpy as np
 import matplotlib.pyplot as plt
 
 imagem = cv2.imread("Imagens/imagem_teste.jpg")
 
-imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
+copia_imagem = np.copy(imagem)
 
-plt.imshow(imagem)
-plt.show()
+imagem_cinza = cv2.cvtColor(copia_imagem, cv2.COLOR_RGB2GRAY)
+
+cv2.imshow("",imagem_cinza)
+cv2.waitKey(0)
 
