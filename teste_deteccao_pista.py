@@ -27,10 +27,10 @@ rawCapture = PiRGBArray(camera, size=(360, 240))
 time.sleep(0.1)
 
 ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4 = (48,208), (255,208), (29,235), (276,235), 
-ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (60,0), (240,0), (60,240), (240,240),
+ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (85,0), (220,0), (85,240), (220,240),
 
-pontos_pista = [ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4]
-pontos_destino = [ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4]
+pontos_pista = np.array([ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4],np.float32)
+pontos_destino = np.array([ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4],np.float32)
 
 # Funcao para regiao de interesse
 def regiao_de_interesse():
@@ -44,6 +44,7 @@ def regiao_de_interesse():
 	cv2.line(imagem, ponto_destino_2, ponto_destino_4, (0,255,0), 2)
 	cv2.line(imagem, ponto_destino_3, ponto_destino_4, (0,255,0), 2)
 	
+	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
 
 # Funcao para rotacionar a imagem 180 graus
 def rotaciona_imagem(imagem):
