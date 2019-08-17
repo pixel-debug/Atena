@@ -43,7 +43,7 @@ def apresenta_linhas(imagem, linhas):
 	if linhas is not None:
 		for linha in linhas:
 			x1, y1, x2, y2 = linha.reshape(4)
-			cv2.line(imagem_linhas, (x1, y1), (x2, y2), (255, 0, 0), 10)
+			cv2.line(imagem_linhas, (x1, y1), (x2, y2), (255, 255, 0), 10)
 	return imagem_linhas
 
 # Criação de uma função para destacar a região de interesse na imagem, neste caso irá projetar um triangulo.
@@ -72,6 +72,8 @@ imagem_limpa = regiao_interesse(imagem_canny)
 linhas = cv2.HoughLinesP(imagem_limpa, 2, np.pi/180, 100, np.array([]),minLineLength=40, maxLineGap=5)
 
 imagem_linhas = apresenta_linhas(copia_imagem, linhas)
+
+imagem_combo = cv2.addWeighted(copia_imagem, 0.8, imagem_linhas, 1, 1) 
 '''
 plt.imshow(imagem)
 plt.show()
@@ -80,7 +82,7 @@ plt.show()
 plt.imshow(imagem_blur, cmap="gray")
 plt.show()
 '''
-plt.imshow(imagem_linhas, cmap="gray")
+plt.imshow(imagem_combo, cmap="gray")
 plt.show()
 
 
