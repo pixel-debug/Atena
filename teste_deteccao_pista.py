@@ -26,4 +26,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
+
+	# Se prescionar a letra 'Esc' encerra execucao
+	if cv2.waitKey(1) & 0xFF == 27:
+		break
 cv2.destroyAllWindows()
