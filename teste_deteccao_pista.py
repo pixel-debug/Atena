@@ -23,6 +23,34 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+def faz_coordenadas(imagem, parametros_linha):
+	inclinacao, intersecao = parametros_linha
+	y1 = imagem.shape[0]
+	y2 = int(y1*(3/5))
+	x1 = int((y1 - intersecao)/inclinacao)
+	x2 = int((y2 - intersecao)/inclinacao)
+	return np.array([x1, y1, x2, y2])	
+
+def media_intersecao_linhas(imagem, linhas):
+	linha_esquerda = []
+	linha_direita = []
+	for linha in linhas:
+		x1, y1, x2, y2 = linha.reshape(4)
+		parametros = np.polyfit((x1, x2), (y1, y2), 1)
+		inclinacao = parametros[0]
+		intersecao = parametros[1]
+		if inclinacao < 0:
+			linha_esquerda.append((inclinacao, intersecao))
+		else:
+			linha_direita.append((inclinacao, intersecao))
+	linha_esquerda_media = np.average(linha_esquerda, axis=0)
+	linha_direita_media = np.average(linha_direita, axis=0)
+	linha_esquerda = faz_coordenadas(imagem, linha_esquerda_media)
+	linha_direita = faz_coordenadas(imagem, linha_direita_media)
+	return np.array([linha_esquerda, linha_direita])
+
+
+
 def cinza(imagem):
 	imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_RGB2GRAY)
 	return imagem_cinza
@@ -71,7 +99,9 @@ imagem_limpa = regiao_interesse(imagem_canny)
 
 linhas = cv2.HoughLinesP(imagem_limpa, 2, np.pi/180, 100, np.array([]),minLineLength=40, maxLineGap=5)
 
-imagem_linhas = apresenta_linhas(copia_imagem, linhas)
+media_linhas = media_intersecao_linhas(copia_imagem, linhas)
+
+imagem_linhas = apresenta_linhas(copia_imagem, media_linhas)
 
 imagem_combo = cv2.addWeighted(copia_imagem, 0.8, imagem_linhas, 1, 1) 
 '''
