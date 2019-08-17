@@ -41,6 +41,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem = rotaciona_imagem(imagem)
 
+	# Convertendo padrao de cores da imagem
+	imagem_bgr = imagem
+
+	imagem_rgb = cvtColor(imagem_bgr, cv2.COLOR_BGR2RGB)
+
 	# Apresentacao da imagem
 	cv2.imshow("Teste Deteccao Pista", imagem)
 
