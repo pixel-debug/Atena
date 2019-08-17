@@ -18,9 +18,18 @@
 # 3º Aplicação do Canny para polarizar as cores da imagem. Distingue entre preto e branco
 # 4º Buscando região de interesse da imagem
 
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
+
+# Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+time.sleep(0.1)
 
 
 def faz_coordenadas(imagem, parametros_linha):
@@ -86,40 +95,63 @@ def regiao_interesse(imagem):
 	mascara_limpa = cv2.bitwise_and(imagem, mascara)	
 	return mascara_limpa
 
-imagem = cv2.imread("Imagens/imagem_teste.jpg")
-
-copia_imagem = np.copy(imagem)
-
-imagem_cinza = cinza(copia_imagem)
-
-imagem_blur = blur(copia_imagem) # Distorce a imagem
-
-imagem_canny = canny(copia_imagem) # A função distingue todas as cores em preto e branco
-
-imagem_limpa = regiao_interesse(imagem_canny)
-
-linhas = cv2.HoughLinesP(imagem_limpa, 2, np.pi/180, 100, np.array([]),minLineLength=40, maxLineGap=5)
-
-media_linhas = media_intersecao_linhas(copia_imagem, linhas)
-
-imagem_linhas = apresenta_linhas(copia_imagem, media_linhas)
-
-imagem_combo = cv2.addWeighted(copia_imagem, 0.8, imagem_linhas, 1, 1) 
-'''
-plt.imshow(imagem)
-plt.show()
-plt.imshow(imagem_cinza, cmap="gray")
-plt.show()
-plt.imshow(imagem_blur, cmap="gray")
-plt.show()
-plt.imshow(imagem_combo, cmap="gray")
-plt.show()
-'''
-plt.imshow(imagem)
-plt.show()
 
 
-#cv2.imshow("Resultado",regiao_interesse(imagem_canny))
-#cv2.waitKey(0)
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# O vetor com os frames capturados sao armazenados no vetor image	
+	imagem = frame.array	
+
+	#cv2.rectangle(imagem,(0,0),(0+250,0+300),(255,0,0),2)
+
+	# Armazenamento das dimensoes padrao dos frames a serem capturados e criacao do vetor com os pontos centrais da imagem
+	(altura, largura) = imagem.shape[:2]
+	centro_imagem = (largura / 2, altura / 2)
+
+	# Utilizacao da funcao RotationMatrix2D para realizar a rotacao da imagem a partir do ponto central
+	matriz_imagem = cv2.getRotationMatrix2D(centro_imagem, 180, 1.0)
+
+	# Realiza a rotacao da imagem a partir das funcoes determinadas acima
+	imagem_rotacionada = cv2.warpAffine(imagem, matriz_imagem, (largura, altura))
+
+	#cv2.line(imagem_rotacionada, (415,2), (415,500), (0,255,0), 10)
+	#cv2.line(imagem_rotacionada, (185,2), (185,500), (0,255,0), 10)
+
+	imagem_clone = np.copy(imagem_rotacionada)
+
+	imagem_cinza = cv2.cvtColor(imagem_clone, cv2.COLOR_RGB2GRAY)
+
+
+	imagem_blur = cv2.GaussianBlur(imagem_cinza, (5,5), 0) 
+
+	imagem_canny = cv2.Canny(imagem_blur, 50, 150)
+
+	imagem_interesse = regiao_interesse(imagem_canny)
+
+	linhas = cv2.HoughLinesP(imagem_interesse, 2, np.pi/180, 100, np.array([]),minLineLength=40, maxLineGap=5)
+
+	media_linhas = media_intersecao_linhas(imagem_clone, linhas)
+
+	imagem_linhas = apresenta_linhas(imagem_clone, media_linhas)
+
+	imagem_combo = cv2.addWeighted(imagem_clone, 0.8, imagem_linhas, 1, 1)
+
+
+	# Apresenta as imagens capturas por meio dos frames
+	#cv2.imshow("Streaming Camera Atena", imagem_rotacionada)
+	#cv2.imshow("Streaming Camera Atena", imagem_cinza)
+	#cv2.imshow("Streaming Camera Atena", imagem_blur)
+	#cv2.imshow("Streaming Camera Atena", imagem_canny)
+	#cv2.imshow("Streaming Camera Atena", imagem_interesse)
+	#cv2.imshow("Streaming Camera Atena", imagem_linhas)
+	cv2.imshow("Streaming Camera Atena", imagem_combo)
+
+	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
+	rawCapture.truncate(0)
+
+	# Se prescionar a letra 'q' sai do programa
+	if cv2.waitKey(1) & 0xFF == 27:
+		break
+
+cv2.destroyAllWindows()
 
 
