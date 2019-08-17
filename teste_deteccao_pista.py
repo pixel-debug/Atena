@@ -21,6 +21,9 @@ time.sleep(0.1)
 
 # Loop
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# O vetor com os frames capturados sao armazenados no vetor imagem	
+	imagem = frame.array
 
-
+	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
+	rawCapture.truncate(0)
 cv2.destroyAllWindows()
