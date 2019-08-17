@@ -74,12 +74,13 @@ def apresenta_linhas(imagem, linhas):
 			cv2.line(imagem_linhas, (x1, y1), (x2, y2), (255, 255, 0), 10)
 	return imagem_linhas
 
-# Criação de uma função para destacar a região de interesse na imagem, neste caso irá projetar um triangulo.
+# Essa função irá determinar uma regição de interesse destanco somente a região onde a pista esta demarcada.
+# Ela faz um triangulo que intercepta as duas faixas da pista, esquerda e direita.
+# Por fim, todo o resto da imagem, fora do triangulo é definido como preto pois é uma região fora do interesse
 def regiao_interesse(imagem):
 	altura = imagem.shape[0]
-	poligonos = np.array([
-	[(200, altura), (1100, altura), (550, 250)]
-	]) # Definindo os pontos dos vertices do triangulo
+	# Definindo os pontos dos vertices do triangulo
+	poligonos = np.array([[(0, altura), (640, altura), (320, 145)]]) 
 	mascara = np.zeros_like(imagem) # Definindo como preto todas as outras cores da imagem.
 	cv2.fillPoly(mascara, poligonos, 255) # Colore a região de interesse de branco
 	mascara_limpa = cv2.bitwise_and(imagem, mascara)	
@@ -111,8 +112,10 @@ plt.imshow(imagem_cinza, cmap="gray")
 plt.show()
 plt.imshow(imagem_blur, cmap="gray")
 plt.show()
-'''
 plt.imshow(imagem_combo, cmap="gray")
+plt.show()
+'''
+plt.imshow(imagem)
 plt.show()
 
 
