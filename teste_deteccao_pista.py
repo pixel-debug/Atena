@@ -21,10 +21,21 @@ import numpy as np
 
 # Inicializacao da camera, definicao dos parametros de resolucao e dos quadros capturados por segundo capturado
 camera = PiCamera()
-camera.resolution = (640, 480)
+camera.resolution = (360, 240)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(640, 480))
+rawCapture = PiRGBArray(camera, size=(360, 240))
 time.sleep(0.1)
+
+ponto1, ponto2, ponto3, ponto4 = (48,208), (255,208), (29,235), (276,235), 
+pontos = [ponto1, ponto2, ponto3, ponto4]
+
+# Funcao para regiao de interesse
+def regiao_de_interesse():
+	cv2.line(imagem, ponto1, ponto2, (0,0,255), 2)
+	cv2.line(imagem, ponto1, ponto3, (0,0,255), 2)
+	cv2.line(imagem, ponto2, ponto4, (0,0,255), 2)
+	cv2.line(imagem, ponto3, ponto4, (0,0,255), 2)
+	
 
 # Funcao para rotacionar a imagem 180 graus
 def rotaciona_imagem(imagem):
@@ -41,10 +52,14 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem = rotaciona_imagem(imagem)
 
+	regiao_de_interesse()
+
 	# Convertendo padrao de cores da imagem
 	imagem_bgr = imagem
 
-	imagem_rgb = cvtColor(imagem_bgr, cv2.COLOR_BGR2RGB)
+	imagem_rgb = cv2.cvtColor(imagem_bgr, cv2.COLOR_BGR2RGB)
+	
+
 
 	# Apresentacao da imagem
 	cv2.namedWindow("BGR", cv2.WINDOW_KEEPRATIO);
@@ -52,10 +67,10 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	cv2.resizeWindow("BGR", 480, 320)
 	cv2.imshow("BGR", imagem_bgr)
 
-	cv2.namedWindow("RGB", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("RGB", 550, 100);
-	cv2.resizeWindow("RGB", 480, 320)
-	cv2.imshow("RGB", imagem_rgb)
+	#cv2.namedWindow("RGB", cv2.WINDOW_KEEPRATIO);
+	#cv2.moveWindow("RGB", 550, 100);
+	#cv2.resizeWindow("RGB", 480, 320)
+	#cv2.imshow("RGB", imagem_rgb)
 
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
