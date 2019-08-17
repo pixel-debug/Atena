@@ -26,15 +26,23 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(360, 240))
 time.sleep(0.1)
 
-ponto1, ponto2, ponto3, ponto4 = (48,208), (255,208), (29,235), (276,235), 
-pontos = [ponto1, ponto2, ponto3, ponto4]
+ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4 = (48,208), (255,208), (29,235), (276,235), 
+ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (60,0), (240,0), (60,240), (240,240),
+
+pontos_pista = [ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4]
+pontos_destino = [ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4]
 
 # Funcao para regiao de interesse
 def regiao_de_interesse():
-	cv2.line(imagem, ponto1, ponto2, (0,0,255), 2)
-	cv2.line(imagem, ponto1, ponto3, (0,0,255), 2)
-	cv2.line(imagem, ponto2, ponto4, (0,0,255), 2)
-	cv2.line(imagem, ponto3, ponto4, (0,0,255), 2)
+	cv2.line(imagem, ponto_pista_1, ponto_pista_2, (0,0,255), 2)
+	cv2.line(imagem, ponto_pista_1, ponto_pista_3, (0,0,255), 2)
+	cv2.line(imagem, ponto_pista_2, ponto_pista_4, (0,0,255), 2)
+	cv2.line(imagem, ponto_pista_3, ponto_pista_4, (0,0,255), 2)
+
+	cv2.line(imagem, ponto_destino_1, ponto_destino_2, (0,255,0), 2)
+	cv2.line(imagem, ponto_destino_1, ponto_destino_3, (0,255,0), 2)
+	cv2.line(imagem, ponto_destino_2, ponto_destino_4, (0,255,0), 2)
+	cv2.line(imagem, ponto_destino_3, ponto_destino_4, (0,255,0), 2)
 	
 
 # Funcao para rotacionar a imagem 180 graus
