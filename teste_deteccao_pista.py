@@ -47,7 +47,16 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	imagem_rgb = cvtColor(imagem_bgr, cv2.COLOR_BGR2RGB)
 
 	# Apresentacao da imagem
-	cv2.imshow("Teste Deteccao Pista", imagem)
+	cv2.namedWindow("BGR", cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow("BGR", 50, 100);
+	cv2.resizeWindow("BGR", 480, 320)
+	cv2.imshow("BGR", imagem_bgr)
+
+	cv2.namedWindow("RGB", cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow("RGB", 550, 100);
+	cv2.resizeWindow("RGB", 480, 320)
+	cv2.imshow("RGB", imagem_rgb)
+
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
