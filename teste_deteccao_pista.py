@@ -36,9 +36,10 @@ def limiarizacao(img):
 	# Valores para detectar somente as linhas na função inRange
 	# tarde: (200, 240) 
 	# noite: (145, 165)
-	img = cv2.inRange(img, 145, 165) 
-	img = cv2.Canny(img, 500, 600)
-	return img
+	img_tresh = cv2.inRange(img, 145, 165) 
+	img_canny = cv2.Canny(img, 500, 600)
+	img_final = cv2.add(img_tresh, img_canny)
+	return img_final
 
 # Funcao para regiao de interesse
 def regiao_de_interesse(rg_imagem, pontos_pista, pontos_destino):
