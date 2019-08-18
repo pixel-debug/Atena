@@ -26,8 +26,8 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(360, 240))
 time.sleep(0.1)
 
-ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4 = (48,208), (255,208), (29,235), (276,235), 
-ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (85,0), (220,0), (85,240), (220,240),
+ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4 = (45,208), (258,208), (26,235), (279,235), 
+ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (95,0), (220,0), (95,240), (220,240),
 
 pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [ponto_pista_4]])
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
@@ -46,7 +46,7 @@ def regiao_de_interesse(rg_imagem, pontos_pista, pontos_destino):
 
 	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
 
-	rg_imagem = cv2.warpPerspective(rg_imagem, matriz, (360,240))
+	rg_imagem = cv2.warpPerspective(rg_imagem, matriz, (350,240))
 
 	return rg_imagem
 
