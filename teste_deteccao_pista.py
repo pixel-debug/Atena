@@ -67,6 +67,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem_perspectiva = imagem
 
+	imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_RGB2GRAY)
+
 	imagem_perspectiva = regiao_de_interesse(imagem_perspectiva, pontos_pista, pontos_destino)
 
 	# Convertendo padrao de cores da imagem
