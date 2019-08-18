@@ -76,17 +76,17 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	
 	# Apresentacao da imagem
 	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Imagem Original", 50, 100);
+	cv2.moveWindow("Imagem Original", 20, 20);
 	cv2.resizeWindow("Imagem Original", 480, 320)
 	cv2.imshow("Imagem Original", imagem)
 
 	cv2.namedWindow("Perspectiva Pista", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Perspectiva Pista", 550, 100);
+	cv2.moveWindow("Perspectiva Pista", 520, 20);
 	cv2.resizeWindow("Perspectiva Pista", 480, 320)
 	cv2.imshow("Perspectiva Pista", imagem_perspectiva)
 
 	cv2.namedWindow("Imagem Cinza", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Imagem Cinza", 550, 100);
+	cv2.moveWindow("Imagem Cinza", 20, 360);
 	cv2.resizeWindow("Imagem Cinza", 480, 320)
 	cv2.imshow("Imagem Cinza", imagem_cinza)
 
