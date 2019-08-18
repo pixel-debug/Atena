@@ -32,17 +32,16 @@ ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (95,0), (22
 pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [ponto_pista_4]])
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
 
+def limiarizacao(img):
+	img = cv2.inRange(img, 200, 240)
+	return img
+
 # Funcao para regiao de interesse
 def regiao_de_interesse(rg_imagem, pontos_pista, pontos_destino):
 	cv2.line(rg_imagem, ponto_pista_1, ponto_pista_2, (0,0,255), 2)
 	cv2.line(rg_imagem, ponto_pista_1, ponto_pista_3, (0,0,255), 2)
 	cv2.line(rg_imagem, ponto_pista_2, ponto_pista_4, (0,0,255), 2)
 	cv2.line(rg_imagem, ponto_pista_3, ponto_pista_4, (0,0,255), 2)
-
-	cv2.line(rg_imagem, ponto_destino_1, ponto_destino_2, (0,255,0), 2)
-	cv2.line(rg_imagem, ponto_destino_1, ponto_destino_3, (0,255,0), 2)
-	cv2.line(rg_imagem, ponto_destino_2, ponto_destino_4, (0,255,0), 2)
-	cv2.line(rg_imagem, ponto_destino_3, ponto_destino_4, (0,255,0), 2)
 
 	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
 
@@ -69,7 +68,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_RGB2GRAY)
 
+	imagem_cinza = regiao_de_interesse(imagem_cinza, pontos_pista, pontos_destino)
+
 	imagem_perspectiva = regiao_de_interesse(imagem_perspectiva, pontos_pista, pontos_destino)
+
+	imagem_limiarizada = limiarizacao(imagem_cinza)
+
 
 	# Convertendo padrao de cores da imagem
 	#imagem_rgb = cv2.cvtColor(imagem_bgr, cv2.COLOR_BGR2RGB)
@@ -90,6 +94,10 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	cv2.resizeWindow("Imagem Cinza", 480, 320)
 	cv2.imshow("Imagem Cinza", imagem_cinza)
 
+	cv2.namedWindow("Imagem Limiarizada", cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow("Imagem Limiarizada", 520, 360);
+	cv2.resizeWindow("Imagem Limiarizada", 480, 320)
+	cv2.imshow("Imagem Limiarizada", imagem_limiarizada)
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
