@@ -70,20 +70,23 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	imagem_perspectiva = regiao_de_interesse(imagem_perspectiva, pontos_pista, pontos_destino)
 
 	# Convertendo padrao de cores da imagem
-	#imagem_bgr = imagem
-
 	#imagem_rgb = cv2.cvtColor(imagem_bgr, cv2.COLOR_BGR2RGB)
 	
 	# Apresentacao da imagem
-	cv2.namedWindow("Deteccao Pista", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Deteccao Pista", 50, 100);
-	cv2.resizeWindow("Deteccao Pista", 480, 320)
-	cv2.imshow("Deteccao Pista", imagem)
+	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow("Imagem Original", 50, 100);
+	cv2.resizeWindow("Imagem Original", 480, 320)
+	cv2.imshow("Imagem Original", imagem)
 
-	cv2.namedWindow("Perspectiva", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Perspectiva", 550, 100);
-	cv2.resizeWindow("Perspectiva", 480, 320)
-	cv2.imshow("Perspectiva", imagem_perspectiva)
+	cv2.namedWindow("Perspectiva Pista", cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow("Perspectiva Pista", 550, 100);
+	cv2.resizeWindow("Perspectiva Pista", 480, 320)
+	cv2.imshow("Perspectiva Pista", imagem_perspectiva)
+
+	cv2.namedWindow("Imagem Cinza", cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow("Imagem Cinza", 550, 100);
+	cv2.resizeWindow("Imagem Cinza", 480, 320)
+	cv2.imshow("Imagem Cinza", imagem_cinza)
 
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
