@@ -33,7 +33,11 @@ pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [p
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
 
 def limiarizacao(img):
-	img = cv2.inRange(img, 200, 240)
+	# Valores para detectar somente as linhas na função inRange
+	# tarde: (200, 240) 
+	# noite: (145, 165)
+	img = cv2.inRange(img, 145, 165) 
+	img = cv2.Canny(img, 500, 600)
 	return img
 
 # Funcao para regiao de interesse
