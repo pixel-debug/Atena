@@ -8,19 +8,25 @@
 #	Instituição: CEFET-MG	
 # 	Link github: https://github.com/EstanislauFilho/Atena
 
-#	Classe: Variáveis
+#	Script: Variaveis
 
 # --------------------------------------------------------
 
 # Velocidade Geral
-velocidade = 80
+velocidade = 30
 
 # Motores da Direita
 pin_ENA = 12	# PWM motor da direita
-pin_IN1 = 16	# Sentido Horário
-pin_IN2 = 20	# Sentido Anti-horário
+pin_IN1 = 20	# Sentido Horário
+pin_IN2 = 16	# Sentido Anti-horário
 
 # Motores da Esquerda
 pin_ENB = 13	# PWM motor da esquerda
 pin_IN3 = 5		# Sentido Horário
 pin_IN4 = 6		# Sentido Anti-horário
+
+# Bozina
+pin_Bozinha = 21
+
+
+
