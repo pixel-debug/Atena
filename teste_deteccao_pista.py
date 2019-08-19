@@ -34,13 +34,14 @@ pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destin
 
 histograma_pista = np.array([])
 
-def histogramas(histograma_pista):
+def histogramas(histograma_pista, img):
 	histograma_pista.resize(400, refcheck=False)
 
 	for i in range(400):
-
+		imagem_regiao_hist = cv2.rectangle(imagem, (i,140), (1,240), (0,0,255), 2)
+		imagem_dividida = cv2.divide(255, imagem_regiao_hist, imagem_regiao_hist)		
 		i += 1		
-	return 1
+	return imagem_dividida
 		
 
 
@@ -95,15 +96,15 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	#imagem_limiarizada = histogramas(imagem_limiarizada)
 
-	a = histogramas(histograma_pista)
+	a = histogramas(histograma_pista, imagem)
 
-	'''
+	
 	# Apresentacao das imagens
 	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow("Imagem Original", 20, 20);
 	cv2.resizeWindow("Imagem Original", 480, 320)
-	cv2.imshow("Imagem Original", imagem)
-
+	cv2.imshow("Imagem Original", a)
+	'''
 	cv2.namedWindow("Perspectiva Pista", cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow("Perspectiva Pista", 520, 20);
 	cv2.resizeWindow("Perspectiva Pista", 480, 320)
