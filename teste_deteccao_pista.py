@@ -47,7 +47,7 @@ def encontrar_linhas(histograma):
 	hist_linha_esquerda = max(histograma[0], sum(histograma[-1], 150))
 	linha_esquerda = histograma[0] - hist_linha_esquerda
 
-	hist_linha_direita = max(histograma[0] +150, sum(histograma[-1]))
+	hist_linha_direita = max(sum(histograma[0] +150), (histograma[-1]))
 	linha_direita = histograma[0] - hist_linha_direita
 	return linha_esquerda, linha_direita
 		
@@ -102,8 +102,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	imagem_limiarizada = limiarizacao(imagem_cinza)
 
 	a = histogramas(imagem_cinza)
-	b = encontrar_linhas(a)	
-	print(b)
+	linha_esquerda, linha_direita = encontrar_linhas(a)	
+	print("{0}, {1}".format(linha_esquerda, linha_direita))
 	'''
 	# Apresentacao das imagens
 	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
