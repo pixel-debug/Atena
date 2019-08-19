@@ -8,7 +8,7 @@
 #	Instituição: CEFET-MG	
 # 	Link github: https://github.com/EstanislauFilho/Atena
 
-#	Classe: Configurações
+#	Script: Configurações
 
 # --------------------------------------------------------
 
@@ -24,3 +24,5 @@ def configuracoes():
 	GPIO.setup(var.pin_ENB, GPIO.OUT)
 	GPIO.setup(var.pin_IN3, GPIO.OUT)	
 	GPIO.setup(var.pin_IN4, GPIO.OUT)
+
+	GPIO.setup(var.pin_Bozinha, GPIO.OUT)
