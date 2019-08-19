@@ -40,6 +40,7 @@ def histogramas(histograma_pista, img):
 	for i in range(400):
 		imagem_regiao_hist = cv2.rectangle(imagem, (i,140), (1,240), (0,0,255), 2)
 		imagem_dividida = cv2.divide(255, imagem_regiao_hist, imagem_regiao_hist)		
+		#imagem_final = histograma_pista.append(int(sum(imagem_dividida)))		
 		i += 1		
 	return imagem_dividida
 		
