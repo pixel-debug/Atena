@@ -32,14 +32,28 @@ ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (95,0), (22
 pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [ponto_pista_4]])
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
 
+histograma_pista = np.array([])
+
+def histogramas(histograma_pista):
+	histograma_pista.resize(400, refcheck=False)
+
+	for i in range(400):
+
+		i += 1		
+	return 1
+		
+
+
 def limiarizacao(img):
 	# Valores para detectar somente as linhas na função inRange
 	# tarde: (200, 240) 
 	# noite: (145, 165)
-	img_tresh = cv2.inRange(img, 145, 165) 
-	img_canny = cv2.Canny(img, 500, 600)
-	img_final = cv2.add(img_tresh, img_canny)
+	img_tresh = cv2.inRange(img, 145, 165) # Binariza a imagem, definindo regiões pretas e brancas
+	img_canny = cv2.Canny(img, 500, 600) # Cria contornos especificos nos elementos de cor mais clara	
+	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
+	img_final = cv2.cvtColor(img_final, cv2.COLOR_GRAY2RGB)
 	return img_final
+
 
 # Funcao para regiao de interesse
 def regiao_de_interesse(rg_imagem, pontos_pista, pontos_destino):
@@ -48,11 +62,13 @@ def regiao_de_interesse(rg_imagem, pontos_pista, pontos_destino):
 	cv2.line(rg_imagem, ponto_pista_2, ponto_pista_4, (0,0,255), 2)
 	cv2.line(rg_imagem, ponto_pista_3, ponto_pista_4, (0,0,255), 2)
 
+	# Cria uma matriz a partir dos pontos definidos
 	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
 
-	rg_imagem = cv2.warpPerspective(rg_imagem, matriz, (350,240))
-
+	#Cria uma nova perspectiva de imagem atraves da definicao da matriz gerada pelos pontos que dermacaram a regiao de interesse
+	rg_imagem = cv2.warpPerspective(rg_imagem, matriz, (350,240)) 
 	return rg_imagem
+
 
 # Funcao para rotacionar a imagem 180 graus
 def rotaciona_imagem(imagem):
@@ -69,21 +85,20 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem = rotaciona_imagem(imagem)
 
-	imagem_perspectiva = imagem
-
 	imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_RGB2GRAY)
 
 	imagem_cinza = regiao_de_interesse(imagem_cinza, pontos_pista, pontos_destino)
 
-	imagem_perspectiva = regiao_de_interesse(imagem_perspectiva, pontos_pista, pontos_destino)
+	imagem_perspectiva = regiao_de_interesse(imagem, pontos_pista, pontos_destino)
 
 	imagem_limiarizada = limiarizacao(imagem_cinza)
 
+	#imagem_limiarizada = histogramas(imagem_limiarizada)
 
-	# Convertendo padrao de cores da imagem
-	#imagem_rgb = cv2.cvtColor(imagem_bgr, cv2.COLOR_BGR2RGB)
-	
-	# Apresentacao da imagem
+	a = histogramas(histograma_pista)
+
+	'''
+	# Apresentacao das imagens
 	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow("Imagem Original", 20, 20);
 	cv2.resizeWindow("Imagem Original", 480, 320)
@@ -103,7 +118,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	cv2.moveWindow("Imagem Limiarizada", 520, 360);
 	cv2.resizeWindow("Imagem Limiarizada", 480, 320)
 	cv2.imshow("Imagem Limiarizada", imagem_limiarizada)
-
+	'''
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
 
