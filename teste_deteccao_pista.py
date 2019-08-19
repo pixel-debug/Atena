@@ -32,28 +32,32 @@ ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (95,0), (22
 pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [ponto_pista_4]])
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
 
-histograma_pista = []
+histograma_pista = np.float32([])
 
-def histogramas(histograma_pista, img):
-	#histograma_pista.resize(400, refcheck=False)
+def histogramas(img):
+	for i in range(360):
+		imagem_regiao_hist = cv2.rectangle(img, (i,208), (0,235), (0,0,255), 2)
+		imagem_dividida = cv2.divide(255,imagem_regiao_hist, imagem_regiao_hist)		
 
-	for i in range(400):
-		imagem_regiao_hist = cv2.rectangle(imagem, (i,140), (1,240), (0,0,255), 2)
-		imagem_dividida = cv2.divide(255, imagem_regiao_hist, imagem_regiao_hist)		
-		#imagem_final = histograma_pista.append(int(sum(imagem_dividida)[0]))	
-
-		imagem_final = cv2.calcHist([imagem_dividida], [0], None, [256], [0, 256])	
+		histograma = cv2.calcHist([imagem_dividida], [0], None, [256], [0, 256])	
 		i += 1		
-	return imagem_dividida
+	return histograma
 		
+def encontrar_linhas(histograma):
+	hist_linha_esquerda = max(histograma[0], sum(histograma[-1], 150))
+	linha_esquerda = histograma[0] - hist_linha_esquerda
 
+	hist_linha_direita = max(histograma[0] +150, sum(histograma[-1]))
+	linha_direita = histograma[0] - hist_linha_direita
+	return linha_esquerda, linha_direita
+		
 
 def limiarizacao(img):
 	# Valores para detectar somente as linhas na função inRange
 	# tarde: (200, 240) 
 	# noite: (145, 165)
-	img_tresh = cv2.inRange(img, 145, 165) # Binariza a imagem, definindo regiões pretas e brancas
-	img_canny = cv2.Canny(img, 500, 600) # Cria contornos especificos nos elementos de cor mais clara	
+	img_tresh = cv2.inRange(img, 200, 240) # Binariza a imagem, definindo regiões pretas e brancas
+	img_canny = cv2.Canny(img, 900, 1000) # Cria contornos especificos nos elementos de cor mais clara	
 	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
 	img_final = cv2.cvtColor(img_final, cv2.COLOR_GRAY2RGB)
 	return img_final
@@ -97,17 +101,16 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem_limiarizada = limiarizacao(imagem_cinza)
 
-	#imagem_limiarizada = histogramas(imagem_limiarizada)
-
-	a = histogramas(histograma_pista, imagem_cinza)
-
-	
+	a = histogramas(imagem_cinza)
+	b = encontrar_linhas(a)	
+	print(b)
+	'''
 	# Apresentacao das imagens
 	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow("Imagem Original", 20, 20);
 	cv2.resizeWindow("Imagem Original", 480, 320)
-	cv2.imshow("Imagem Original", a)
-	'''
+	cv2.imshow("Imagem Original",imagem)
+	
 	cv2.namedWindow("Perspectiva Pista", cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow("Perspectiva Pista", 520, 20);
 	cv2.resizeWindow("Perspectiva Pista", 480, 320)
