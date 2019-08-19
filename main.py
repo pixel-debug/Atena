@@ -15,6 +15,7 @@
 import RPi.GPIO as GPIO
 import Configuracoes as definir
 import Motores as motor
+import Funcoes as funcao
 import Variaveis as var
 import time
 
@@ -33,17 +34,11 @@ controle_velocidade_esquerda.start(0)
 class main:
 	try:
 		while (True):
-			motor.movimento_direita(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
-			time.sleep(2)
-
-			motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
-			time.sleep(2)
-
-			motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
-			time.sleep(2)
-
-			motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
-			time.sleep(2)
+			for i in range(5):
+				time.sleep(1)
+				if i == 4:
+					funcao.buzina()
+				i += 1
 	finally:
 		print("Cleaning up")
 		GPIO.cleanup()
