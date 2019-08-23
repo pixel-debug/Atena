@@ -32,6 +32,12 @@ ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (95,0), (22
 pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [ponto_pista_4]])
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
 
+# Area para detecção das faixas
+x1_faixa_esq, x2_faixa_esq = 95, 125
+y1_faixa_esq, y2_faixa_esq = 100, 150
+
+x1_faixa_dir, x2_faixa_dir = 190, 220 
+y1_faixa_dir, y2_faixa_dir = 100, 150
 	
 
 
@@ -92,9 +98,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem_limiarizada = limiarizacao(imagem_cinza)
 
-	#a = histogramas(imagem_cinza)
-	#img, linha_esquerda, linha_direita = encontrar_linhas(imagem_perspectiva, a)	
-	#print("{0}, {1}".format(linha_esquerda, linha_direita))
 	
 	# Apresentacao das imagens
 	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
