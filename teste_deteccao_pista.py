@@ -33,19 +33,7 @@ pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [p
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
 
 	
-# Funcao para encontrar linhas da pista
-def encontrar_linhas(img, histograma):
-	hist_linha_esquerda = max(histograma[0], sum(histograma[-1], 150))
-	linha_esquerda = histograma[0] - hist_linha_esquerda
 
-	hist_linha_direita = max(sum(histograma[0] +150), (histograma[-1]))
-	linha_direita = histograma[0] - hist_linha_direita
-	
-	cv2.line(img, (int(linha_esquerda), 0), (int(linha_esquerda), 240), (255,255,0), 2)
-	cv2.line(img, (int(linha_direita), 0), (int(linha_direita), 240), (255,255,0), 2)	
-		
-	return img, linha_esquerda, linha_direita
-		
 
 def limiarizacao(img):
 	# Valores para detectar somente as linhas na função inRange
