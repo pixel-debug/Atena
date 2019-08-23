@@ -47,12 +47,7 @@ def detecta_faixas(imagem):
 	# Gaussian blur
 	imagem_blur = cv2.GaussianBlur(imagem_cinza,(5,5),0)
 
-	img_tresh = cv2.inRange(imagem_blur, 125, 160) # Binariza a imagem, definindo regiões pretas e brancas
-
-	img_canny = cv2.Canny(img_tresh, 900, 1000) # Cria contornos especificos nos elementos de cor mais clara
-	
-	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
-	img_fi = cv2.cvtColor(img_final, cv2.COLOR_GRAY2RGB)
+	img_final = limiarizacao(imagem_blur)
 
 	# Color thresholding
 	ret,thresh = cv2.threshold(img_final,200,255,cv2.THRESH_BINARY_INV)
