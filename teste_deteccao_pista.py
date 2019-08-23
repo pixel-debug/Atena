@@ -40,6 +40,42 @@ x1_faixa_dir, x2_faixa_dir = 190, 220
 y1_faixa_dir, y2_faixa_dir = 100, 150
 	
 
+def detecta_faixas(imagem):
+	# Convert to grayscale
+	imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
+
+	# Gaussian blur
+	imagem_blur = cv2.GaussianBlur(imagem_cinza,(5,5),0)
+
+	img_tresh = cv2.inRange(imagem_blur, 125, 160) # Binariza a imagem, definindo regiões pretas e brancas
+
+	img_canny = cv2.Canny(img_tresh, 900, 1000) # Cria contornos especificos nos elementos de cor mais clara
+	
+	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
+	img_fi = cv2.cvtColor(img_final, cv2.COLOR_GRAY2RGB)
+
+	# Color thresholding
+	ret,thresh = cv2.threshold(img_final,200,255,cv2.THRESH_BINARY_INV)
+
+	# Find the contours of the frame
+	_, contours,hierarchy = cv2.findContours(thresh.copy(), 1, cv2.CHAIN_APPROX_NONE)
+
+	if len(contours) > 0:
+		c = max(contours, key=cv2.contourArea)
+
+		M = cv2.moments(c)
+
+		cx = int(M['m10']/M['m00'])
+
+		cy = int(M['m01']/M['m00'])
+
+		cv2.line(imagem,(cx,0),(cx,720),(255,0,0),1)
+
+		cv2.line(imagem,(0,cy),(1280,cy),(255,0,0),1)
+
+		cv2.drawContours(imagem, contours, -1, (0,255,0), 1)
+
+		return imagem, cx
 
 
 def limiarizacao(img):
