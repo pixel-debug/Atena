@@ -21,35 +21,30 @@ import numpy as np
 
 # Inicializacao da camera, definicao dos parametros de resolucao e dos quadros capturados por segundo capturado
 camera = PiCamera()
-camera.resolution = (360, 240)
+camera.resolution = (720, 560)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(360, 240))
+rawCapture = PiRGBArray(camera, size=(720, 560))
 time.sleep(0.1)
 
-ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4 = (45,208), (258,208), (26,235), (279,235), 
+ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4 = (31,160), (458,160), (2,205), (493,205), 
 ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (95,0), (220,0), (95,240), (220,240),
 
 pontos_pista = np.float32([[ponto_pista_1], [ponto_pista_2], [ponto_pista_3], [ponto_pista_4]])
 pontos_destino = np.float32([[ponto_destino_1], [ponto_destino_2], [ponto_destino_3], [ponto_destino_4]])
 
-histograma_pista = np.float32([])
-
-def histogramas(img):
-	for i in range(360):
-		imagem_regiao_hist = cv2.rectangle(img, (i,208), (0,235), (0,0,255), 2)
-		imagem_dividida = cv2.divide(255,imagem_regiao_hist, imagem_regiao_hist)		
-
-		histograma = cv2.calcHist([imagem_dividida], [0], None, [256], [0, 256])	
-		i += 1		
-	return histograma
-		
-def encontrar_linhas(histograma):
+	
+# Funcao para encontrar linhas da pista
+def encontrar_linhas(img, histograma):
 	hist_linha_esquerda = max(histograma[0], sum(histograma[-1], 150))
 	linha_esquerda = histograma[0] - hist_linha_esquerda
 
 	hist_linha_direita = max(sum(histograma[0] +150), (histograma[-1]))
 	linha_direita = histograma[0] - hist_linha_direita
-	return linha_esquerda, linha_direita
+	
+	cv2.line(img, (int(linha_esquerda), 0), (int(linha_esquerda), 240), (255,255,0), 2)
+	cv2.line(img, (int(linha_direita), 0), (int(linha_direita), 240), (255,255,0), 2)	
+		
+	return img, linha_esquerda, linha_direita
 		
 
 def limiarizacao(img):
@@ -101,16 +96,16 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem_limiarizada = limiarizacao(imagem_cinza)
 
-	a = histogramas(imagem_cinza)
-	linha_esquerda, linha_direita = encontrar_linhas(a)	
-	print("{0}, {1}".format(linha_esquerda, linha_direita))
-	'''
+	#a = histogramas(imagem_cinza)
+	#img, linha_esquerda, linha_direita = encontrar_linhas(imagem_perspectiva, a)	
+	#print("{0}, {1}".format(linha_esquerda, linha_direita))
+	
 	# Apresentacao das imagens
 	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow("Imagem Original", 20, 20);
 	cv2.resizeWindow("Imagem Original", 480, 320)
-	cv2.imshow("Imagem Original",imagem)
-	
+	cv2.imshow("Imagem Original",imagem_limiarizada)
+	'''
 	cv2.namedWindow("Perspectiva Pista", cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow("Perspectiva Pista", 520, 20);
 	cv2.resizeWindow("Perspectiva Pista", 480, 320)
