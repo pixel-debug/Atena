@@ -131,6 +131,21 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	faixa_direita = imagem_perspectiva[y1_faixa_dir:y2_faixa_dir, x1_faixa_dir:x2_faixa_dir]
 	faixa_direita, cx_direita = detecta_faixas(faixa_direita)
 
+	
+	mensagem = ""
+	
+	if cx_esquerda > 10 and cx_direita <= 10:
+		mensagem = str("Dentro da Faixa")	
+	elif cx_esquerda <= 10:
+		mensagem = str("Virar Direita")
+	elif cx_direita > 10:
+		mensagem = str("Virar Esquerda")
+	else:
+		mensagem = str("Não detectado faixas.")
+
+	print ("CX Esquerda: {0}, CX Direita: {1}, Situração: {2}".format(cx_esquerda, cx_direita, mensagem))
+
+	
 	apresenta_tela("Imagem Original", imagem, 20, 20)
 	apresenta_tela("Imagem Perspectiva", imagem_perspectiva, 530, 20)
 
