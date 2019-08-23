@@ -125,6 +125,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem_perspectiva = regiao_de_interesse(imagem, pontos_pista, pontos_destino)
 
+	faixa_esquerda = imagem_perspectiva[y1_faixa_esq:y2_faixa_esq, x1_faixa_esq:x2_faixa_esq]
+	faixa_esquerda, cx_esquerda = detecta_faixas(faixa_esquerda)
+
+	faixa_direita = imagem_perspectiva[y1_faixa_dir:y2_faixa_dir, x1_faixa_dir:x2_faixa_dir]
+	faixa_direita, cx_direita = detecta_faixas(faixa_direita)
+
 	apresenta_tela("Imagem Original", imagem, 20, 20)
 
 
