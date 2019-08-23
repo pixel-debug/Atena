@@ -26,6 +26,8 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(720, 560))
 time.sleep(0.1)
 
+tamanho_mini_tela_x, tamanho_mini_tela_y = 480, 320
+
 ponto_pista_1, ponto_pista_2, ponto_pista_3, ponto_pista_4 = (31,160), (458,160), (2,205), (493,205), 
 ponto_destino_1, ponto_destino_2, ponto_destino_3, ponto_destino_4 = (95,0), (220,0), (95,240), (220,240),
 
@@ -94,7 +96,7 @@ def regiao_de_interesse(rg_imagem, pontos_pista, pontos_destino):
 	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
 
 	#Cria uma nova perspectiva de imagem atraves da definicao da matriz gerada pelos pontos que dermacaram a regiao de interesse
-	rg_imagem = cv2.warpPerspective(rg_imagem, matriz, (350,240)) 
+	rg_imagem = cv2.warpPerspective(rg_imagem, matriz, (360,280)) 
 	return rg_imagem
 
 
@@ -121,36 +123,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	imagem = rotaciona_imagem(imagem)
 
-	imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_RGB2GRAY)
-
-	imagem_cinza = regiao_de_interesse(imagem_cinza, pontos_pista, pontos_destino)
-
 	imagem_perspectiva = regiao_de_interesse(imagem, pontos_pista, pontos_destino)
 
-	imagem_limiarizada = limiarizacao(imagem_cinza)
+	apresenta_tela("Imagem Original", imagem, 20, 20)
 
-	
-	# Apresentacao das imagens
-	cv2.namedWindow("Imagem Original", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Imagem Original", 20, 20);
-	cv2.resizeWindow("Imagem Original", 480, 320)
-	cv2.imshow("Imagem Original",imagem_limiarizada)
-	'''
-	cv2.namedWindow("Perspectiva Pista", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Perspectiva Pista", 520, 20);
-	cv2.resizeWindow("Perspectiva Pista", 480, 320)
-	cv2.imshow("Perspectiva Pista", imagem_perspectiva)
 
-	cv2.namedWindow("Imagem Cinza", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Imagem Cinza", 20, 360);
-	cv2.resizeWindow("Imagem Cinza", 480, 320)
-	cv2.imshow("Imagem Cinza", imagem_cinza)
-
-	cv2.namedWindow("Imagem Limiarizada", cv2.WINDOW_KEEPRATIO);
-	cv2.moveWindow("Imagem Limiarizada", 520, 360);
-	cv2.resizeWindow("Imagem Limiarizada", 480, 320)
-	cv2.imshow("Imagem Limiarizada", imagem_limiarizada)
-	'''
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
 
