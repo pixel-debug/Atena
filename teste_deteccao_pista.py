@@ -41,6 +41,7 @@ y1_faixa_dir, y2_faixa_dir = 100, 150
 	
 
 
+
 def limiarizacao(img):
 	# Valores para detectar somente as linhas na função inRange
 	# tarde: (200, 240) 
@@ -48,7 +49,6 @@ def limiarizacao(img):
 	img_tresh = cv2.inRange(img, 200, 240) # Binariza a imagem, definindo regiões pretas e brancas
 	img_canny = cv2.Canny(img, 900, 1000) # Cria contornos especificos nos elementos de cor mais clara	
 	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
-	img_final = cv2.cvtColor(img_final, cv2.COLOR_GRAY2RGB)
 	return img_final
 
 
