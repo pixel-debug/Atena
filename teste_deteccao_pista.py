@@ -69,6 +69,14 @@ def rotaciona_imagem(imagem):
 	imagem_rotacionada = cv2.warpAffine(imagem, matriz_imagem, (largura, altura))
 	return imagem_rotacionada
 
+# Funcao para apresentacao das telas
+def apresenta_tela(nome, img, pos_x, pos_y):
+	cv2.namedWindow(nome, cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow(nome, pos_x, pos_y);
+	cv2.resizeWindow(nome, tamanho_mini_tela_x, tamanho_mini_tela_y)
+	cv2.imshow(nome, img)
+
+
 # Loop
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor imagem	
