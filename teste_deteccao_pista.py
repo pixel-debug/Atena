@@ -132,7 +132,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	faixa_direita, cx_direita = detecta_faixas(faixa_direita)
 
 	apresenta_tela("Imagem Original", imagem, 20, 20)
-
+	apresenta_tela("Imagem Perspectiva", imagem_perspectiva, 620, 20)
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
