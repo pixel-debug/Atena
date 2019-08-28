@@ -34,11 +34,7 @@ controle_velocidade_esquerda.start(0)
 class main:
 	try:
 		while (True):
-			for i in range(5):
-				time.sleep(1)
-				if i == 4:
-					funcao.buzina()
-				i += 1
+			funcao.correcao_fototransistor(var.pin_FOTOTRANSISTOR_DIR, var.pin_FOTOTRANSISTOR_ESQ)
 	finally:
 		print("Cleaning up")
 		GPIO.cleanup()
