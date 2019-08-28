@@ -11,3 +11,14 @@
 #	Script: Teste MOvimentos
 
 # --------------------------------------------------------
+
+
+import RPi.GPIO as GPIO
+import Configuracoes as definir
+import Motores as motor
+import Variaveis as var
+import time
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setwarnings(False)
