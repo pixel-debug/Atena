@@ -28,3 +28,14 @@ controle_velocidade_direita.start(0)
 
 controle_velocidade_esquerda = GPIO.PWM(var.pin_ENB, 500)
 controle_velocidade_esquerda.start(0)
+
+try:
+	while (True):
+		motor.movimento_frente(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+		time.sleep(1)	
+		motor.movimento_tras(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+		time.sleep(1)
+finally:
+	print("Cleaning up")
+	GPIO.cleanup()
+
