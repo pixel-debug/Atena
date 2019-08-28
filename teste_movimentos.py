@@ -22,3 +22,9 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
+
+controle_velocidade_direita = GPIO.PWM(var.pin_ENA, 500)
+controle_velocidade_direita.start(0)
+
+controle_velocidade_esquerda = GPIO.PWM(var.pin_ENB, 500)
+controle_velocidade_esquerda.start(0)
