@@ -49,8 +49,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	imagem = frame.array
 
 	if cv2.waitKey(1) & 0xFF == ord('c'):
-		salva_imagem = rotaciona_imagem(imagem)
-		cv2.imwrite("Imagens/" + str(cont_imagem) + ".jpg",salva_imagem)
+		salva_imagem = imagem
+		cv2.imwrite("database/cachorro/" + str(cont_imagem) + ".jpg",salva_imagem)
 		print(str(cont_imagem)+"º imagem capturada com sucesso! Pressione 'ESC' para encerrar...")
 		cont_imagem += 1    
 	
@@ -61,7 +61,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
 
-	if cv2.waitKey(1) & 0xFF == 27:
+	if cv2.waitKey(1) & 0xFF == 27 or cont_imagem > 500:
 		break
 
 cv2.destroyAllWindows()
