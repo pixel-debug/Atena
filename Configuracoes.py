@@ -25,4 +25,8 @@ def configuracoes():
 	GPIO.setup(var.pin_IN3, GPIO.OUT)	
 	GPIO.setup(var.pin_IN4, GPIO.OUT)
 
-	GPIO.setup(var.pin_Bozinha, GPIO.OUT)
+	GPIO.setup(var.pin_BOZINA, GPIO.OUT)
+
+	GPIO.setup(var.pin_FOTOTRANSISTOR_DIR, GPIO.IN)
+	GPIO.setup(var.pin_FOTOTRANSISTOR_ESQ, GPIO.IN)
+
