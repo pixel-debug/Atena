@@ -19,9 +19,12 @@ import Motores as motor
 import Variaveis as var
 import time
 
+
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
+
+definir.configuracoes()
 
 controle_velocidade_direita = GPIO.PWM(var.pin_ENA, 500)
 controle_velocidade_direita.start(0)
