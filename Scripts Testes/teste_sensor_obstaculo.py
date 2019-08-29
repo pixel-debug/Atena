@@ -36,5 +36,11 @@ GPIO.output(pin_TRIG,True)
 time.sleep(0.00001)
 GPIO.output(pin_TRIG, False)
 
+while GPIO.input(pin_ECHO) == 0:
+	pulse_start = time.time()
+
+while GPIO.input(pin_ECHO) == 1:
+	pulse_end = time.time()
+
 
 
