@@ -13,12 +13,12 @@
 # --------------------------------------------------------
 
 # Velocidade Geral
-velocidade = 10
+velocidade =17
 
 # Motores da Direita
 pin_ENA = 12	# PWM motor da direita
-pin_IN1 = 20	# Sentido Horário
-pin_IN2 = 16	# Sentido Anti-horário
+pin_IN1 = 16	# Sentido Horário
+pin_IN2 = 20	# Sentido Anti-horário
 
 # Motores da Esquerda
 pin_ENB = 13	# PWM motor da esquerda
