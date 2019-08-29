@@ -39,7 +39,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	rotacao = cv2.warpAffine(image, M, (w, h))
 
 	# Apresenta as imagens capturas por meio dos frames
-	cv2.imshow("Streaming Camera Atena", rotacao)
+	cv2.imshow("Streaming Camera Atena", image)
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
