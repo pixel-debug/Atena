@@ -20,3 +20,17 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
+
+pin_ECHO = 23
+pin_TRIG = 24
+
+
+GPIO.setup(pin_TRIG, GPIO.OUT)
+GPIO.setup(pin_ECHO, GPIO.IN)
+
+GPIO.output(pin_TRIG, False)
+print("Esperando sensor")
+time.sleep(2)
+	
+
+
