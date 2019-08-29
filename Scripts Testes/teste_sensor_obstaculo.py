@@ -32,5 +32,9 @@ GPIO.output(pin_TRIG, False)
 print("Esperando sensor")
 time.sleep(2)
 	
+GPIO.output(pin_TRIG,True)
+time.sleep(0.00001)
+GPIO.output(pin_TRIG, False)
+
 
 
