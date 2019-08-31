@@ -28,4 +28,7 @@ ads = ADS.ADS1115(i2c)
 fototransistor_dir = AnalogIn(ads, ADS.P0)
 fototransistor_esq = AnalogIn(ads, ADS.P1)
 
-
+# 1º valor raw e 2º valor da tensão
+while True:
+    print("Fototransistor Direita: {:>5}\t{:>5.3f} \tFototransistor Esquerda: {:>5}\t{:>5.3f}".format(fototransistor_dir.value, fototransistor_dir.voltage, fototransistor_esq.value, fototransistor_esq.voltage))
+    time.sleep(0.5)
