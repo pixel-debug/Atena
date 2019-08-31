@@ -18,4 +18,10 @@ import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 
+# Chamada da interface i2c
+i2c = busio.I2C(board.SCL, board.SDA)
+
+# Criando um objeto ADC com a interface i2c
+ads = ADS.ADS1115(i2c)
+
 
