@@ -20,9 +20,18 @@ import cv2
 
 # Inicializacao e configuracao da camera 
 camera = PiCamera()
-camera.resolution = (540, 400)
+camera.resolution = (640, 480)
 camera.framerate = 32
-camera.rotation = 180
-rawCapture = PiRGBArray(camera, size=(540, 400))
+rawCapture = PiRGBArray(camera, size=(640, 480))
 
 classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/haarcascade_frontalface_default.xml')
+
+# Captura dos quadros por segundo
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	image = frame.array
+
+
+
+print("Cleaning up")
+GPIO.cleanup()
+
