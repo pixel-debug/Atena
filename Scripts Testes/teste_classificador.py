@@ -39,11 +39,15 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	for (x,y,w,h) in faces:
 	    cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,255),2)
  
-	# show the frame
+	# Apresenta imagem
 	cv2.imshow("Frame", image)
 
- 
+	# limpa o buffer de quadros e prepara para receber o proximo
+	rawCapture.truncate(0)
 
+	if cv2.waitKey(1) & 0xFF == 27:
+		break
+	 
 print("Cleaning up")
 GPIO.cleanup()
 
