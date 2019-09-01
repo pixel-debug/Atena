@@ -42,6 +42,6 @@ def fototransistores():
 	fototransistor_dir = AnalogIn(ads, ADS.P0)
 	fototransistor_esq = AnalogIn(ads, ADS.P1)
 
-	return fototransistor_dir.value, fototransistor_dir.voltage, fototransistor_esq.value, fototransistor_esq.voltage
+	return fototransistor_dir.value, fototransistor_esq.value
 
 	
