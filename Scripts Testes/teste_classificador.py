@@ -30,7 +30,13 @@ classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/h
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	image = frame.array
 
+	# Conversão da imagem para escala de cinza
+	gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
+	# Procurando caracteristicas semelhante na imagem capturada a partir do classificador
+	faces = classificador.detectMultiScale(gray, 1.1, 5)
+
+	
 
 print("Cleaning up")
 GPIO.cleanup()
