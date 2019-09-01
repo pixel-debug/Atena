@@ -36,7 +36,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Procurando caracteristicas semelhante na imagem capturada a partir do classificador
 	faces = classificador.detectMultiScale(gray, 1.1, 5)
 
-	
+	for (x,y,w,h) in faces:
+	    cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,255),2)
+ 
+	# show the frame
+	cv2.imshow("Frame", image)
+
+ 
 
 print("Cleaning up")
 GPIO.cleanup()
