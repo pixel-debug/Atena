@@ -11,3 +11,16 @@
 #	Script: Teste Classificadores
 
 # --------------------------------------------------------
+
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import RPi.GPIO as GPIO
+import time
+import cv2
+
+# Inicializacao e configuracao da camera 
+camera = PiCamera()
+camera.resolution = (540, 400)
+camera.framerate = 32
+camera.rotation = 180
+rawCapture = PiRGBArray(camera, size=(540, 400))
