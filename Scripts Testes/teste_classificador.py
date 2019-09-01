@@ -24,3 +24,5 @@ camera.resolution = (540, 400)
 camera.framerate = 32
 camera.rotation = 180
 rawCapture = PiRGBArray(camera, size=(540, 400))
+
+classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/haarcascade_frontalface_default.xml')
