@@ -35,9 +35,14 @@ controle_velocidade_esquerda.start(0)
 class main:
 	try:
 		while (True):
+			distancia_obstaculo = funcao.detecta_obstaculo()
+			print(distancia_obstaculo)
+				
+			'''			
 			valor_fototransistor_dir, valor_fototransistor_esq = funcao.fototransistores()
 			print("Fototransistor Direita: {:>5}\t Fototransistor Esquerda: {:>5}".format(valor_fototransistor_dir, valor_fototransistor_esq))
 			time.sleep(0.5)
+			'''
 	finally:
 		print("Cleaning up")
 		GPIO.cleanup()
