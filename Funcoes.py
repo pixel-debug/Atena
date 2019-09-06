@@ -20,6 +20,9 @@ import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 
+# inicializacao do protocolo i2c
+i2c = busio.I2C(board.SCL, board.SDA)
+
 def buzina(ativa_bozina):
 	if ativa_bozina == True:	
 		GPIO.output(var.pin_BOZINA, True)
@@ -27,11 +30,7 @@ def buzina(ativa_bozina):
 		GPIO.output(var.pin_BOZINA, False)
 		
 
-
 def detecta_faixas_pista():
-	# Chamada da interface i2c
-	i2c = busio.I2C(board.SCL, board.SDA)
-
 	# Criando um objeto ADC com a interface i2c
 	ads = ADS.ADS1115(i2c)
 
@@ -44,4 +43,9 @@ def detecta_faixas_pista():
 	return ft_dir_extrem.value, ft_dir_centro.value, ft_esq_centro.value, ft_esq_extrem.value
 
 
+def detect_obstaculo():
+	# Ativacao do sensor
+	vl53 = adafruit_vl53l0x.VL53L0X(i2c)
+
+	
 	
