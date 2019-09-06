@@ -28,7 +28,7 @@ def buzina(ativa_bozina):
 		
 
 
-def fototransistores():
+def detecta_faixas_pista():
 	# Chamada da interface i2c
 	i2c = busio.I2C(board.SCL, board.SDA)
 
@@ -42,5 +42,6 @@ def fototransistores():
 	ft_esq_extrem = AnalogIn(ads, ADS.P3)
 
 	return ft_dir_extrem.value, ft_dir_centro.value, ft_esq_centro.value, ft_esq_extrem.value
+
 
 	
