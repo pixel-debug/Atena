@@ -20,15 +20,12 @@ import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 
-def buzina():
-	GPIO.output(var.pin_BOZINA, True)
-	time.sleep(0.2)
-	GPIO.output(var.pin_BOZINA, False)
-	time.sleep(0.1)
-	GPIO.output(var.pin_BOZINA, True)
-	time.sleep(0.4)
-	GPIO.output(var.pin_BOZINA, False)
-	time.sleep(0.2)
+def buzina(ativa_bozina):
+	if ativa_bozina == True:	
+		GPIO.output(var.pin_BOZINA, True)
+	else:
+		GPIO.output(var.pin_BOZINA, False)
+		
 
 
 def fototransistores():
