@@ -21,9 +21,9 @@ import numpy as np
 
 # Inicializacao da camera, definicao dos parametros de resolucao e dos quadros capturados por segundo capturado
 camera = PiCamera()
-camera.resolution = (720, 560)
+camera.resolution = (1200, 900)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(720, 560))
+rawCapture = PiRGBArray(camera, size=(1200, 900))
 time.sleep(0.1)
 
 tamanho_mini_tela_x, tamanho_mini_tela_y = 480, 320
@@ -121,8 +121,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# O vetor com os frames capturados sao armazenados no vetor imagem	
 	imagem = frame.array
 
-	imagem = rotaciona_imagem(imagem)
-
 	imagem_perspectiva = regiao_de_interesse(imagem, pontos_pista, pontos_destino)
 
 	faixa_esquerda = imagem_perspectiva[y1_faixa_esq:y2_faixa_esq, x1_faixa_esq:x2_faixa_esq]
@@ -144,10 +142,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 		mensagem = str("Não detectado faixas.")
 
 	print ("CX Esquerda: {0}, CX Direita: {1}, Situração: {2}".format(cx_esquerda, cx_direita, mensagem))
-
+	
+	#cv2.imshow("dgsd", imagem)
 	
 	apresenta_tela("Imagem Original", imagem, 20, 20)
-	apresenta_tela("Imagem Perspectiva", imagem_perspectiva, 530, 20)
+	#apresenta_tela("Imagem Perspectiva", imagem_perspectiva, 530, 20)
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
