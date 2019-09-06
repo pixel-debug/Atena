@@ -47,5 +47,7 @@ def detect_obstaculo():
 	# Ativacao do sensor
 	vl53 = adafruit_vl53l0x.VL53L0X(i2c)
 
+	return vl53.range
+
 	
 	
