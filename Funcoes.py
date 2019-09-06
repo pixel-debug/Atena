@@ -19,6 +19,7 @@ import board
 import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
+import adafruit_vl53l0x
 
 # inicializacao do protocolo i2c
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -43,7 +44,7 @@ def detecta_faixas_pista():
 	return ft_dir_extrem.value, ft_dir_centro.value, ft_esq_centro.value, ft_esq_extrem.value
 
 
-def detect_obstaculo():
+def detecta_obstaculo():
 	# Ativacao do sensor
 	vl53 = adafruit_vl53l0x.VL53L0X(i2c)
 
