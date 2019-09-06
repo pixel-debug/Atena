@@ -20,6 +20,8 @@ import busio
 
 import adafruit_vl53l0x
 
-# inicialização do protocolo i2c
+# inicializacao do protocolo i2c
 i2c = busio.I2C(board.SCL, board.SDA)
 
+# Ativacao do sensor
+vl53 = adafruit_vl53l0x.VL53L0X(i2c)
