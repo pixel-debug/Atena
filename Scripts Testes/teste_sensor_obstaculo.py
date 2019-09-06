@@ -20,5 +20,6 @@ import busio
 
 import adafruit_vl53l0x
 
-
+# inicialização do protocolo i2c
+i2c = busio.I2C(board.SCL, board.SDA)
 
