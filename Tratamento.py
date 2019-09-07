@@ -23,4 +23,14 @@ def deteccao_faixas_pista(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_ex
 	elif (ft_esq_extrem < var.limite_ft_esq_extrem):
 		detectou_faixa_esq = True
 	return detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq
+
+
+def deteccao_obstaculo(distancia_obstaculo):
+	if((distancia_obstaculo >= var.limite_obstaculo_incial) and (distancia_obstaculo <= var.limite_obstaculo_final)):
+		detectou_obstaculo = True
+	else:
+		detectou_obstaculo = False
+	return detectou_obstaculo
+	
+	
 		   
