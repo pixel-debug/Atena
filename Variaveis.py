@@ -12,29 +12,43 @@
 
 # --------------------------------------------------------
 
+# --------------- Variveis dos Motores -------------------
 # Velocidade Geral
-velocidade =17
+velocidade = 20
+
+vel_correcao_dir = 5
+vel_correcao_esq = 5
 
 # Motores da Direita
 pin_ENA = 12	# PWM motor da direita
-pin_IN1 = 16	# Sentido Horário
-pin_IN2 = 20	# Sentido Anti-horário
+pin_IN1 = 20	# Sentido Horário
+pin_IN2 = 16	# Sentido Anti-horário
 
 # Motores da Esquerda
 pin_ENB = 13	# PWM motor da esquerda
 pin_IN3 = 5		# Sentido Horário
 pin_IN4 = 6		# Sentido Anti-horário
 
+# --------------------------------------------------------
+
+
+# -------------- Variveis dos Sensores -------------------
 # Bozina
-pin_BOZINA = 21
+pin_BUZINA = 21
 
 # Pinos de Correcao dos Motores com fototransistors
-pin_FOTOTRANSISTOR_ESQ = 17
-pin_FOTOTRANSISTOR_DIR = 27
+pin_FOTOTRANSISTOR_ESQ = False
+pin_FOTOTRANSISTOR_DIR = False
+# --------------------------------------------------------
 
-# Pinos do Sensor de Obstaculo - Ultrassonico
-pin_ECHO = 23
-pin_TRIG = 24
 
+# ------------- Variveis Imagens e Tela ------------------
+# Tamanho Tela
+tam_tela_x = 720
+tam_tela_y = 580
+
+# Taxa de quadros por segundo
+taxa_quadros = 32 
+# --------------------------------------------------------
 
 
