@@ -51,12 +51,12 @@ class main:
 			# Obtendo valores brutos dos sensores
 			ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem = sensor.fototransistores()
 			distancia_obstaculo = sensor.vl530x()			
-			#print(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem, distancia_obstaculo)
-			
+
 			# Obtencao do tratamento dos sensores fototrasistores
 			deteccao_faixa_dir, deteccao_faixa_centro, deteccao_faixa_esq = trata.deteccao_faixas_pista(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem)
-			#print(deteccao_faixa_dir, deteccao_faixa_centro, deteccao_faixa_esq)
-
+			
+			deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
+			print(deteccao_obstaculo)
 			cv2.imshow("Imagem Original", imagem)
 			capturaFrames.truncate(0)
 			if cv2.waitKey(1) & 0xFF == 27:
