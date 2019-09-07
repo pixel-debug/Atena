@@ -18,6 +18,7 @@ import RPi.GPIO as GPIO
 import Configuracoes as definir
 import Motores as motor
 import Sensores as sensor
+import Tratamento as trata
 import Variaveis as var
 import time
 
@@ -48,10 +49,13 @@ class main:
 			imagem = frame.array
 			
 			# Obtendo valores brutos dos sensores
-			ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem = sensor.fototransistor()
-			distancia_obstaculo = sensor.obstaculo()			
-			print(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem, distancia_obstaculo)
+			ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem = sensor.fototransistores()
+			distancia_obstaculo = sensor.vl530x()			
+			#print(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem, distancia_obstaculo)
 			
+			# Obtencao do tratamento dos sensores fototrasistores
+			deteccao_faixa_dir, deteccao_faixa_centro, deteccao_faixa_esq = trata.deteccao_faixas_pista(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem)
+			#print(deteccao_faixa_dir, deteccao_faixa_centro, deteccao_faixa_esq)
 
 			cv2.imshow("Imagem Original", imagem)
 			capturaFrames.truncate(0)
