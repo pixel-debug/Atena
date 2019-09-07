@@ -11,14 +11,15 @@
 #	Classe: Main
 
 # --------------------------------------------------------
-
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import cv2
 import RPi.GPIO as GPIO
 import Configuracoes as definir
 import Motores as motor
-import Funcoes as funcao
+import Sensores as sensor
 import Variaveis as var
 import time
-
 
 GPIO.setmode(GPIO.BCM)
 
@@ -32,17 +33,26 @@ controle_velocidade_direita.start(0)
 controle_velocidade_esquerda = GPIO.PWM(var.pin_ENB, 500)
 controle_velocidade_esquerda.start(0)
 
+frames = PiCamera()
+frames.resolution = (var.tam_tela_x, var.tam_tela_y)
+frames.framerate = var.taxa_quadros
+capturaFrames = PiRGBArray(frames, size=(var.tam_tela_x, var.tam_tela_y))
+
+print("Inicializando Sistema...")
+time.sleep(0.5)
+print("Pronto!")
+
 class main:
 	try:
-		while (True):
-			distancia_obstaculo = funcao.detecta_obstaculo()
-			print(distancia_obstaculo)
-				
-			'''			
-			valor_fototransistor_dir, valor_fototransistor_esq = funcao.fototransistores()
-			print("Fototransistor Direita: {:>5}\t Fototransistor Esquerda: {:>5}".format(valor_fototransistor_dir, valor_fototransistor_esq))
-			time.sleep(0.5)
-			'''
+		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
+			imagem = frame.array
+			
+
+			cv2.imshow("Imagem Original", imagem)
+			capturaFrames.truncate(0)
+			if cv2.waitKey(1) & 0xFF == 27:
+				break
 	finally:
 		print("Cleaning up")
+		cv2.destroyAllWindows()
 		GPIO.cleanup()
