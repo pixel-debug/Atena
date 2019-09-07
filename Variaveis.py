@@ -36,9 +36,16 @@ pin_IN4 = 6		# Sentido Anti-horário
 # Bozina
 pin_BUZINA = 21
 
-# Pinos de Correcao dos Motores com fototransistors
-pin_FOTOTRANSISTOR_ESQ = False
-pin_FOTOTRANSISTOR_DIR = False
+# Constantes para atuação dos fototransistores
+limite_ft_dir_extrem = 21000
+limite_ft_dir_centro = 21000
+limite_ft_esq_centro = 21000
+limite_ft_esq_extrem = 21000
+
+
+limite_obstaculo_incial = 150
+limite_obstaculo_final = 200
+
 # --------------------------------------------------------
 
 
