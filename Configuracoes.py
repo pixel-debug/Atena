@@ -25,6 +25,7 @@ def configuracoes():
 	GPIO.setup(var.pin_IN3, GPIO.OUT)	
 	GPIO.setup(var.pin_IN4, GPIO.OUT)
 
-	GPIO.setup(var.pin_BOZINA, GPIO.OUT)
+	GPIO.setup(var.pin_BUZINA, GPIO.OUT)
+
 
 
