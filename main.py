@@ -47,6 +47,11 @@ class main:
 		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
 			imagem = frame.array
 			
+			# Obtendo valores brutos dos sensores
+			ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem = sensor.fototransistor()
+			distancia_obstaculo = sensor.obstaculo()			
+			print(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem, distancia_obstaculo)
+			
 
 			cv2.imshow("Imagem Original", imagem)
 			capturaFrames.truncate(0)
