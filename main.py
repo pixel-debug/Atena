@@ -52,11 +52,26 @@ class main:
 			ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem = sensor.fototransistores()
 			distancia_obstaculo = sensor.vl530x()			
 
-			# Obtencao do tratamento dos sensores fototrasistores
+			# Deteccao das faixas na pista
 			deteccao_faixa_dir, deteccao_faixa_centro, deteccao_faixa_esq = trata.deteccao_faixas_pista(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem)
 			
+			# Deteccao de obstaculos na pista
 			deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
-			print(deteccao_obstaculo)
+
+
+			if (deteccao_faixa_dir ==  True):
+				print("Virar Esquerda") 
+				motor.movimento_esquerda(controle_velocidade_direita, controle_velocidade_esquerda)
+			elif (deteccao_faixa_esq  ==  True):
+				print("Virar Direita")				
+				motor.movimento_direita(controle_velocidade_direita, controle_velocidade_esquerda)
+			elif ((deteccao_faixa_centro  ==  True) or (deteccao_obstaculo  ==  True)):
+				print("Parar movimento")				
+				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+			else:
+				print("Seguir em frente")
+				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
+
 			cv2.imshow("Imagem Original", imagem)
 			capturaFrames.truncate(0)
 			if cv2.waitKey(1) & 0xFF == 27:
