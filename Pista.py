@@ -53,7 +53,7 @@ def perspectiva_pista(img):
 	return img
 	
 
-def detecta_faixas(img):
+def aplicacao_filtros(img):
 	img_cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 	img_blur = cv2.GaussianBlur(img_cinza,(5,5),0)
@@ -61,9 +61,8 @@ def detecta_faixas(img):
 	# Valores para detectar somente as linhas na função inRange
 	# tarde: (200, 240) 
 	# noite: (145, 165)
-
-
-	img_tresh = cv2.inRange(img_blur, 145, 205) # Binariza a imagem, definindo regiões pretas e brancas. Para visualizar a imagem binarizada comentar linhas abaixo
+	# Binariza a imagem, definindo regiões pretas e brancas. Para visualizar a imagem binarizada comentar linhas abaixo
+	img_tresh = cv2.inRange(img_blur, 145, 205) 
 
 	img_canny = cv2.Canny(img_tresh, 1000, 1000) # Cria contornos especificos nos elementos de cor mais clara. Detecção de bordas.
 
@@ -72,6 +71,8 @@ def detecta_faixas(img):
 	img = img_final
 	
 	return img
+
+
 	
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
