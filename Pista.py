@@ -26,7 +26,16 @@ time.sleep(0.1)
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
-	image = frame.array
+	imagem = frame.array
+
+	cv2.imshow("Streaming Camera Atena", imagem)
+
+	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
+	rawCapture.truncate(0)
+
+	# Se prescionar a letra 'q' sai do programa
+	if cv2.waitKey(1) & 0xFF == 27:
+		break
 	
 	
 
