@@ -43,10 +43,10 @@ def perspectiva_pista(img):
 	cv2.line(img, pt_pista_2, pt_pista_4, (0,0,255), 4)
 	cv2.line(img, pt_pista_3, pt_pista_4, (0,0,255), 4)
 
-	cv2.line(img, pt_destino_1, pt_destino_2, (0,255,0), 4)
-	cv2.line(img, pt_destino_1, pt_destino_3, (0,255,0), 4)
-	cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
-	cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
+	#cv2.line(img, pt_destino_1, pt_destino_2, (0,255,0), 4)
+	#cv2.line(img, pt_destino_1, pt_destino_3, (0,255,0), 4)
+	#cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
+	#cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
 
 	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
 	img = cv2.warpPerspective(imagem, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
@@ -58,9 +58,16 @@ def detecta_faixas(img):
 
 	img_blur = cv2.GaussianBlur(img_cinza,(5,5),0)
 	
-	img_tresh = cv2.inRange(img_blur, 200, 240) # Binariza a imagem, definindo regiões pretas e brancas
+	# Valores para detectar somente as linhas na função inRange
+	# tarde: (200, 240) 
+	# noite: (145, 165)
 
-	img = img_tresh
+
+	img_tresh = cv2.inRange(img_blur, 145, 205) # Binariza a imagem, definindo regiões pretas e brancas. Para visualizar a imagem binarizada comentar linhas abaixo
+
+	img_canny = cv2.Canny(img_tresh, 1000, 1000) # Cria contornos especificos nos elementos de cor mais clara
+
+	img = img_canny
 	
 	return img
 	
