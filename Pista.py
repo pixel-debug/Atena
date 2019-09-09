@@ -54,6 +54,10 @@ def perspectiva_pista(img):
 	
 
 def detecta_faixas(img):
+	imagem_cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+	imagem_blur = cv2.GaussianBlur(imagem_cinza,(5,5),0)
+
 
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
