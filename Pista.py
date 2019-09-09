@@ -54,11 +54,16 @@ def perspectiva_pista(img):
 	
 
 def detecta_faixas(img):
-	imagem_cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	img_cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-	imagem_blur = cv2.GaussianBlur(imagem_cinza,(5,5),0)
+	img_blur = cv2.GaussianBlur(img_cinza,(5,5),0)
+	
+	img_tresh = cv2.inRange(img_blur, 200, 240) # Binariza a imagem, definindo regiões pretas e brancas
 
-
+	img = img_tresh
+	
+	return img
+	
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
@@ -68,8 +73,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	
 	imagem_perpectiva_pista = perspectiva_pista(imagem)
 
-	tela.apresenta("Imagem Original", imagem, 10, 30)
-	tela.apresenta("Perspectiva Pista", imagem_perpectiva_pista, 10, 375)
+	imagem_faixas = detecta_faixas(imagem)
+	
+	tela.apresenta("Imagem Original", imagem, 5, 30)
+	tela.apresenta("Perspectiva Pista", imagem_perpectiva_pista, 5, 410)
+	tela.apresenta("Imagem Faixas", imagem_faixas, 505, 30)
 	
 	#cv2.imshow("Streaming Camera Atena", imagem)
 
