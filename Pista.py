@@ -16,6 +16,8 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 import cv2
+import Tela as tela
+
 
 # Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
 camera = PiCamera()
@@ -28,7 +30,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 
-	cv2.imshow("Streaming Camera Atena", imagem)
+	tela.apresenta_imagem("Imagem Original", imagem, 30, 30)
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
