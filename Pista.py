@@ -37,30 +37,36 @@ pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4
 pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
 
 
-def perspectiva_pista(imagem):
-	cv2.line(imagem, pt_pista_1, pt_pista_2, (0,0,255), 4)
-	cv2.line(imagem, pt_pista_1, pt_pista_3, (0,0,255), 4)
-	cv2.line(imagem, pt_pista_2, pt_pista_4, (0,0,255), 4)
-	cv2.line(imagem, pt_pista_3, pt_pista_4, (0,0,255), 4)
+def perspectiva_pista(img):
+	cv2.line(img, pt_pista_1, pt_pista_2, (0,0,255), 4)
+	cv2.line(img, pt_pista_1, pt_pista_3, (0,0,255), 4)
+	cv2.line(img, pt_pista_2, pt_pista_4, (0,0,255), 4)
+	cv2.line(img, pt_pista_3, pt_pista_4, (0,0,255), 4)
 
-	cv2.line(imagem, pt_destino_1, pt_destino_2, (0,255,0), 4)
-	cv2.line(imagem, pt_destino_1, pt_destino_3, (0,255,0), 4)
-	cv2.line(imagem, pt_destino_2, pt_destino_4, (0,255,0), 4)
-	cv2.line(imagem, pt_destino_3, pt_destino_4, (0,255,0), 4)
+	cv2.line(img, pt_destino_1, pt_destino_2, (0,255,0), 4)
+	cv2.line(img, pt_destino_1, pt_destino_3, (0,255,0), 4)
+	cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
+	cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
 
 	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
-	imagem = cv2.warpPerspective(imagem, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
-	return imagem
+	img = cv2.warpPerspective(imagem, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
+	return img
 	
+
+def detecta_faixas(img):
 
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 
-	imagem = perspectiva_pista(imagem)
+	imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
+	
+	imagem_perpectiva_pista = perspectiva_pista(imagem)
 
-	tela.apresenta_imagem("Imagem Original", imagem, 30, 30)
+	tela.apresenta("Imagem Original", imagem, 10, 30)
+	tela.apresenta("Perspectiva Pista", imagem_perpectiva_pista, 10, 375)
+	
 	#cv2.imshow("Streaming Camera Atena", imagem)
 
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
