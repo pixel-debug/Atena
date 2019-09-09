@@ -65,9 +65,11 @@ def detecta_faixas(img):
 
 	img_tresh = cv2.inRange(img_blur, 145, 205) # Binariza a imagem, definindo regiões pretas e brancas. Para visualizar a imagem binarizada comentar linhas abaixo
 
-	img_canny = cv2.Canny(img_tresh, 1000, 1000) # Cria contornos especificos nos elementos de cor mais clara
+	img_canny = cv2.Canny(img_tresh, 1000, 1000) # Cria contornos especificos nos elementos de cor mais clara. Detecção de bordas.
 
-	img = img_canny
+	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
+
+	img = img_final
 	
 	return img
 	
