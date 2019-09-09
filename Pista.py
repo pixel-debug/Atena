@@ -30,14 +30,23 @@ time.sleep(0.1)
 
 
 pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (60,580), (740,580), (15,645), (785,645)
+pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (160,0), (640,0), (160,680), (640,680)
+
 
 pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
+pontos_destino = np.float32([[ppt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
+
 
 def perspectiva_pista(imagem):
 	cv2.line(imagem, pt_pista_1, pt_pista_2, (0,0,255), 4)
 	cv2.line(imagem, pt_pista_1, pt_pista_3, (0,0,255), 4)
 	cv2.line(imagem, pt_pista_2, pt_pista_4, (0,0,255), 4)
 	cv2.line(imagem, pt_pista_3, pt_pista_4, (0,0,255), 4)
+
+	cv2.line(imagem, pt_destino_1, pt_destino_2, (0,255,0), 4)
+	cv2.line(imagem, pt_destino_1, pt_destino_3, (0,255,0), 4)
+	cv2.line(imagem, pt_destino_2, pt_destino_4, (0,255,0), 4)
+	cv2.line(imagem, pt_destino_3, pt_destino_4, (0,255,0), 4)
 
 	return imagem
 	
