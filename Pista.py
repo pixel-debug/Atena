@@ -36,17 +36,16 @@ pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (160,0), (640,0), (160,
 pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
 pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
 
-
-def perspectiva_pista(img):
+def perspectiva_pista(img, pontos_pista, pontos_destino):
 	cv2.line(img, pt_pista_1, pt_pista_2, (0,0,255), 4)
 	cv2.line(img, pt_pista_1, pt_pista_3, (0,0,255), 4)
 	cv2.line(img, pt_pista_2, pt_pista_4, (0,0,255), 4)
 	cv2.line(img, pt_pista_3, pt_pista_4, (0,0,255), 4)
 
-	#cv2.line(img, pt_destino_1, pt_destino_2, (0,255,0), 4)
-	#cv2.line(img, pt_destino_1, pt_destino_3, (0,255,0), 4)
-	#cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
-	#cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
+	cv2.line(img, pt_destino_1, pt_destino_2, (0,255,0), 4)
+	cv2.line(img, pt_destino_1, pt_destino_3, (0,255,0), 4)
+	cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
+	cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
 
 	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
 	img = cv2.warpPerspective(imagem, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
@@ -67,10 +66,32 @@ def aplicacao_filtros(img):
 	img_canny = cv2.Canny(img_tresh, 1000, 1000) # Cria contornos especificos nos elementos de cor mais clara. Detecção de bordas.
 
 	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
-
-	img = img_final
 	
-	return img
+	return img_final
+
+def detecta_faixas(img):
+	# Color thresholding
+	ret,thresh = cv2.threshold(img,145,205,cv2.THRESH_BINARY_INV)
+
+	# Find the contours of the frame
+	_, contours,hierarchy = cv2.findContours(thresh.copy(), 1, cv2.CHAIN_APPROX_NONE)
+
+	if len(contours) > 0:
+		c = max(contours, key=cv2.contourArea)
+
+		M = cv2.moments(c)
+
+		cx = int(M['m10']/M['m00'])
+
+		cy = int(M['m01']/M['m00'])
+
+		cv2.line(img,(cx,0),(cx,var.tam_original_tela_y),(255,0,0),1)
+
+		cv2.line(img,(0,cy),(var.tam_original_tela_x,cy),(255,0,0),1)
+
+		cv2.drawContours(img, contours, -1, (0,255,0), 1)
+
+		return img
 
 
 	
@@ -79,15 +100,21 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 
-	imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
+	imagem_perspectiva_pista = perspectiva_pista(imagem, pontos_pista, pontos_destino)
 	
-	imagem_perpectiva_pista = perspectiva_pista(imagem)
+	imagem_filtros = aplicacao_filtros(imagem_perspectiva_pista)
 
-	imagem_faixas = detecta_faixas(imagem)
-	
-	tela.apresenta("Imagem Original", imagem, 5, 30)
-	tela.apresenta("Perspectiva Pista", imagem_perpectiva_pista, 5, 410)
-	tela.apresenta("Imagem Faixas", imagem_faixas, 505, 30)
+	faixa_esq = imagem_filtros[var.y1_faixa_esq:var.y2_faixa_esq, var.x1_faixa_esq:var.x2_faixa_esq]
+	faixa_esq = detecta_faixas(faixa_esq)
+
+	faixa_dir = imagem_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
+	faixa_dir = detecta_faixas(faixa_dir)
+
+
+	tela.apresenta("Imagem Original", imagem, 505, 15)
+	tela.apresenta("Imagem Pista", imagem_perspectiva_pista, 5, 380)
+	tela.apresenta("Faixa Esquerda", faixa_esq, 505, 380)
+	tela.apresenta("Imagem Direita", faixa_dir, 5, 30)
 	
 	#cv2.imshow("Streaming Camera Atena", imagem)
 
