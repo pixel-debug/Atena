@@ -100,6 +100,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 
+	tela.apresenta("Imagem Original", imagem, 505, 15)
+
 	imagem_perspectiva_pista = perspectiva_pista(imagem, pontos_pista, pontos_destino)
 	
 	imagem_filtros = aplicacao_filtros(imagem_perspectiva_pista)
@@ -111,7 +113,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	faixa_dir = detecta_faixas(faixa_dir)
 
 
-	tela.apresenta("Imagem Original", imagem, 505, 15)
+	
 	tela.apresenta("Imagem Pista", imagem_perspectiva_pista, 5, 380)
 	tela.apresenta("Faixa Esquerda", faixa_esq, 505, 380)
 	tela.apresenta("Imagem Direita", faixa_dir, 5, 30)
