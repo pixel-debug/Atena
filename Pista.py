@@ -29,45 +29,38 @@ rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_
 time.sleep(0.1)
 
 
-pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (50,570), (750,570), (5,635), (795,635)
-pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (160,0), (640,0), (160,680), (640,680)
+def perspectiva_pista(img):
+	cv2.line(img, var.pt_pista_1, var.pt_pista_2, (0,0,255), 4)
+	cv2.line(img, var.pt_pista_1, var.pt_pista_3, (0,0,255), 4)
+	cv2.line(img, var.pt_pista_2, var.pt_pista_4, (0,0,255), 4)
+	cv2.line(img, var.pt_pista_3, var.pt_pista_4, (0,0,255), 4)
 
+	cv2.line(img, var.pt_destino_1, var.pt_destino_2, (0,255,0), 4)
+	cv2.line(img, var.pt_destino_1, var.pt_destino_3, (0,255,0), 4)
+	cv2.line(img, var.pt_destino_2, var.pt_destino_4, (0,255,0), 4)
+	cv2.line(img, var.pt_destino_3, var.pt_destino_4, (0,255,0), 4)
 
-pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
-pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
-
-def perspectiva_pista(img, pontos_pista, pontos_destino):
-	cv2.line(img, pt_pista_1, pt_pista_2, (0,0,255), 4)
-	cv2.line(img, pt_pista_1, pt_pista_3, (0,0,255), 4)
-	cv2.line(img, pt_pista_2, pt_pista_4, (0,0,255), 4)
-	cv2.line(img, pt_pista_3, pt_pista_4, (0,0,255), 4)
-
-	cv2.line(img, pt_destino_1, pt_destino_2, (0,255,0), 4)
-	cv2.line(img, pt_destino_1, pt_destino_3, (0,255,0), 4)
-	cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
-	cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
-
-	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
+	matriz = cv2.getPerspectiveTransform(var.pontos_pista, var.pontos_destino)
 	img = cv2.warpPerspective(imagem, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
 	return img
 	
+
 
 def aplicacao_filtros(img):
 	img_cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 	img_blur = cv2.GaussianBlur(img_cinza,(5,5),0)
 	
-	# Valores para detectar somente as linhas na função inRange
-	# tarde: (200, 240) 
-	# noite: (145, 165)
 	# Binariza a imagem, definindo regiões pretas e brancas. Para visualizar a imagem binarizada comentar linhas abaixo
-	img_tresh = cv2.inRange(img_blur, 145, 205) 
+	img_tresh = cv2.inRange(img_blur, var.tresh_min, var.tresh_max) 
 
-	img_canny = cv2.Canny(img_tresh, 1000, 1000) # Cria contornos especificos nos elementos de cor mais clara. Detecção de bordas.
+	img_canny = cv2.Canny(img_tresh, var.canny_min, var.canny_max) # Cria contornos especificos nos elementos de cor mais clara. Detecção de bordas.
 
 	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
 	
 	return img_final
+
+
 
 def detecta_faixas(img):
 	# Color thresholding
@@ -95,14 +88,11 @@ def detecta_faixas(img):
 
 
 	
-
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 
-	tela.apresenta("Imagem Original", imagem, 505, 15)
-
-	imagem_perspectiva_pista = perspectiva_pista(imagem, pontos_pista, pontos_destino)
+	imagem_perspectiva_pista = perspectiva_pista(imagem)
 	
 	imagem_filtros = aplicacao_filtros(imagem_perspectiva_pista)
 
@@ -113,7 +103,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	faixa_dir = detecta_faixas(faixa_dir)
 
 
-	
+	tela.apresenta("Imagem Original", imagem, 505, 15)
 	tela.apresenta("Imagem Pista", imagem_perspectiva_pista, 5, 380)
 	tela.apresenta("Faixa Esquerda", faixa_esq, 505, 380)
 	tela.apresenta("Imagem Direita", faixa_dir, 5, 30)
