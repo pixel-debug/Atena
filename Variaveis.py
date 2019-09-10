@@ -16,10 +16,10 @@ import numpy as np
 
 # --------------- Variveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 15
+velocidade = 17
 
-vel_correcao_dir =7
-vel_correcao_esq = 7
+vel_correcao_dir =12
+vel_correcao_esq = 12
 
 # Motores da Direita
 pin_ENA = 12	# PWM motor da direita
@@ -39,10 +39,10 @@ pin_IN4 = 6		# Sentido Anti-horário
 pin_BUZINA = 21
 
 # Constantes para atuação dos fototransistores
-limite_ft_dir_extrem = 24000
+limite_ft_dir_extrem = 21000
 limite_ft_dir_centro = 24500
 limite_ft_esq_centro = 23000
-limite_ft_esq_extrem = 22500
+limite_ft_esq_extrem = 21000
 
 
 limite_obstaculo_incial = 150
