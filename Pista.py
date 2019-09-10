@@ -12,22 +12,22 @@
 
 # --------------------------------------------------------
 
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+#from picamera.array import PiRGBArray
+#from picamera import PiCamera
 import time
 import cv2
 import numpy as np
 import Tela as tela
 import Variaveis as var
 
-
+'''
 # Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
 camera = PiCamera()
 camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 time.sleep(0.1)
-
+'''
 
 def perspectiva_pista(img):
 	cv2.line(img, var.pt_pista_1, var.pt_pista_2, (0,0,255), 4)
@@ -41,7 +41,7 @@ def perspectiva_pista(img):
 	cv2.line(img, var.pt_destino_3, var.pt_destino_4, (0,255,0), 4)
 
 	matriz = cv2.getPerspectiveTransform(var.pontos_pista, var.pontos_destino)
-	img = cv2.warpPerspective(imagem, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
+	img = cv2.warpPerspective(img, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
 	return img
 	
 
@@ -58,7 +58,10 @@ def aplicacao_filtros(img):
 
 	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
 	
-	return img_final
+	#img = img_tresh
+
+	img = img_final
+	return img
 
 
 
@@ -84,32 +87,35 @@ def detecta_faixas(img):
 
 		cv2.drawContours(img, contours, -1, (0,255,0), 1)
 
-		return img
+		return img, cx
 
 
-	
+'''	
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
+	#cv2.imshow("Streaming Camera Atena", imagem)
 
 	imagem_perspectiva_pista = perspectiva_pista(imagem)
 	
 	imagem_filtros = aplicacao_filtros(imagem_perspectiva_pista)
 
 	faixa_esq = imagem_filtros[var.y1_faixa_esq:var.y2_faixa_esq, var.x1_faixa_esq:var.x2_faixa_esq]
-	faixa_esq = detecta_faixas(faixa_esq)
+	faixa_esq, cxe = detecta_faixas(faixa_esq)
 
 	faixa_dir = imagem_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
-	faixa_dir = detecta_faixas(faixa_dir)
-
-
-	tela.apresenta("Imagem Original", imagem, 505, 15)
-	tela.apresenta("Imagem Pista", imagem_perspectiva_pista, 5, 380)
-	tela.apresenta("Faixa Esquerda", faixa_esq, 505, 380)
-	tela.apresenta("Imagem Direita", faixa_dir, 5, 30)
+	faixa_dir, cxd = detecta_faixas(faixa_dir)
 	
-	#cv2.imshow("Streaming Camera Atena", imagem)
+	# cxe < 35 cxd > 50
+	print(cxe, cxd)	
 
+	tela.apresenta("Imagem Original", imagem, 5, 30)
+	tela.apresenta("Imagem Pista", imagem_perspectiva_pista, 505, 15)
+	#tela.apresenta("Faixa Filtros", imagem_filtros, 5, 380)
+	
+	tela.apresenta("Faixa Esquerda", faixa_esq, 5, 380)
+	tela.apresenta("Imagem Direita", faixa_dir, 505, 380)
+	
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
 
@@ -120,4 +126,4 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	
 
 cv2.destroyAllWindows()
-
+'''
