@@ -38,7 +38,6 @@ def perspectiva_pista(img):
 
 def aplicacao_filtros(img):
 	img_cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
 	img_blur = cv2.GaussianBlur(img_cinza,(5,5),0)
 	
 	# Binariza a imagem, definindo regiões pretas e brancas. Para visualizar a imagem binarizada comentar linhas abaixo
@@ -47,8 +46,6 @@ def aplicacao_filtros(img):
 	img_canny = cv2.Canny(img_tresh, var.canny_min, var.canny_max) # Cria contornos especificos nos elementos de cor mais clara. Detecção de bordas.
 
 	img_final = cv2.add(img_tresh, img_canny) # Soma as duas imagens para maior confiabilidade na deteccao das linhas da pista
-	
-	#img = img_tresh
 
 	img = img_final
 	return img
@@ -79,54 +76,4 @@ def detecta_faixas(img):
 
 		return img, cx
 
-# -------------------------------------------------------------------------------------
-'''	
-*** Para teste separado da detecção das faixas ***
 
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-
-# Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
-camera = PiCamera()
-camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
-time.sleep(0.1)
-
-
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-	# O vetor com os frames capturados sao armazenados no vetor image	
-	imagem = frame.array
-	#cv2.imshow("Streaming Camera Atena", imagem)
-
-	imagem_perspectiva_pista = perspectiva_pista(imagem)
-	
-	imagem_filtros = aplicacao_filtros(imagem_perspectiva_pista)
-
-	faixa_esq = imagem_filtros[var.y1_faixa_esq:var.y2_faixa_esq, var.x1_faixa_esq:var.x2_faixa_esq]
-	faixa_esq, cxe = detecta_faixas(faixa_esq)
-
-	faixa_dir = imagem_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
-	faixa_dir, cxd = detecta_faixas(faixa_dir)
-	
-	# cxe < 35 cxd > 50
-	print(cxe, cxd)	
-
-	tela.apresenta("Imagem Original", imagem, 5, 30)
-	tela.apresenta("Imagem Pista", imagem_perspectiva_pista, 505, 15)
-	#tela.apresenta("Faixa Filtros", imagem_filtros, 5, 380)
-	
-	tela.apresenta("Faixa Esquerda", faixa_esq, 5, 380)
-	tela.apresenta("Imagem Direita", faixa_dir, 505, 380)
-	
-	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
-	rawCapture.truncate(0)
-
-	# Se prescionar a letra 'q' sai do programa
-	if cv2.waitKey(1) & 0xFF == 27:
-		break
-	
-	
-
-cv2.destroyAllWindows()
-'''
