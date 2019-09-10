@@ -12,22 +12,12 @@
 
 # --------------------------------------------------------
 
-#from picamera.array import PiRGBArray
-#from picamera import PiCamera
 import time
 import cv2
 import numpy as np
 import Tela as tela
 import Variaveis as var
 
-'''
-# Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
-camera = PiCamera()
-camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
-time.sleep(0.1)
-'''
 
 def perspectiva_pista(img):
 	cv2.line(img, var.pt_pista_1, var.pt_pista_2, (0,0,255), 4)
@@ -89,8 +79,21 @@ def detecta_faixas(img):
 
 		return img, cx
 
-
+# -------------------------------------------------------------------------------------
 '''	
+*** Para teste separado da detecção das faixas ***
+
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+
+# Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
+camera = PiCamera()
+camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
+time.sleep(0.1)
+
+
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
