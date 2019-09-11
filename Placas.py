@@ -17,6 +17,7 @@ from picamera import PiCamera
 import RPi.GPIO as GPIO
 import time
 import cv2
+import Variaveis as var
 
 # Inicializacao e configuracao da camera 
 camera = PiCamera()
@@ -24,6 +25,7 @@ camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
+cls_pare = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	image = frame.array
@@ -32,7 +34,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
 	# Procurando caracteristicas semelhante na imagem capturada a partir do classificador
-	detecta_obj = classificador.detectMultiScale(gray, 1.1, 5)
+	detecta_obj = cls_pare.detectMultiScale(gray, 1.1, 5)
 
 	for (x,y,w,h) in detecta_obj:
 	    cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
