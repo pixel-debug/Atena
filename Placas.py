@@ -27,11 +27,13 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 
 cls_pare = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
 
+def detecta_placa(nome, img, classificador):
+	
+
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	image = frame.array
 
-	# Conversão da imagem para escala de cinza
-	gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+
 
 	# Procurando caracteristicas semelhante na imagem capturada a partir do classificador
 	detecta_obj = cls_pare.detectMultiScale(gray, 1.1, 5)
