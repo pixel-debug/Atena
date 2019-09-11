@@ -25,8 +25,6 @@ camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
-cls_pare = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
-
 def detecta_placa(nome, img, classificador):
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -40,7 +38,7 @@ def detecta_placa(nome, img, classificador):
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	image = frame.array
 
-	
+	image = detecta_placa("Pare", image, var.classificador_pare)
  
 	# Apresenta imagem
 	cv2.imshow("Frame", image)
