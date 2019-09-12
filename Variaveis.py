@@ -13,31 +13,18 @@
 # --------------------------------------------------------
 
 import numpy as np
+import cv2
 
 # --------------- Variveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 17
+velocidade = 13
 
-vel_correcao_dir =12
-vel_correcao_esq = 12
-
-# Motores da Direita
-pin_ENA = 12	# PWM motor da direita
-pin_IN1 = 20	# Sentido Horário
-pin_IN2 = 16	# Sentido Anti-horário
-
-# Motores da Esquerda
-pin_ENB = 13	# PWM motor da esquerda
-pin_IN3 = 5		# Sentido Horário
-pin_IN4 = 6		# Sentido Anti-horário
-
+vel_correcao_dir = 10
+vel_correcao_esq = 10
 # --------------------------------------------------------
 
 
 # -------------- Variveis dos Sensores -------------------
-# Bozina
-pin_BUZINA = 21
-
 # Constantes para atuação dos fototransistores
 limite_ft_dir_extrem = 21000
 limite_ft_dir_centro = 24500
@@ -71,12 +58,15 @@ y1_faixa_esq, y2_faixa_esq = 490, 650
 x1_faixa_dir, x2_faixa_dir = 530, 630
 y1_faixa_dir, y2_faixa_dir = 490, 650
 
+x1_img_placas_dir, x2_img_placas_dir = 572, 830
+y1_img_placas_dir, y2_img_placas_dir = 213, 570
+
 
 # Valores para detectar somente as linhas na função inRange
 # manha: (150, 255)
 # tarde: (200, 240) 
-# noite: (145, 165)
-tresh_min, tresh_max = 150, 255
+# noite: (90, 125)
+tresh_min, tresh_max = 90, 125
 
 canny_min, canny_max = 1000, 1000
 
@@ -87,7 +77,36 @@ pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (160,0), (640,0), (160,
 pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
 pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
 
+# --------------------------------------------------------
+
+
+# -------------- Classificadores Placas ------------------
+classificador_pare = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
 
 # --------------------------------------------------------
+
+
+
+
+
+# --------------- Configuracoes GPIO's -------------------
+# Motores da Direita
+pin_ENA = 12	# PWM motor da direita
+pin_IN1 = 20	# Sentido Horário
+pin_IN2 = 16	# Sentido Anti-horário
+
+# Motores da Esquerda
+pin_ENB = 13	# PWM motor da esquerda
+pin_IN3 = 5		# Sentido Horário
+pin_IN4 = 6		# Sentido Anti-horário
+
+# Bozina
+pin_BUZINA = 21
+# --------------------------------------------------------
+
+
+
+
+
 
 
