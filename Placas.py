@@ -21,9 +21,9 @@ import Variaveis as var
 
 # Inicializacao e configuracao da camera 
 camera = PiCamera()
-camera.resolution = (640, 480)
+camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(640, 480))
+rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 
 def detecta_placa(nome, img, classificador):
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -43,12 +43,16 @@ def calculo_distancia_placa(x, w):
 
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-	image = frame.array
+	imagem = frame.array
 
-	image = detecta_placa("Pare", image, var.classificador_pare)
- 
+	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
+
+	imagem_placas = detecta_placa("Pare", reigao_placa, var.classificador_pare)
+
 	# Apresenta imagem
-	cv2.imshow("Frame", image)
+	cv2.imshow("Frame", imagem)
+
+	cv2.imshow("Regiao Placa", reigao_placa)
 
 
 	# limpa o buffer de quadros e prepara para receber o proximo
