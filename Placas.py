@@ -32,9 +32,15 @@ def detecta_placa(nome, img, classificador):
 
 	for (x,y,w,h) in placa_detectada:
 	    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-		dist = x - (x+w)
-	print dist
+	
+	for (x,y,w,h) in placa_detectada:
+		print(calculo_distancia_placa(x, w))
+
 	return img
+
+def calculo_distancia_placa(x, w):
+	return ((x+w)-x)
+
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	image = frame.array
