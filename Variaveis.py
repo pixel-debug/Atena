@@ -50,7 +50,7 @@ taxa_quadros = 32
 
 
 
-# ------------------ Variaveis Pista ---------------------
+# ------------- Variaveis das Imagens Filhas -------------
 # Area para detecção das faixas
 x1_faixa_esq, x2_faixa_esq = 170, 270
 y1_faixa_esq, y2_faixa_esq = 490, 650
@@ -58,10 +58,14 @@ y1_faixa_esq, y2_faixa_esq = 490, 650
 x1_faixa_dir, x2_faixa_dir = 530, 630
 y1_faixa_dir, y2_faixa_dir = 490, 650
 
+# Area para detecção das placas
 x1_img_placas_dir, x2_img_placas_dir = 572, 830
 y1_img_placas_dir, y2_img_placas_dir = 213, 570
+# --------------------------------------------------------
 
 
+
+# ------------------ Variaveis Pista ---------------------
 # Valores para detectar somente as linhas na função inRange
 # manha: (150, 255)
 # tarde: (200, 240) 
