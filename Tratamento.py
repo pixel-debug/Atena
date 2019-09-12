@@ -61,7 +61,21 @@ def deteccao_obstaculo(distancia_obstaculo):
 
 
 def deteccao_placa(img):
-	img_reigao_placa = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
+	detectou_placa =  False
 	
+	img_regiao_placas = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
+
+	img_placa_p1, distancia_placa = placa.detecta_placas(var.nome_p1, img_regiao_placas, var.classificador_p1)
 	
-		   
+	img_placa_p2, distancia_placa = placa.detecta_placas(var.nome_p2, img_regiao_placas, var.classificador_p2)
+
+	img_placa_p3, distancia_placa = placa.detecta_placas(var.nome_p3, img_regiao_placas, var.classificador_p3)
+
+	if (distancia_placa >= 15 and distancia_placa <= 17):
+		detectou_placa = True
+	
+	return detectou_placa
+
+
+
+   
