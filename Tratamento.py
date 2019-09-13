@@ -15,10 +15,10 @@
 import Variaveis as var
 
 import Pista as pista
-import Placas as placa
+#import Placas as placa
 import Tela as tela
 
-
+'''
 def deteccao_faixas_pista(img):
 	detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq = False, False, False	
 	img_perspectiva_pista = pista.perspectiva_pista(img)
@@ -30,27 +30,28 @@ def deteccao_faixas_pista(img):
 	img_faixa_dir = img_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
 	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
 
-	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
-	#tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
-	#tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
+	tela.apresenta("Imagem Original", img, 10, 10)
+	tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
+	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
+	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	if cx_dir >= 50:
 		detectou_faixa_dir = True
 	elif cx_esq <= 35:
 		detectou_faixa_esq = True
 	return detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq
-
-
 '''
-def deteccao_faixas_pista(ft_dir_extrem, ft_dir_centro, ft_esq_centro, ft_esq_extrem):
+
+
+def deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq = False, False, False	
-	if (ft_dir_extrem < var.limite_ft_dir_extrem):
+
+	if (ft_dir_ext < var.CONST_FT_DIR_EXT):
 		detectou_faixa_dir = True
-	#elif ((ft_dir_centro < var.limite_ft_dir_centro) and (ft_esq_centro < var.limite_ft_esq_centro)):
-	#	detectou_faixa_centro = True
-	elif (ft_esq_extrem < var.limite_ft_esq_extrem):
+	elif (ft_esq_ext < var.CONST_FT_ESQ_EXT):
 		detectou_faixa_esq = True
+
 	return detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq
-'''
+
 
 def deteccao_obstaculo(distancia_obstaculo):
 	if((distancia_obstaculo >= var.limite_obstaculo_incial) and (distancia_obstaculo <= var.limite_obstaculo_final)):
@@ -59,23 +60,20 @@ def deteccao_obstaculo(distancia_obstaculo):
 		detectou_obstaculo = False
 	return detectou_obstaculo
 
-
+'''
 def deteccao_placa(img):
 	detectou_placa =  False
 	
 	img_regiao_placas = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	img_placa_p1, distancia_placa = placa.detecta_placas(var.nome_p1, img_regiao_placas, var.classificador_p1)
+	for p in var.classificadores
+		nome_placa, distancia_placa = placa.detecta_placas(img_regiao_placas, p)
 	
-	img_placa_p2, distancia_placa = placa.detecta_placas(var.nome_p2, img_regiao_placas, var.classificador_p2)
-
-	img_placa_p3, distancia_placa = placa.detecta_placas(var.nome_p3, img_regiao_placas, var.classificador_p3)
-
 	if (distancia_placa >= 15 and distancia_placa <= 17):
 		detectou_placa = True
 	
 	return detectou_placa
-
+'''
 
 
    
