@@ -33,8 +33,8 @@ CONST_FT_ESQ_CEN = 22000
 CONST_FT_ESQ_EXT = 22000
 
 
-limite_obstaculo_incial = 150
-limite_obstaculo_final = 200
+CONST_OBSTAC_INI = 100
+CONST_OBSTAC_FIM = 150
 
 # --------------------------------------------------------
 
@@ -114,7 +114,7 @@ pin_IN3 = 5		# Sentido Horário
 pin_IN4 = 6		# Sentido Anti-horário
 
 # Bozina
-pin_BUZINA = 21
+pin_BUZINA = 26
 # --------------------------------------------------------
 
 
