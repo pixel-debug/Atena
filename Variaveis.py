@@ -17,19 +17,19 @@ import cv2
 
 # --------------- Variveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 13
+velocidade = 11
 
-vel_correcao_dir = 10
-vel_correcao_esq = 10
+vel_correcao_dir = 15
+vel_correcao_esq = 15
 # --------------------------------------------------------
 
 
 # -------------- Variveis dos Sensores -------------------
 # Constantes para atuação dos fototransistores
-limite_ft_dir_extrem = 21000
-limite_ft_dir_centro = 24500
-limite_ft_esq_centro = 23000
-limite_ft_esq_extrem = 21000
+CONST_FT_DIR_EXT = 21000
+CONST_FT_DIR_CEN = 24500
+CONST_FT_ESQ_CEN = 23000
+CONST_FT_ESQ_EXT = 21000
 
 
 limite_obstaculo_incial = 150
@@ -70,7 +70,7 @@ y1_img_placas_dir, y2_img_placas_dir = 213, 570
 # manha: (150, 255)
 # tarde: (200, 240) 
 # noite: (90, 125)
-tresh_min, tresh_max = 90, 125
+tresh_min, tresh_max = 150, 255
 
 canny_min, canny_max = 1000, 1000
 
@@ -85,8 +85,16 @@ pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt
 
 
 # -------------- Classificadores Placas ------------------
-classificador_pare = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
+classificador_p1 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
+nome_p1 = "Pare"
 
+classificador_p2 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_desvio.xml')
+nome_p2 = "Desvio"
+
+classificador_p3 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
+nome_p3 = "Pedestre"
+
+classificadores = [(nome_p1, classificador_p1), (nome_p2, classificador_p2), (nome_p3, classificador_p3)]
 # --------------------------------------------------------
 
 
