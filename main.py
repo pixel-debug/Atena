@@ -51,7 +51,7 @@ class main:
 	try:
 		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
 			imagem = frame.array
-			#tela.apresenta("Imagem Original", imagem, 10, 10)
+			tela.apresenta("Imagem Original", imagem, 10, 10)
 			#cv2.imshow("Imagem Original", imagem)
 	
 			# ------------------- Obtencao valores sensores ----------------------
