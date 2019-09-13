@@ -53,11 +53,11 @@ taxa_quadros = 10
 
 # ------------- Variaveis das Imagens Filhas -------------
 # Area para detecção das faixas
-x1_faixa_esq, x2_faixa_esq = 160, 280
-y1_faixa_esq, y2_faixa_esq = 490, 650
+x1_faixa_esq, x2_faixa_esq = 155, 215
+y1_faixa_esq, y2_faixa_esq = 525, 645
 
-x1_faixa_dir, x2_faixa_dir = 520, 640
-y1_faixa_dir, y2_faixa_dir = 490, 650
+x1_faixa_dir, x2_faixa_dir = 625, 685
+y1_faixa_dir, y2_faixa_dir = 525, 645
 
 # Area para detecção das placas
 x1_img_placas_dir, x2_img_placas_dir = 572, 830
@@ -76,8 +76,10 @@ tresh_min, tresh_max = 150, 255
 canny_min, canny_max = 1000, 1000
 
 # Pontos da imagem Perspectiva da pista
-pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (50,505), (750,505), (5,570), (795,570)
-pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (160,0), (640,0), (160,680), (640,680)
+# (45,615), (795,615), (0,680), (840,680)
+# (45,505), (795,505), (0,570), (840,570)
+pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (45,615), (795,615), (0,680), (840,680)
+pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (150,0), (690,0), (150,680), (690,680)
 
 pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
 pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
