@@ -18,6 +18,8 @@ import Pista as pista
 #import Placas as placa
 import Tela as tela
 import cv2
+import RPi.GPIO as GPIO
+import Sensores as sensor
 
 '''
 def deteccao_faixas_pista(img):
@@ -91,10 +93,12 @@ def deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 			
 
 def deteccao_obstaculo(distancia_obstaculo):
+	detectou_obstaculo = False
 	if((distancia_obstaculo >= var.CONST_OBSTAC_INI) and (distancia_obstaculo <= var.CONST_OBSTAC_FIM)):
 		detectou_obstaculo = True
-	else:
-		detectou_obstaculo = False
+	
+	sensor.aciona_buzina(detectou_obstaculo)
+		
 	return detectou_obstaculo
 
 '''
