@@ -24,11 +24,11 @@ import adafruit_vl53l0x
 i2c = busio.I2C(board.SCL, board.SDA)
 
 
-def aciona_buzina(ativa_buzina):
-	if ativa_buzina == True:	
-		GPIO.output(var.pin_BUZINA, True)
+def aciona_buzina(ativa):
+	if ativa is True:	
+		GPIO.output(var.pin_BUZINA, ativa)
 	else:
-		GPIO.output(var.pin_BUZINA, False)
+		GPIO.output(var.pin_BUZINA, ativa)
 		
 
 def fototransistores():
