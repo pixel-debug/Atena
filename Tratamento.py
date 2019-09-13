@@ -43,14 +43,23 @@ def deteccao_faixas_pista(img):
 
 
 def deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
-	detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq = False, False, False	
-
+	detectou_faixa_dir_ext, detectou_faixa_dir_cen = False, False 
+	detectou_faixa_esq_cen, detectou_faixa_esq_ext = False, False	
+	
 	if (ft_dir_ext < var.CONST_FT_DIR_EXT):
 		detectou_faixa_dir = True
+
+	elif (ft_dir_cen < var.CONST_FT_DIR_CEN):
+		detectou_faixa_dir_cen = True
+
+	elif (ft_esq_cen < var.CONST_FT_ESQ_CEN):
+		detectou_faixa_esq_cen = True
+
 	elif (ft_esq_ext < var.CONST_FT_ESQ_EXT):
 		detectou_faixa_esq = True
-
-	return detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq
+	
+	
+	return detectou_faixa_dir_ext, detectou_faixa_dir_cen, detectou_faixa_esq_cen, detectou_faixa_esq_ext
 
 
 def deteccao_obstaculo(distancia_obstaculo):
