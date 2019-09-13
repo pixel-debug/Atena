@@ -24,7 +24,7 @@ import adafruit_vl53l0x
 i2c = busio.I2C(board.SCL, board.SDA)
 
 
-def buzzer(ativa_buzina):
+def aciona_buzina(ativa_buzina):
 	if ativa_buzina == True:	
 		GPIO.output(var.pin_BUZINA, True)
 	else:
