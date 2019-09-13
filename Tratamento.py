@@ -21,7 +21,7 @@ import cv2
 import RPi.GPIO as GPIO
 import Sensores as sensor
 
-'''
+
 def deteccao_faixas_pista(img):
 	detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq = False, False, False	
 	img_perspectiva_pista = pista.perspectiva_pista(img)
@@ -42,37 +42,11 @@ def deteccao_faixas_pista(img):
 	elif cx_esq <= 35:
 		detectou_faixa_esq = True
 	return detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq
-'''
 
 
 
-'''
-	detectou_faixa_dir_visao, detectou_faixa_esq_visao = False, False
-
-	img_perspectiva_pista = pista.perspectiva_pista(img)
-	img_filtros = pista.aplicacao_filtros(img_perspectiva_pista) 
-
-	img_faixa_esq = img_filtros[var.y1_faixa_esq:var.y2_faixa_esq, var.x1_faixa_esq:var.x2_faixa_esq]
-	img_faixa_esq, cx_esq = pista.detecta_faixas(img_faixa_esq)
-
-	img_faixa_dir = img_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
-	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
-
-	tela.apresenta("Imagem Original", img, 10, 10)
-	#cv2.imshow("Imagem Original", img)
-	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
-	#tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
-	#tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)	
-	
-
-	if cx_dir >= 70:
-		detectou_faixa_dir_visao = True
-	elif cx_esq <= 45:
-		detectou_faixa_esq_visao = True
 
 '''
-
-
 def deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	detectou_faixa_dir_ext, detectou_faixa_dir_cen = False, False 
 	detectou_faixa_esq_cen, detectou_faixa_esq_ext = False, False
@@ -90,7 +64,7 @@ def deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 		detectou_faixa_esq_ext = True
 
 	return detectou_faixa_dir_ext, detectou_faixa_dir_cen, detectou_faixa_esq_cen, detectou_faixa_esq_ext
-			
+'''			
 
 def deteccao_obstaculo(distancia_obstaculo):
 	detectou_obstaculo = False
