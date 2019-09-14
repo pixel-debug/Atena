@@ -57,32 +57,39 @@ class main:
 			ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext = sensor.fototransistores()
 
 			# Obtendo valores brutos sensor de obstaculo 
-			#distancia_obstaculo = sensor.vl530x()	
+			distancia_obstaculo = sensor.vl530x()	
 			# -------------------------------------------------------------------
 
-			#tela.apresenta("Imagem Original", imagem, 10, 10)
-			#cv2.imshow("Imagem Original", imagem)
-
-
+		
 			# -------------- Obtentendo Respostas dos Tratamentos ---------------
 			# Deteccao das faixas na pista
-			#ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
-
-			ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(imagem, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
+			(
+				ft_deteccao_faixa_dir_ext,
+				ft_deteccao_faixa_dir_cen, 
+				ft_deteccao_faixa_esq_cen, 
+				ft_deteccao_faixa_esq_ext, 
+				vs_deteccao_faixa_dir_ext, 
+				vs_deteccao_faixa_esq_ext
+			) = trata.deteccao_faixas_pista(imagem, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
 
 			# Deteccao de obstaculos na pista
-			#deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
-			deteccao_obstaculo = False			
+			deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
+					
 
 			# Deteccao de placas na pista
 			#deteccao_placa = trata.deteccao_placa(imagem)
 			# -------------------------------------------------------------------
 
-			print(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
-			print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)	
-
+				
+			# ------------------- Condicionais principais -------------------------
 			# Seguir em frente			
-			if((ft_deteccao_faixa_dir_ext is False) and (ft_deteccao_faixa_dir_cen is False) and (ft_deteccao_faixa_esq_cen is False) and (ft_deteccao_faixa_esq_ext is False) and (deteccao_obstaculo is False) and (vs_deteccao_faixa_dir_ext is False) and (vs_deteccao_faixa_esq_ext is False)):
+			if((ft_deteccao_faixa_dir_ext is False) and 
+			(ft_deteccao_faixa_dir_cen is False) and 
+			(ft_deteccao_faixa_esq_cen is False) and 
+			(ft_deteccao_faixa_esq_ext is False) and  
+			(vs_deteccao_faixa_dir_ext is False) and 
+			(vs_deteccao_faixa_esq_ext is False) and
+			(deteccao_obstaculo is False)):
 				#print("Seguir frente")				
 				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
 
@@ -116,14 +123,15 @@ class main:
 			else:
 				print("Parando")	
 				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+			# -------------------------------------------------------------------
 			
-
 			
 			
 
 
 			
 			'''
+			# Somente fototransistores
 			# ------------------- Condicionais principal -------------------------
 			# Seguir em frente			
 			if((deteccao_faixa_dir_ext is False) and (deteccao_faixa_dir_cen is False) and (deteccao_faixa_esq_cen is False) and (deteccao_faixa_esq_ext is False) and (deteccao_obstaculo is False)):
@@ -150,6 +158,11 @@ class main:
 				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 			# -------------------------------------------------------------------
 			'''
+
+			print(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
+			print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
+
+
 			capturaFrames.truncate(0)
 			
 			if cv2.waitKey(1) & 0xFF == 27:
