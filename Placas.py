@@ -25,6 +25,7 @@ camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 
+
 def detecta_placas(img, nome, classificador):
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -34,12 +35,13 @@ def detecta_placas(img, nome, classificador):
 	    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 
 	for (x,y,w,h) in placa_detectada:
-		cv2.putText(img, nome, (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-	
-	for (x,y,w,h) in placa_detectada:
 		distancia_placa = calculo_distancia_placa(x, w)
 
-	return img
+	for (x,y,w,h) in placa_detectada:
+		cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+		cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+	
+		return img
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
@@ -52,6 +54,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	for (n, c) in var.classificadores:
 		imagem_placas = detecta_placas(reigao_placa, n, c)
+		
 		#print(var.classificadores)
 		#if a == "Pedestre":
 		#	print("ok")
@@ -62,7 +65,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 
 	# Apresenta imagem
-	#cv2.imshow("Frame", imagem)
+	cv2.imshow("Frame", imagem)
 
 	cv2.imshow("Regiao Placa", reigao_placa)
 
