@@ -57,7 +57,7 @@ class main:
 			ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext = sensor.fototransistores()
 
 			# Obtendo valores brutos sensor de obstaculo 
-			distancia_obstaculo = sensor.vl530x()	
+			#distancia_obstaculo = sensor.vl530x()	
 			# -------------------------------------------------------------------
 
 			#tela.apresenta("Imagem Original", imagem, 10, 10)
@@ -66,39 +66,60 @@ class main:
 
 			# -------------- Obtentendo Respostas dos Tratamentos ---------------
 			# Deteccao das faixas na pista
-			#deteccao_faixa_dir_ext, deteccao_faixa_dir_cen, deteccao_faixa_esq_cen, deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
+			#ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
 
-			deteccao_faixa_dir_ext, deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(imagem)
+			ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(imagem, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
 
 			# Deteccao de obstaculos na pista
-			deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
-			
+			#deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
+			deteccao_obstaculo = False			
+
 			# Deteccao de placas na pista
 			#deteccao_placa = trata.deteccao_placa(imagem)
 			# -------------------------------------------------------------------
 
-			#print(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
-			#print(deteccao_faixa_dir_ext, deteccao_faixa_dir_cen, deteccao_faixa_esq_cen, deteccao_faixa_esq_ext, deteccao_obstaculo)	
+			print(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
+			print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)	
 
+			# Seguir em frente			
+			if((ft_deteccao_faixa_dir_ext is False) and (ft_deteccao_faixa_dir_cen is False) and (ft_deteccao_faixa_esq_cen is False) and (ft_deteccao_faixa_esq_ext is False) and (deteccao_obstaculo is False) and (vs_deteccao_faixa_dir_ext is False) and (vs_deteccao_faixa_esq_ext is False)):
+				#print("Seguir frente")				
+				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
 
 			# Detccao faixa direita
-			if (deteccao_faixa_dir_ext is  True):
-					while(deteccao_faixa_dir_ext is not False):
-						print("Tem que virar Esquerda") 
+			elif (((ft_deteccao_faixa_dir_ext is  True) or (ft_deteccao_faixa_dir_cen is  True))):
+					while(ft_deteccao_faixa_dir_ext is not False):
+						#print("Virar Esquerda") 
 						motor.movimento_esquerda(controle_velocidade_direita, controle_velocidade_esquerda)
-						deteccao_faixa_dir_ext = False
-			
-			# Detccao faixa esquerda
-			elif (deteccao_faixa_esq_ext is  True):
-					while(deteccao_faixa_esq_ext is not False):
-						print("Tem que virar Direita") 
+						ft_deteccao_faixa_dir_ext = False
+
+			# Detccao faixa direita
+			elif (((ft_deteccao_faixa_esq_ext is  True) or (ft_deteccao_faixa_esq_cen is  True))):
+					while(ft_deteccao_faixa_dir_ext is not False):
+						#print("Virar Direira") 
 						motor.movimento_direita(controle_velocidade_direita, controle_velocidade_esquerda)
-						deteccao_faixa_esq_ext = False
-			
+						ft_deteccao_faixa_esq_ext = False
+
+			elif (vs_deteccao_faixa_dir_ext is True):
+					while(vs_deteccao_faixa_dir_ext is not False):
+						print("Virar Esquerda") 
+						motor.movimento_esquerda(controle_velocidade_direita, controle_velocidade_esquerda)
+						vs_deteccao_faixa_dir_ext = False						
+
+			elif (vs_deteccao_faixa_esq_ext is True):
+					while(vs_deteccao_faixa_esq_ext is not False):
+						print("Virar Direita") 
+						motor.movimento_direita(controle_velocidade_direita, controle_velocidade_esquerda)
+						vs_deteccao_faixa_esq_ext = False
+
 			# Qualquer anomalia, manter robô parado!
 			else:
-				print("Frente")
-				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
+				print("Parando")	
+				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+			
+
+			
+			
 
 
 			
