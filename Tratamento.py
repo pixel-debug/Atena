@@ -23,7 +23,7 @@ import Sensores as sensor
 
 
 def deteccao_faixas_pista(img):
-	detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq = False, False, False	
+	detectou_faixa_dir, detectou_faixa_esq = False, False	
 	img_perspectiva_pista = pista.perspectiva_pista(img)
 	img_filtros = pista.aplicacao_filtros(img_perspectiva_pista) 
 
@@ -33,15 +33,20 @@ def deteccao_faixas_pista(img):
 	img_faixa_dir = img_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
 	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
 
-	tela.apresenta("Imagem Original", img, 10, 10)
+	#tela.apresenta("Imagem Original", img, 10, 10)
+	cv2.imshow("Imagem Original", img)
 	tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
-	if cx_dir >= 50:
+	
+	print(cx_esq, cx_dir)
+	
+	if cx_dir >= 45:
 		detectou_faixa_dir = True
-	elif cx_esq <= 35:
+	elif cx_esq <= 45:
 		detectou_faixa_esq = True
-	return detectou_faixa_dir, detectou_faixa_centro, detectou_faixa_esq
+	
+	return detectou_faixa_dir, detectou_faixa_esq
 
 
 
