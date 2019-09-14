@@ -17,11 +17,11 @@ import cv2
 
 # --------------- Variveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 13
+velocidade = 12
 
 
-vel_correcao_dir = 18
-vel_correcao_esq = 18
+vel_correcao_dir = 15
+vel_correcao_esq = 15
 # --------------------------------------------------------
 
 
@@ -46,18 +46,22 @@ tam_original_tela_x, tam_original_tela_y = 840, 680
 tam_mini_tela_x, tam_mini_tela_y = 480, 320
 
 # Taxa de quadros por segundo
-taxa_quadros = 10
+taxa_quadros = 32
 # --------------------------------------------------------
 
 
 
 # ------------- Variaveis das Imagens Filhas -------------
 # Area para detecção das faixas
-x1_faixa_esq, x2_faixa_esq = 155, 215
-y1_faixa_esq, y2_faixa_esq = 525, 645
+# (155, 215)
+# (525, 645)
+x1_faixa_esq, x2_faixa_esq = 260, 380
+y1_faixa_esq, y2_faixa_esq = 550, 650
 
-x1_faixa_dir, x2_faixa_dir = 625, 685
-y1_faixa_dir, y2_faixa_dir = 525, 645
+# (625, 685)
+# (525, 645)
+x1_faixa_dir, x2_faixa_dir = 460, 580
+y1_faixa_dir, y2_faixa_dir = 550, 650
 
 # Area para detecção das placas
 x1_img_placas_dir, x2_img_placas_dir = 572, 830
@@ -78,8 +82,10 @@ canny_min, canny_max = 1000, 1000
 # Pontos da imagem Perspectiva da pista
 # (45,615), (795,615), (0,680), (840,680)
 # (45,505), (795,505), (0,570), (840,570)
-pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (45,615), (795,615), (0,680), (840,680)
-pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (150,0), (690,0), (150,680), (690,680)
+pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (45,505), (795,505), (0,570), (840,570)
+
+
+pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (250,0), (590,0), (250,680), (590,680)
 
 pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
 pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
