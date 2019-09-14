@@ -22,8 +22,11 @@ import RPi.GPIO as GPIO
 import Sensores as sensor
 
 
-def deteccao_faixas_pista(img):
-	detectou_faixa_dir, detectou_faixa_esq = False, False	
+def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
+	ft_detectou_faixa_dir_ext, ft_detectou_faixa_esq_ext = False, False 
+	ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen = False, False
+	vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext = False, False
+
 	img_perspectiva_pista = pista.perspectiva_pista(img)
 	img_filtros = pista.aplicacao_filtros(img_perspectiva_pista) 
 
@@ -33,6 +36,24 @@ def deteccao_faixas_pista(img):
 	img_faixa_dir = img_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
 	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
 
+	
+	if (ft_dir_ext < var.CONST_FT_DIR_EXT):
+		ft_detectou_faixa_dir_ext = True
+
+	elif (ft_dir_cen < var.CONST_FT_DIR_CEN):
+		ft_detectou_faixa_dir_cen = True
+
+	elif (ft_esq_cen < var.CONST_FT_ESQ_CEN):
+		ft_detectou_faixa_esq_cen = True
+
+	elif (ft_esq_ext < var.CONST_FT_ESQ_EXT):
+		ft_detectou_faixa_esq_ext = True
+
+	if cx_dir >= 70:
+		vs_detectou_faixa_dir_ext = True
+	if cx_esq <= 45:
+		vs_detectou_faixa_esq_ext = True
+
 	#tela.apresenta("Imagem Original", img, 10, 10)
 	cv2.imshow("Imagem Original", img)
 	tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
@@ -41,12 +62,9 @@ def deteccao_faixas_pista(img):
 	
 	print(cx_esq, cx_dir)
 	
-	if cx_dir >= 45:
-		detectou_faixa_dir = True
-	elif cx_esq <= 45:
-		detectou_faixa_esq = True
 	
-	return detectou_faixa_dir, detectou_faixa_esq
+	
+	return ft_detectou_faixa_dir_ext, ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen, ft_detectou_faixa_esq_ext, vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext
 
 
 
