@@ -17,18 +17,18 @@ import cv2
 
 # --------------- Variveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 12
+velocidade = 13
 
 
-vel_correcao_dir = 15
-vel_correcao_esq = 15
+vel_correcao_dir = 14
+vel_correcao_esq = 14
 # --------------------------------------------------------
 
 
 # -------------- Variveis dos Sensores -------------------
 # Constantes para atuação dos fototransistores
 CONST_FT_DIR_EXT = 20000
-CONST_FT_DIR_CEN = 22000
+CONST_FT_DIR_CEN = 2200
 CONST_FT_ESQ_CEN = 22000
 CONST_FT_ESQ_EXT = 22000
 
