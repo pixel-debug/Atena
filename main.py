@@ -60,15 +60,15 @@ class main:
 			distancia_obstaculo = sensor.vl530x()	
 			# -------------------------------------------------------------------
 
-			tela.apresenta("Imagem Original", imagem, 10, 10)
+			#tela.apresenta("Imagem Original", imagem, 10, 10)
 			#cv2.imshow("Imagem Original", imagem)
 
 
 			# -------------- Obtentendo Respostas dos Tratamentos ---------------
 			# Deteccao das faixas na pista
-			deteccao_faixa_dir_ext, deteccao_faixa_dir_cen, deteccao_faixa_esq_cen, deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
+			#deteccao_faixa_dir_ext, deteccao_faixa_dir_cen, deteccao_faixa_esq_cen, deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
 
-			#deteccao_faixa_dir, deteccao_faixa_centro, deteccao_faixa_esq = trata.deteccao_faixas_pista(imagem)
+			deteccao_faixa_dir_ext, deteccao_faixa_esq_ext = trata.deteccao_faixas_pista(imagem)
 
 			# Deteccao de obstaculos na pista
 			deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
@@ -78,9 +78,31 @@ class main:
 			# -------------------------------------------------------------------
 
 			#print(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
-			print(deteccao_faixa_dir_ext, deteccao_faixa_dir_cen, deteccao_faixa_esq_cen, deteccao_faixa_esq_ext, deteccao_obstaculo)	
+			#print(deteccao_faixa_dir_ext, deteccao_faixa_dir_cen, deteccao_faixa_esq_cen, deteccao_faixa_esq_ext, deteccao_obstaculo)	
+
+
+			# Detccao faixa direita
+			if (deteccao_faixa_dir_ext is  True):
+					while(deteccao_faixa_dir_ext is not False):
+						print("Tem que virar Esquerda") 
+						motor.movimento_esquerda(controle_velocidade_direita, controle_velocidade_esquerda)
+						deteccao_faixa_dir_ext = False
 			
+			# Detccao faixa esquerda
+			elif (deteccao_faixa_esq_ext is  True):
+					while(deteccao_faixa_esq_ext is not False):
+						print("Tem que virar Direita") 
+						motor.movimento_direita(controle_velocidade_direita, controle_velocidade_esquerda)
+						deteccao_faixa_esq_ext = False
 			
+			# Qualquer anomalia, manter robô parado!
+			else:
+				print("Frente")
+				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
+
+
+			
+			'''
 			# ------------------- Condicionais principal -------------------------
 			# Seguir em frente			
 			if((deteccao_faixa_dir_ext is False) and (deteccao_faixa_dir_cen is False) and (deteccao_faixa_esq_cen is False) and (deteccao_faixa_esq_ext is False) and (deteccao_obstaculo is False)):
@@ -106,7 +128,7 @@ class main:
 				#print("Parando")
 				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 			# -------------------------------------------------------------------
-
+			'''
 			capturaFrames.truncate(0)
 			
 			if cv2.waitKey(1) & 0xFF == 27:
