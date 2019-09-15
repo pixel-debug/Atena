@@ -76,4 +76,5 @@ def deteccao_obstaculo(distancia_obstaculo):
 
 
 
+def deteccao_placas(img, classificadores):
    
