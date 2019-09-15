@@ -45,6 +45,8 @@ print("Inicializando Sistema...")
 time.sleep(0.5)
 print("Pronto!")
 
+contador_tempo = 0
+
 class main:
 	try:
 		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):	
@@ -84,7 +86,28 @@ class main:
 			) = trata.deteccao_placas(imagem)
 			# -------------------------------------------------------------------
 
-			print(deteccao_placa_pare, deteccao_placa_pedestre, deteccao_placa_desvio)
+			#print(deteccao_placa_pare, deteccao_placa_pedestre, deteccao_placa_desvio)
+			
+			motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
+			print("Frente")			
+			if(deteccao_placa_pare is True):
+				#contador_tempo = 0
+				print("placa detectada! Aguardando...")
+				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+				time.sleep(4)
+				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
+				time.sleep(2)
+				deteccao_placa_pare = False
+				'''
+				while(contador_tempo <= 200):
+					motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)	
+					print(contador_tempo)					
+					contador_tempo += 1
+				'''			
+
+			
+
+			
 
 			'''				
 			# ------------------- Condicionais principais -------------------------
