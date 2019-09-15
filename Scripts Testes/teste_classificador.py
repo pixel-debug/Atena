@@ -24,10 +24,27 @@ camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_60.xml')
+
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_cachorro.xml')
+
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_desvio.xml')
+
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_homem.xml')
+
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_mulher.xml')
+
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare.xml')
-classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
+
+classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
+
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_proibido_virar.xml')
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
+
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_virar.xml')
+
+
+
+
 
 # Captura dos quadros por segundo
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -40,7 +57,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	faces = classificador.detectMultiScale(gray, 1.1, 5)
 
 	for (x,y,w,h) in faces:
-	    cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,255),2)
+	    cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
  
 	# Apresenta imagem
 	cv2.imshow("Frame", image)
