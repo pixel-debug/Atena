@@ -12,7 +12,7 @@
 
 # --------------------------------------------------------
 
-def detecta_placas(img, classificadores):
+def detecta_placa(img, classificadores):
 	deteccao, nome_real, distancia_placa = " - ",  " - ", " - "
 	val_pare, val_pedestre, val_desvio =  False, False, False
 
