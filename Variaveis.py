@@ -15,7 +15,7 @@
 import numpy as np
 import cv2
 
-# --------------- Variveis dos Motores -------------------
+# --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
 velocidade = 11
 
@@ -25,7 +25,7 @@ vel_correcao_esq = 15
 # --------------------------------------------------------
 
 
-# -------------- Variveis dos Sensores -------------------
+# -------------- Contantes dos Sensores ------------------
 # Constantes para atuação dos fototransistores
 CONST_FT_DIR_EXT = 22500
 CONST_FT_DIR_CEN = 22500
@@ -33,13 +33,13 @@ CONST_FT_ESQ_CEN = 22000
 CONST_FT_ESQ_EXT = 22000
 
 
-CONST_OBSTAC_INI = 100
+CONST_OBSTAC_INI = 70
 CONST_OBSTAC_FIM = 150
 
 # --------------------------------------------------------
 
 
-# ------------- Variveis Imagens e Tela ------------------
+# ------------- Variaveis Imagens e Tela ------------------
 # Tamanho Tela
 tam_original_tela_x, tam_original_tela_y = 840, 680
 
@@ -94,10 +94,8 @@ pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt
 
 
 # -------------- Classificadores Placas ------------------
-classificador_p1 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare_2.xml')
+classificador_p1 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare.xml')
 nome_p1 = "Pare"
-
-cl_pare = nome_p1, classificador_p1
 
 classificador_p2 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_desvio.xml')
 nome_p2 = "Desvio"
@@ -110,6 +108,15 @@ classificadores = 	[
 				(nome_p2, classificador_p2), 
 				(nome_p3, classificador_p3)
 					]
+# --------------------------------------------------------
+
+
+
+# -------------- Constantes das Placas -------------------
+# Constantes para distancia de deteccao das placas
+CONST_DETECCAO_INI = 11
+CONST_DETECCAO_FIM = 15
+
 # --------------------------------------------------------
 
 
