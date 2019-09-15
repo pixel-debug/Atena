@@ -27,13 +27,13 @@ rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_
 
 
 def detecta_placas(img, cls):
-	val_pedestre, val_pare =  False, False
-
+	val_pare, val_pedestre, val_desvio =  False, False, False
+	
 	nome, classificador = cls
 		
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
-	placa_detectada = classificador.detectMultiScale(img_gray, 1.1, 5)
+	placa_detectada = classificador.detectMultiScale(img_gray, 1.2, 10)
 
 	for (x,y,w,h) in placa_detectada:
 	    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
@@ -44,13 +44,15 @@ def detecta_placas(img, cls):
 	for (x,y,w,h) in placa_detectada:
 		cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 		cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-	for (x,y,w,h) in placa_detectada:
 		if nome == "Pare":
-			val_pare = True	
+			val_pare = True
 		elif nome == "Pedestre":
 			val_pedestre = True
+		elif nome == "Desvio":
+			val_desvio = True 
+
 		
-	return img, val_pare,  val_pedestre
+	return val_pare, val_pedestre, val_desvio
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
@@ -63,7 +65,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	
+	for c in var.classificadores:
+		a, b, c = detecta_placas(imagem, c)
+		print("Pare: {0}\tPedestre: {1} \tDesvio: {2}".format(a, b, c))	
 
 	# Apresenta imagem
 	cv2.imshow("Frame", imagem)
