@@ -55,12 +55,12 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	if cx_esq <= 45:
 		vs_detectou_faixa_esq_ext = True
 
-	tela.apresenta("Imagem Original", img, 10, 10)
+	#tela.apresenta("Imagem Original", img, 10, 10)
 	tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	
-	print(cx_esq, cx_dir)
+	#print(cx_esq, cx_dir)
 	
 	return ft_detectou_faixa_dir_ext, ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen, ft_detectou_faixa_esq_ext, vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext
 
@@ -77,21 +77,23 @@ def deteccao_obstaculo(distancia_obstaculo):
 
 
 
-def deteccao_placas(img, classificadores):
+def deteccao_placas(img):
 	detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio = False, False, False 
 		
-   img_area_detecao_placa = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
+	img_area_detecao_placa = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(imagem, var.classificadores)
+	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img_area_detecao_placa, var.classificadores)
 	
 	if nome_placa == var.nome_p1:
 		detectou_plc_pare = True
-	if nome == var.nome_p2:
+	if nome_placa == var.nome_p2:
 		detectou_plc_pedestre = True
-	if nome == var.nome_p3:
+	if nome_placa == var.nome_p3:
 		detectou_plc_desvio = True
 
-	
+	tela.apresenta("Imagem Original", img_area_detecao_placa, 10, 10)
+
+	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 
 
 
