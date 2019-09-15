@@ -12,22 +12,9 @@
 
 # --------------------------------------------------------
 
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-import RPi.GPIO as GPIO
-import time
-import cv2
-import Variaveis as var
-
-# Inicializacao e configuracao da camera 
-camera = PiCamera()
-camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
-
-
 def detecta_placas(img, classificadores):
 	deteccao, nome_real, distancia_placa = " - ",  " - ", " - "
+	val_pare, val_pedestre, val_desvio =  False, False, False
 
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 	
@@ -45,15 +32,15 @@ def detecta_placas(img, classificadores):
 		for (x,y,w,h) in img_detecta_placa:
 			cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 			cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-			if nome == "Pare":
+			if nome == var.nome_p1:
 				nome_real = nome
 				val_pare = True
 				deteccao = val_pare
-			if nome == "Pedestre":
+			if nome == var.nome_p2:
 				nome_real = nome
 				val_pedestre = True
 				deteccao = val_pedestre
-			if nome == "Desvio":
+			if nome == var.nome_p3:
 				nome_real = nome
 				val_desvio = True
 				deteccao = val_desvio 
@@ -65,7 +52,21 @@ def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
 
 
-cont = 0
+'''
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import RPi.GPIO as GPIO
+import time
+import cv2
+import Variaveis as var
+
+# Inicializacao e configuracao da camera 
+camera = PiCamera()
+camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
+
+
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	imagem = frame.array
@@ -90,6 +91,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	 
 print("Cleaning up")
 GPIO.cleanup()
-
+'''
 
 
