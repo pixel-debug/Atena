@@ -26,39 +26,40 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 
 
-def detecta_placas(img, c):
-	res, val_pare, val_pedestre, val_desvio =  False, False, False, False
-	distancia_placa = 0
-	
-	#nome, classificador = cls
-	nome, classificador = c
-	#nome = n
-		
+def detecta_placas(img, classificadores):
+	deteccao, nome_real, distancia_placa = " - ",  " - ", " - "
+
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	
+	for c in classificadores:
+		nome, classificador = c
+		
+		img_detecta_placa = classificador.detectMultiScale(img_gray, 1.2, 10)
+		
+		for (x,y,w,h) in img_detecta_placa:
+			cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 
-	placa_detectada = classificador.detectMultiScale(img_gray, 1.2, 10)
+		for (x,y,w,h) in img_detecta_placa:
+			distancia_placa = calculo_distancia_placa(x, w)
 
-	for (x,y,w,h) in placa_detectada:
-	    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-
-	for (x,y,w,h) in placa_detectada:
-		distancia_placa = calculo_distancia_placa(x, w)
-
-	for (x,y,w,h) in placa_detectada:
-		cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-		cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-		if nome == "Pare":
-			val_pare = True
-			res = val_pare
-		elif nome == "Pedestre":
-			val_pedestre = True
-			res = val_pedestre
-		elif nome == "Desvio":
-			val_desvio = True
-			res = val_desvio 
+		for (x,y,w,h) in img_detecta_placa:
+			cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+			cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+			if nome == "Pare":
+				nome_real = nome
+				val_pare = True
+				deteccao = val_pare
+			if nome == "Pedestre":
+				nome_real = nome
+				val_pedestre = True
+				deteccao = val_pedestre
+			if nome == "Desvio":
+				nome_real = nome
+				val_desvio = True
+				deteccao = val_desvio 
 
 		
-	return res, distancia_placa
+	return deteccao, nome_real, distancia_placa
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
@@ -71,16 +72,10 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	a, dd = detecta_placas(imagem, var.clsss)
-	#b = detecta_placas(imagem, var.nome_p2, var.classificador_p2)
-	#c = detecta_placas(imagem, var.nome_p3, var.classificador_p3)
+	a, nn, dd = detecta_placas(imagem, var.classificadores)
 	
-	print("Pare: {0} \tDistancia: {1}".format(a, dd))
-	'''
-	for c in var.classificadores:
-		a, b, c = detecta_placas(imagem, c)
-		print("Pare: {0}\tPedestre: {1} \tDesvio: {2}".format(a, b, c))	
-	'''
+	print("Detectou Placa: {0} \tNome Placa: {1} \tDistancia Placa: {2}".format(a, nn, dd))
+	
 	# Apresenta imagem
 	cv2.imshow("Frame", imagem)
 
