@@ -27,7 +27,8 @@ rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_
 
 
 def detecta_placas(img, n, cls):
-	val_pare, val_pedestre, val_desvio =  False, False, False
+	res, val_pare, val_pedestre, val_desvio =  False, False, False, False
+	distancia_placa = 0
 	
 	#nome, classificador = cls
 	classificador = cls
@@ -48,13 +49,16 @@ def detecta_placas(img, n, cls):
 		cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 		if nome == "Pare":
 			val_pare = True
+			res = val_pare
 		elif nome == "Pedestre":
 			val_pedestre = True
+			res = val_pedestre
 		elif nome == "Desvio":
-			val_desvio = True 
+			val_desvio = True
+			res = val_desvio 
 
 		
-	return val_pare
+	return res, distancia_placa
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
@@ -67,8 +71,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	a = detecta_placas(imagem, var.nome_p1, var.classificador_p1)
-	print("Pare: {0}".format(a))
+	a, dd = detecta_placas(imagem, var.nome_p1, var.classificador_p1)
+	#b = detecta_placas(imagem, var.nome_p2, var.classificador_p2)
+	#c = detecta_placas(imagem, var.nome_p3, var.classificador_p3)
+	
+	print("Pare: {0} \tDistancia: {1}".format(a, dd))
 	'''
 	for c in var.classificadores:
 		a, b, c = detecta_placas(imagem, c)
