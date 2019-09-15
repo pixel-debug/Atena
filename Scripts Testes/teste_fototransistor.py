@@ -32,5 +32,5 @@ ft_esq_extrem = AnalogIn(ads, ADS.P3)
 
 # 1º valor raw e 2º valor da tensão
 while True:
-    print("A0: {:>5}\tA1: {:>5} \tA2: {:>5}\tA3: {:>5}".format(ft_dir_extrem.value, ft_dir_centro.value, ft_esq_centro.value, ft_esq_extrem.value))
+    print("ft_dir_ext: {:>5}\tft_dir_cen: {:>5} \tft_esq_cen: {:>5}\tft_esq_ext: {:>5}".format(ft_dir_extrem.value, ft_dir_centro.value, ft_esq_centro.value, ft_esq_extrem.value))
     time.sleep(0.5)
