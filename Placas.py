@@ -11,6 +11,8 @@
 #	Script: Placas
 
 # --------------------------------------------------------
+import cv2
+import Variaveis as var
 
 def detecta_placa(img, classificadores):
 	deteccao, nome_real, distancia_placa = " - ",  " - ", " - "
