@@ -83,37 +83,43 @@ class main:
 				
 			# ------------------- Condicionais principais -------------------------
 			# Seguir em frente			
-			if((ft_deteccao_faixa_dir_ext is False) and 
+			if(
+			(ft_deteccao_faixa_dir_ext is False) and 
 			(ft_deteccao_faixa_dir_cen is False) and 
 			(ft_deteccao_faixa_esq_cen is False) and 
 			(ft_deteccao_faixa_esq_ext is False) and  
 			(vs_deteccao_faixa_dir_ext is False) and 
 			(vs_deteccao_faixa_esq_ext is False) and
-			(deteccao_obstaculo is False)):
+			(deteccao_obstaculo is False)
+			):
 				#print("Seguir frente")				
 				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
 
 			# Detccao faixa direita
 			elif (((ft_deteccao_faixa_dir_ext is  True) or (ft_deteccao_faixa_dir_cen is  True))):
-					while(ft_deteccao_faixa_dir_ext is not False):
-						#print("Virar Esquerda") 
-						motor.movimento_esquerda(controle_velocidade_direita, controle_velocidade_esquerda)
-						ft_deteccao_faixa_dir_ext = False
+				vs_deteccao_faixa_dir_ext = False
+				while(ft_deteccao_faixa_dir_ext is not False):
+					#print("Virar Esquerda") 
+					motor.movimento_esquerda(controle_velocidade_direita, controle_velocidade_esquerda)
+					ft_deteccao_faixa_dir_ext = False
 
 			# Detccao faixa direita
 			elif (((ft_deteccao_faixa_esq_ext is  True) or (ft_deteccao_faixa_esq_cen is  True))):
-					while(ft_deteccao_faixa_dir_ext is not False):
-						#print("Virar Direira") 
-						motor.movimento_direita(controle_velocidade_direita, controle_velocidade_esquerda)
-						ft_deteccao_faixa_esq_ext = False
+				vs_deteccao_faixa_esq_ext = False
+				while(ft_deteccao_faixa_dir_ext is not False):
+					#print("Virar Direira") 
+					motor.movimento_direita(controle_velocidade_direita, controle_velocidade_esquerda)
+					ft_deteccao_faixa_esq_ext = False
 
 			elif (vs_deteccao_faixa_dir_ext is True):
+				if((ft_deteccao_faixa_dir_ext is False) and (ft_deteccao_faixa_dir_cen is False)):
 					while(vs_deteccao_faixa_dir_ext is not False):
 						print("Virar Esquerda") 
 						motor.movimento_esquerda(controle_velocidade_direita, controle_velocidade_esquerda)
 						vs_deteccao_faixa_dir_ext = False						
 
 			elif (vs_deteccao_faixa_esq_ext is True):
+				if((ft_deteccao_faixa_esq_ext is  False) and (ft_deteccao_faixa_esq_cen is  False)):
 					while(vs_deteccao_faixa_esq_ext is not False):
 						print("Virar Direita") 
 						motor.movimento_direita(controle_velocidade_direita, controle_velocidade_esquerda)
