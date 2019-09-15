@@ -72,9 +72,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	a, nn, dd = detecta_placas(imagem, var.classificadores)
+	detectou_placa, nome_placa, distancia_placa = detecta_placas(imagem, var.classificadores)
 	
-	print("Detectou Placa: {0} \tNome Placa: {1} \tDistancia Placa: {2}".format(a, nn, dd))
+	print("Detectou Placa: {0} \tNome Placa: {1} \tDistancia Placa: {2}".format(detectou_placa, nome_placa, distancia_placa))
 	
 	# Apresenta imagem
 	cv2.imshow("Frame", imagem)
@@ -92,22 +92,4 @@ print("Cleaning up")
 GPIO.cleanup()
 
 
-'''
-for c in var.classificadores:
-		imagem_placas, n, m = detecta_placas(reigao_placa, c)
-		
-	if m is True:
-		lock = True
-		while(lock):
-			cont += 1
-			lock = False
-
-	if n is True:
-		lock = True
-		while(lock):
-			cont -= 1
-			lock = False
-				
-	print(m, n, cont)
-'''
 
