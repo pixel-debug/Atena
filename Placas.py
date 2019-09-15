@@ -26,13 +26,13 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 
 
-def detecta_placas(img, n, cls):
+def detecta_placas(img, c):
 	res, val_pare, val_pedestre, val_desvio =  False, False, False, False
 	distancia_placa = 0
 	
 	#nome, classificador = cls
-	classificador = cls
-	nome = n
+	nome, classificador = c
+	#nome = n
 		
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -71,7 +71,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	a, dd = detecta_placas(imagem, var.nome_p1, var.classificador_p1)
+	a, dd = detecta_placas(imagem, var.clsss)
 	#b = detecta_placas(imagem, var.nome_p2, var.classificador_p2)
 	#c = detecta_placas(imagem, var.nome_p3, var.classificador_p3)
 	
