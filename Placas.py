@@ -26,7 +26,11 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 
 
-def detecta_placas(img, nome, classificador):
+def detecta_placas(img, cls):
+	val_pedestre, val_pare =  False, False
+
+	nome, classificador = cls
+		
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
 	placa_detectada = classificador.detectMultiScale(img_gray, 1.1, 5)
@@ -40,29 +44,26 @@ def detecta_placas(img, nome, classificador):
 	for (x,y,w,h) in placa_detectada:
 		cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 		cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-	
-		return img
+	for (x,y,w,h) in placa_detectada:
+		if nome == "Pare":
+			val_pare = True	
+		elif nome == "Pedestre":
+			val_pedestre = True
+		
+	return img, val_pare,  val_pedestre
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
 
+
+cont = 0
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	imagem = frame.array
 
 	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	for (n, c) in var.classificadores:
-		imagem_placas = detecta_placas(reigao_placa, n, c)
-		
-		#print(var.classificadores)
-		#if a == "Pedestre":
-		#	print("ok")
-	#imagem_p2 = detecta_placas(var.nome_p2, reigao_placa, var.classificador_p2)
-
-	#imagem_p3 = detecta_placas(var.nome_p3, reigao_placa, var.classificador_p3)
-
-
+	
 
 	# Apresenta imagem
 	cv2.imshow("Frame", imagem)
@@ -78,4 +79,24 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	 
 print("Cleaning up")
 GPIO.cleanup()
+
+
+'''
+for c in var.classificadores:
+		imagem_placas, n, m = detecta_placas(reigao_placa, c)
+		
+	if m is True:
+		lock = True
+		while(lock):
+			cont += 1
+			lock = False
+
+	if n is True:
+		lock = True
+		while(lock):
+			cont -= 1
+			lock = False
+				
+	print(m, n, cont)
+'''
 
