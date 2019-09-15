@@ -77,4 +77,17 @@ def deteccao_obstaculo(distancia_obstaculo):
 
 
 def deteccao_placas(img, classificadores):
-   
+	detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio = False, False, False 
+		
+   img_area_detecao_placa = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
+
+
+
+
+
+
+
+
+
+
+
