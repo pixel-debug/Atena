@@ -26,10 +26,12 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 
 
-def detecta_placas(img, cls):
+def detecta_placas(img, n, cls):
 	val_pare, val_pedestre, val_desvio =  False, False, False
 	
-	nome, classificador = cls
+	#nome, classificador = cls
+	classificador = cls
+	nome = n
 		
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
@@ -52,7 +54,7 @@ def detecta_placas(img, cls):
 			val_desvio = True 
 
 		
-	return val_pare, val_pedestre, val_desvio
+	return val_pare
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
@@ -65,10 +67,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
+	a = detecta_placas(imagem, var.nome_p1, var.classificador_p1)
+	print("Pare: {0}".format(a))
+	'''
 	for c in var.classificadores:
 		a, b, c = detecta_placas(imagem, c)
 		print("Pare: {0}\tPedestre: {1} \tDesvio: {2}".format(a, b, c))	
-
+	'''
 	# Apresenta imagem
 	cv2.imshow("Frame", imagem)
 
