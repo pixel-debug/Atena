@@ -54,40 +54,16 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	if cx_esq <= 45:
 		vs_detectou_faixa_esq_ext = True
 
-	#tela.apresenta("Imagem Original", img, 10, 10)
-	cv2.imshow("Imagem Original", img)
+	tela.apresenta("Imagem Original", img, 10, 10)
 	tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	
 	print(cx_esq, cx_dir)
 	
-	
-	
 	return ft_detectou_faixa_dir_ext, ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen, ft_detectou_faixa_esq_ext, vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext
 
 
-
-
-'''
-def deteccao_faixas_pista(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
-	detectou_faixa_dir_ext, detectou_faixa_dir_cen = False, False 
-	detectou_faixa_esq_cen, detectou_faixa_esq_ext = False, False
-
-	if (ft_dir_ext < var.CONST_FT_DIR_EXT):
-		detectou_faixa_dir_ext = True
-
-	elif (ft_dir_cen < var.CONST_FT_DIR_CEN):
-		detectou_faixa_dir_cen = True
-
-	elif (ft_esq_cen < var.CONST_FT_ESQ_CEN):
-		detectou_faixa_esq_cen = True
-
-	elif (ft_esq_ext < var.CONST_FT_ESQ_EXT):
-		detectou_faixa_esq_ext = True
-
-	return detectou_faixa_dir_ext, detectou_faixa_dir_cen, detectou_faixa_esq_cen, detectou_faixa_esq_ext
-'''			
 
 def deteccao_obstaculo(distancia_obstaculo):
 	detectou_obstaculo = False
@@ -98,20 +74,6 @@ def deteccao_obstaculo(distancia_obstaculo):
 		
 	return detectou_obstaculo
 
-'''
-def deteccao_placa(img):
-	detectou_placa =  False
-	
-	img_regiao_placas = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
-
-	for p in var.classificadores
-		nome_placa, distancia_placa = placa.detecta_placas(img_regiao_placas, p)
-	
-	if (distancia_placa >= 15 and distancia_placa <= 17):
-		detectou_placa = True
-	
-	return detectou_placa
-'''
 
 
    
