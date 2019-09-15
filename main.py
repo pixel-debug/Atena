@@ -77,10 +77,16 @@ class main:
 					
 
 			# Deteccao de placas na pista
-			#deteccao_placa = trata.deteccao_placa(imagem)
+			(
+				deteccao_placa_pare, 
+				deteccao_placa_pedestre, 
+				deteccao_placa_desvio 
+			) = trata.deteccao_placas(imagem)
 			# -------------------------------------------------------------------
 
-				
+			print(deteccao_placa_pare, deteccao_placa_pedestre, deteccao_placa_desvio)
+
+			'''				
 			# ------------------- Condicionais principais -------------------------
 			# Seguir em frente			
 			if(
@@ -130,7 +136,7 @@ class main:
 				print("Parando")	
 				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 			# -------------------------------------------------------------------
-			
+			'''
 			
 			
 
@@ -165,8 +171,8 @@ class main:
 			# -------------------------------------------------------------------
 			'''
 
-			print(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
-			print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
+			#print(ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext)
+			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
 
 
 			capturaFrames.truncate(0)
