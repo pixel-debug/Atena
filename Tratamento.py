@@ -20,6 +20,7 @@ import Tela as tela
 import cv2
 import RPi.GPIO as GPIO
 import Sensores as sensor
+import Placas as placa
 
 
 def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
@@ -81,11 +82,16 @@ def deteccao_placas(img, classificadores):
 		
    img_area_detecao_placa = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
+	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(imagem, var.classificadores)
+	
+	if nome_placa == var.nome_p1:
+		detectou_plc_pare = True
+	if nome == var.nome_p2:
+		detectou_plc_pedestre = True
+	if nome == var.nome_p3:
+		detectou_plc_desvio = True
 
-
-
-
-
+	
 
 
 
