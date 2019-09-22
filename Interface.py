@@ -20,4 +20,13 @@ pygame.init()
 pygame.display.set_mode((var.tam_original_tela_x, var.tam_original_tela_y))
 pygame.display.set_caption("Atena - Meta 2019")
 
-#pygame.quit()
+inciar = True
+
+while inciar:
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			inciar = False
+		print(event)
+	pygame.display.update()
+
+pygame.quit()
