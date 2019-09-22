@@ -55,7 +55,7 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	if cx_esq <= 45:
 		vs_detectou_faixa_esq_ext = True
 
-	#tela.apresenta("Imagem Original", img, 10, 10)
+	tela.apresenta("Imagem Original", img, 10, 10)
 	tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
@@ -68,7 +68,7 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 
 def deteccao_obstaculo(distancia_obstaculo):
 	detectou_obstaculo = False
-	if((distancia_obstaculo >= var.CONST_OBSTAC_INI) and (distancia_obstaculo <= var.CONST_OBSTAC_FIM)):
+	if((distancia_obstaculo >= 0) and (distancia_obstaculo <= var.CONST_OBSTAC)):
 		detectou_obstaculo = True
 	
 	sensor.aciona_buzina(detectou_obstaculo)
@@ -91,7 +91,7 @@ def deteccao_placas(img):
 	if nome_placa == var.nome_p3:
 		detectou_plc_desvio = True
 
-	tela.apresenta("Imagem Original", img_area_detecao_placa, 10, 10)
+	#tela.apresenta("Imagem Original", img_area_detecao_placa, 10, 10)
 
 	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 
