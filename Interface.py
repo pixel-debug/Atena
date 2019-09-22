@@ -11,3 +11,7 @@
 #	Script: Interface
 
 # --------------------------------------------------------
+
+import pygame
+
+pygame.init()
