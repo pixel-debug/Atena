@@ -17,11 +17,9 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 11
+velocidade = 30
 
-
-vel_correcao_dir = 15
-vel_correcao_esq = 15
+velEmergencia = 25
 # --------------------------------------------------------
 
 
@@ -32,9 +30,7 @@ CONST_FT_DIR_CEN = 22500
 CONST_FT_ESQ_CEN = 22000
 CONST_FT_ESQ_EXT = 22000
 
-
-CONST_OBSTAC_INI = 70
-CONST_OBSTAC_FIM = 150
+CONST_OBSTAC = 150
 
 # --------------------------------------------------------
 
@@ -117,6 +113,8 @@ classificadores = 	[
 CONST_DETECCAO_INI = 11
 CONST_DETECCAO_FIM = 15
 
+# Tempo de espera [ 12 = 5 segundos reais] 
+CONST_TEMPO_ESPERA = 12
 # --------------------------------------------------------
 
 
