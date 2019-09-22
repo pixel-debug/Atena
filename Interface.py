@@ -18,5 +18,6 @@ import Variaveis as var
 pygame.init()
 
 pygame.display.set_mode((var.tam_original_tela_x, var.tam_original_tela_y))
+pygame.display.set_caption("Atena - Meta 2019")
 
-pygame.quit()
+#pygame.quit()
