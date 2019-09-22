@@ -154,11 +154,7 @@ class main:
 						#print("Virar Direita com Visao") 
 						motor.movimento_direita(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
 						vs_deteccao_faixa_esq = False
-			
-
-			elif(deteccao_placa_pare is True):
-				placa_pare()
-
+		
 
 			# Qualquer anomalia, manter robô parado!
 			else:
@@ -166,6 +162,18 @@ class main:
 				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 
 
+
+			if(deteccao_placa_pare is True):
+				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
+				time.sleep(1)
+
+				print("placa detectada! Aguardando...")
+				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+				time.sleep(4)
+		
+				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
+				time.sleep(1)
+				deteccao_placa_pare = False
 			
 			# -------------------------------------------------------------------
 			
