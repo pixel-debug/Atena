@@ -20,6 +20,7 @@ pygame.init()
 
 pos_x = var.tam_original_tela_x/2 
 pos_y = var.tam_original_tela_y/2
+tamanho = 10
 
 fundo = pygame.display.set_mode((var.tam_original_tela_x, var.tam_original_tela_y))
 pygame.display.set_caption("Atena - Meta 2019")
@@ -32,6 +33,8 @@ while inciar:
 			inciar = False
 		print(event)
 	fundo.fill(var.cor_branco)
+	pygame.draw.rect(fundo, var.cor_preto, [pos_x, pos_y, tamanho, tamanho])
+	
 	pygame.display.update()
 
 pygame.quit()
