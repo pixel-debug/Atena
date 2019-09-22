@@ -49,21 +49,16 @@ contador_tempo = 0
 
 def placa_pare():
 	motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
-	print("Frente")			
-	if(deteccao_placa_pare is True):
-		#contador_tempo = 0
-		print("placa detectada! Aguardando...")
-		motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
-		time.sleep(4)
-		motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
-		time.sleep(2)
-		deteccao_placa_pare = False
-		'''
-		while(contador_tempo <= 200):
-		motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)	
-		print(contador_tempo)					
-		contador_tempo += 1
-		'''			
+	time.sleep(1)		
+
+	print("placa detectada! Aguardando...")
+	motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+	time.sleep(4)
+		
+	motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
+	time.sleep(1)
+	deteccao_placa_pare = False
+		
 
 
 class main:
@@ -111,16 +106,16 @@ class main:
 			# ------------------- Condicionais principais -------------------------
 			# Seguir em frente			
 			if(
-			(deteccao_fototransistor_dir_inf is False) and 
-			(deteccao_fototransistor_dir_sup is False) and 
-			(deteccao_fototransistor_esq_inf is False) and 
-			(deteccao_fototransistor_esq_sup is False) and 
-			(vs_deteccao_faixa_dir is False) and 
-			(vs_deteccao_faixa_esq is False) and
-			(deteccao_obstaculo is False)
-			):
-				print("Seguir frente")				
-				#motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
+			  (deteccao_fototransistor_dir_inf is False) and 
+			  (deteccao_fototransistor_dir_sup is False) and 
+			  (deteccao_fototransistor_esq_inf is False) and 
+			  (deteccao_fototransistor_esq_sup is False) and 
+			  (vs_deteccao_faixa_dir is False) and 
+			  (vs_deteccao_faixa_esq is False) and
+			  (deteccao_obstaculo is False)
+			  ):
+				#print("Seguir frente")				
+				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
 			
 
 			# Detccao faixa direita
@@ -128,8 +123,8 @@ class main:
 				vs_deteccao_faixa_dir = False
 				deteccao_fototransistor_dir_inf = True
 				while(deteccao_fototransistor_dir_inf is not False):
-					print("Virar Esquerda") 
-					#motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+					#print("Virar Esquerda") 
+					motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
 					deteccao_fototransistor_dir_inf = False
 
 
@@ -138,8 +133,8 @@ class main:
 				vs_deteccao_faixa_esq = False
 				deteccao_fototransistor_esq_inf = True
 				while(deteccao_fototransistor_esq_inf is not False):
-					print("Virar Direita") 
-					#motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+					#print("Virar Direita") 
+					motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
 					deteccao_fototransistor_esq_inf = False
 			
 	
@@ -147,8 +142,8 @@ class main:
 			elif (vs_deteccao_faixa_dir is True):
 				if((deteccao_fototransistor_dir_inf is False) and (deteccao_fototransistor_dir_sup is False)):
 					while(vs_deteccao_faixa_dir is not False):
-						print("Virar Esquerda com Visao") 
-						#motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+						#print("Virar Esquerda com Visao") 
+						motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
 						vs_deteccao_faixa_dir = False						
 			
 
@@ -156,16 +151,19 @@ class main:
 			elif (vs_deteccao_faixa_esq is True):
 				if((deteccao_fototransistor_esq_inf is  False) and (deteccao_fototransistor_esq_sup is  False)):
 					while(vs_deteccao_faixa_esq is not False):
-						print("Virar Direita com Visao") 
-						#motor.movimento_direita(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+						#print("Virar Direita com Visao") 
+						motor.movimento_direita(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
 						vs_deteccao_faixa_esq = False
 			
+
+			elif(deteccao_placa_pare is True):
+				placa_pare()
 
 
 			# Qualquer anomalia, manter robô parado!
 			else:
 				print("Parando")	
-				#motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 
 
 			
