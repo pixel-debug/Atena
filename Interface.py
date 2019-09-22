@@ -17,7 +17,11 @@ import Variaveis as var
 
 pygame.init()
 
-pygame.display.set_mode((var.tam_original_tela_x, var.tam_original_tela_y))
+
+pos_x = var.tam_original_tela_x/2 
+pos_y = var.tam_original_tela_y/2
+
+fundo = pygame.display.set_mode((var.tam_original_tela_x, var.tam_original_tela_y))
 pygame.display.set_caption("Atena - Meta 2019")
 
 inciar = True
@@ -27,6 +31,7 @@ while inciar:
 		if event.type == pygame.QUIT:
 			inciar = False
 		print(event)
+	fundo.fill(var.cor_branco)
 	pygame.display.update()
 
 pygame.quit()
