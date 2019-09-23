@@ -85,7 +85,7 @@ def deteccao_placas(img):
 
 	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img_area_detecao_placa, var.classificadores)
 	
-	if nome_placa == var.nome_p1 and distancia_placa <= 17:
+	if nome_placa == var.nome_p1 and (distancia_placa > 17 and distancia_placa <= 19):
 		detectou_plc_pare = True
 	if nome_placa == var.nome_p2 and distancia_placa <= 17:
 		detectou_plc_pedestre = True
