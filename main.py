@@ -21,6 +21,7 @@ import Sensores as sensor
 import Tratamento as trata
 import Variaveis as var
 import Tela as tela
+import Interface as interface
 import time
 
 
@@ -41,25 +42,12 @@ controle_velocidade_direita.start(0)
 controle_velocidade_esquerda = GPIO.PWM(var.pin_ENB, 500)
 controle_velocidade_esquerda.start(0)
 
-print("Inicializando Sistema...")
-time.sleep(0.5)
-print("Pronto!")
 
-contador_tempo = 0
+time.sleep(1)
 
-def placa_pare():
-	motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
-	time.sleep(1)		
-
-	print("placa detectada! Aguardando...")
-	motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
-	time.sleep(4)
-		
-	motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
-	time.sleep(1)
-	deteccao_placa_pare = False
-		
-
+opcao_destino = interface.menu_texto()
+print(opcao_destino)
+#trata.interface(opcao_destino)
 
 class main:
 	try:
@@ -165,7 +153,10 @@ class main:
 
 			if(deteccao_placa_pare is True):
 				trata.placa_pare(controle_velocidade_direita, controle_velocidade_esquerda)
-			
+			if(deteccao_placa_pedestre is True):
+				print("placa pedestre...")
+				trata.placa_pare(controle_velocidade_direita, controle_velocidade_esquerda)
+				#trata.placa_pedestre(controle_velocidade_direita, controle_velocidade_esquerda, deteccao_fototransistor_dir_sup, deteccao_fototransistor_esq_sup)
 
 			
 				
