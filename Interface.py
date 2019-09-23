@@ -15,13 +15,13 @@
 import pygame
 import Variaveis as var
 
-pygame.init()
+#pygame.init()
 
 
 pos_x = var.tam_original_tela_x/2 
 pos_y = var.tam_original_tela_y/2
 tamanho = 10
-
+'''
 fundo = pygame.display.set_mode((var.tam_original_tela_x, var.tam_original_tela_y))
 pygame.display.set_caption("Atena - Meta 2019")
 
@@ -38,3 +38,36 @@ while inciar:
 	pygame.display.update()
 
 pygame.quit()
+'''
+
+def menu_texto():
+	print(" ############################################### ")
+	print(" #         *** Atena - META 2019 ***           # ")
+	print(" #_____________________________________________# ")
+	print(" #                                             # ")
+	print(" #  Selecione um dos destinos:                 # ")
+	print(" #  1 - Igreja                                 # ")      
+	print(" #  2 - Teatro                                 # ")
+	print(" #  3 - Museu                                  # ")
+	print(" #_____________________________________________# ")
+	print(" #                                             # ")
+	print(" #  Digite:                                    # ")
+	print(" #  4 - Sair                                   # ")
+	print(" #                                             # ")
+	print(" ###############################################\n ")
+	opcao = input()
+	return opcao
+
+
+
+
+
+
+
+
+
+
+
+
+
+
