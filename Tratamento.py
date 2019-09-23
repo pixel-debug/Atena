@@ -13,9 +13,10 @@
 # --------------------------------------------------------
 
 import Variaveis as var
-
+import Motores as motor
+import time
 import Pista as pista
-#import Placas as placa
+import Placas as placa
 import Tela as tela
 import cv2
 import RPi.GPIO as GPIO
@@ -38,16 +39,16 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
 
 	
-	if (ft_dir_ext < var.CONST_FT_DIR_EXT):
+	if (ft_dir_ext <= var.CONST_FT_DIR_EXT):
 		ft_detectou_faixa_dir_ext = True
 
-	elif (ft_dir_cen < var.CONST_FT_DIR_CEN):
+	elif (ft_dir_cen <= var.CONST_FT_DIR_CEN):
 		ft_detectou_faixa_dir_cen = True
 
-	elif (ft_esq_cen < var.CONST_FT_ESQ_CEN):
+	elif (ft_esq_cen <= var.CONST_FT_ESQ_CEN):
 		ft_detectou_faixa_esq_cen = True
 
-	elif (ft_esq_ext < var.CONST_FT_ESQ_EXT):
+	elif (ft_esq_ext <= var.CONST_FT_ESQ_EXT):
 		ft_detectou_faixa_esq_ext = True
 
 	if cx_dir >= 70:
@@ -56,7 +57,7 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 		vs_detectou_faixa_esq_ext = True
 
 	tela.apresenta("Imagem Original", img, 10, 10)
-	tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
+	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	
@@ -84,18 +85,30 @@ def deteccao_placas(img):
 
 	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img_area_detecao_placa, var.classificadores)
 	
-	if nome_placa == var.nome_p1:
+	if nome_placa == var.nome_p1 and distancia_placa <= 17:
 		detectou_plc_pare = True
-	if nome_placa == var.nome_p2:
+	if nome_placa == var.nome_p2 and distancia_placa <= 17:
 		detectou_plc_pedestre = True
 	if nome_placa == var.nome_p3:
 		detectou_plc_desvio = True
 
-	#tela.apresenta("Imagem Original", img_area_detecao_placa, 10, 10)
+	tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
 
 	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 
 
+
+def placa_pare(cvd, cve):	
+	motor.movimento_frente(cvd, cve)
+	time.sleep(1)
+
+	print("placa detectada! Aguardando...")
+	motor.parar_movimento(cvd, cve)
+	time.sleep(4)
+
+	motor.movimento_frente(cvd, cve)
+	time.sleep(1)
+	#deteccao_placa_pare = False
 
 
 
