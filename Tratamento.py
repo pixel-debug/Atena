@@ -22,6 +22,33 @@ import cv2
 import RPi.GPIO as GPIO
 import Sensores as sensor
 import Placas as placa
+import Interface as interface
+
+
+def interface_menu(op):
+	destino_igreja, destino_teatro, destino_museu = False, False, False
+
+	if(op == 1):
+		nome = "Igreja"
+	elif(op == 2):
+		nome = "Teatro"
+	elif(op == 3):
+		nome = "Museu"
+	else:
+		print("bost")
+	
+	confir = interface.confirma_opcao(op, nome)
+
+	if(op == 1) and (confir == 1):
+		destino_igreja = True
+	elif(op == 2) and (confir == 1):
+		destino_teatro = True
+	elif(op == 3) and (confir == 1):
+		destino_museu = True
+	else:
+		print("bost")
+
+	return destino_igreja, destino_teatro, destino_museu
 
 
 def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
@@ -87,7 +114,7 @@ def deteccao_placas(img):
 	
 	if nome_placa == var.nome_p1 and (distancia_placa > 17 and distancia_placa <= 19):
 		detectou_plc_pare = True
-	if nome_placa == var.nome_p2 and distancia_placa <= 17:
+	if nome_placa == var.nome_p2 and (distancia_placa > 17 and distancia_placa <= 19):
 		detectou_plc_pedestre = True
 	if nome_placa == var.nome_p3:
 		detectou_plc_desvio = True
@@ -108,6 +135,18 @@ def placa_pare(cvd, cve):
 
 	motor.movimento_frente(cvd, cve)
 	time.sleep(1)
+	#deteccao_placa_pare = False
+
+
+def placa_pedestre(cvd, cve, dtc_ft_dir_sup, dtc_ft_esq_sup):
+	while((dtc_ft_dir_sup is False) and (dtc_ft_esq_sup is False)):	
+		motor.movimento_frente(cvd, cve)
+		dtc_ft_dir_sup, dtc_ft_esq_sup = True, True
+	if((dtc_ft_dir_sup is True) and (dtc_ft_esq_sup is True)):
+		motor.parar_movimento(cvd, cve)
+		time.sleep(4)
+		motor.movimento_frente(cvd, cve)
+		time.sleep(1)
 	#deteccao_placa_pare = False
 
 
