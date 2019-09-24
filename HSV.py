@@ -24,3 +24,14 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(720, 560))
 time.sleep(0.1)
 
+
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# O vetor com os frames capturados sao armazenados no vetor image	
+	image = frame.array
+	
+	# Apresenta as imagens capturas por meio dos frames
+	cv2.imshow("Streaming Camera Atena", image)
+
+	
+
+cv2.destroyAllWindows()
