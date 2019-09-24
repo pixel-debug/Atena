@@ -45,13 +45,16 @@ controle_velocidade_esquerda.start(0)
 
 time.sleep(1)
 
-opcao_destino = interface.menu_texto()
-print(opcao_destino)
-#trata.interface(opcao_destino)
+global opcao_destino
+
+opcao_destino = interface.menu_texto()	
+ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
 
 class main:
 	try:
-		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):	
+		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
+					
+			print(ck1, ck2, ck3)	
 			
 			# ------------------- Obtencao valores sensores ----------------------
 			# Obtendo quadros capturados pela camera
@@ -163,7 +166,7 @@ class main:
 			
 			
 
-			print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
 
 
