@@ -45,10 +45,13 @@ controle_velocidade_esquerda.start(0)
 
 time.sleep(1)
 
-global opcao_destino
+inicia = False
+inicializacao = False
 
-opcao_destino = interface.menu_texto()	
-ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
+while(inicia is False):
+	opcao_destino = interface.menu_texto()	
+	inicializacao, ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
+	inicia = inicializacao
 
 class main:
 	try:
