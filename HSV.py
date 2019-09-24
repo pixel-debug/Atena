@@ -32,6 +32,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Apresenta as imagens capturas por meio dos frames
 	cv2.imshow("Streaming Camera Atena", image)
 
+	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
+	rawCapture.truncate(0)
+
+	# Se prescionar a letra 'q' sai do programa
+	if cv2.waitKey(1) & 0xFF == 27:
+		break
 	
 
 cv2.destroyAllWindows()
