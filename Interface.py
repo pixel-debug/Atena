@@ -55,12 +55,23 @@ def menu_texto():
 	print(" #  4 - Sair                                   # ")
 	print(" #                                             # ")
 	print(" ###############################################\n ")
-	opcao = input()
+	opcao = int(input())
 	return opcao
 
 
 
-
+def confirma_opcao(op, nome):
+	print(" ############################################### ")
+	print(" #                                             # ")
+	print(" #  Voce selecionou o destino: {0} - {1}       # ".format(op,nome))
+	print(" #_____________________________________________# ")
+	print(" #                                             # ")
+	print(" #  Digite:                                    # ")
+	print(" #        1 - Confirmar      2 - Voltar        # ")
+	print(" #                                             # ")
+	print(" ###############################################\n ")
+	confirmacao_opcao = int(input())
+	return confirmacao_opcao
 
 
 
