@@ -26,7 +26,7 @@ import Interface as interface
 
 
 def interface_menu(op):
-	destino_igreja, destino_teatro, destino_museu = False, False, False
+	inicializacao, destino_igreja, destino_teatro, destino_museu = False, False, False, False
 
 	if(op == 1):
 		nome = "Igreja"
@@ -41,14 +41,15 @@ def interface_menu(op):
 
 	if(op == 1) and (confir == 1):
 		destino_igreja = True
+		inicializacao = True
 	elif(op == 2) and (confir == 1):
 		destino_teatro = True
+		inicializacao = True
 	elif(op == 3) and (confir == 1):
 		destino_museu = True
-	else:
-		print("bost")
-
-	return destino_igreja, destino_teatro, destino_museu
+		inicializacao = True
+	
+	return inicializacao, destino_igreja, destino_teatro, destino_museu
 
 
 def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
