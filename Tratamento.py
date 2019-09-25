@@ -107,7 +107,7 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 
 	res = obstaculo.detecta_obstaculos(img_obstaculos)
 
-	if(res > 100):
+	if(res > 3000):
 		detectou_obstaculo = True
 
 	#print("\n",res)
@@ -156,7 +156,19 @@ def placa_pare(cvd, cve):
 	#deteccao_placa_pare = False
 
 
-
+def placa_pedestre(deteccao_obstaculo, controle_velocidade_direita, controle_velocidade_esquerda):
+	while(deteccao_obstaculo is False):
+		_, ft_dir_sup, ft_esq_sup,_ = sensor.fototransistores()				
+		print("placa pedestre...", ft_dir_sup, ft_esq_sup)
+		if(ft_dir_sup <= var.CONST_FT_DIR_CEN and ft_esq_sup <= var.CONST_FT_ESQ_CEN):
+			break
+	print("Aguarda 2 segundos para confirmar ausencia de pedestre...")
+	motor.parar_movimento(m.controle_velocidade_direita, m.controle_velocidade_esquerda)				
+	time.sleep(var.tempoEsperaPlacaPesdestre)
+	if(deteccao_obstaculo is False):
+		print("pode continuar...")
+	else:
+		print("presença de obstaculo confirmada...")
 
 
 
