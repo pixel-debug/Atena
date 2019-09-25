@@ -17,9 +17,12 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 30
+velocidade = 13
 
-velEmergencia = 25
+CONST_CORREC_REF = 1.50
+CONST_CORREC_INV = 1.35
+
+velEmergencia = 15
 # --------------------------------------------------------
 
 
@@ -27,8 +30,8 @@ velEmergencia = 25
 # Constantes para atuação dos fototransistores
 CONST_FT_DIR_EXT = 22500
 CONST_FT_DIR_CEN = 22500
-CONST_FT_ESQ_CEN = 22000
-CONST_FT_ESQ_EXT = 22000
+CONST_FT_ESQ_CEN = 22500
+CONST_FT_ESQ_EXT = 22500
 
 CONST_OBSTAC = 150
 
@@ -43,6 +46,12 @@ tam_mini_tela_x, tam_mini_tela_y = 480, 320
 
 # Taxa de quadros por segundo
 taxa_quadros = 32
+
+cor_branco = (255, 255, 255)
+cor_preto = (0, 0, 0)
+cor_vermelho = (0, 0, 255)
+cor_verde = (0, 255, 0)
+cor_azul = (255, 0, 0)
 # --------------------------------------------------------
 
 
@@ -60,8 +69,12 @@ x1_faixa_dir, x2_faixa_dir = 460, 580
 y1_faixa_dir, y2_faixa_dir = 550, 650
 
 # Area para detecção das placas
-x1_img_placas_dir, x2_img_placas_dir = 572, 830
-y1_img_placas_dir, y2_img_placas_dir = 213, 570
+x1_img_placas_dir, x2_img_placas_dir = 572, 840
+y1_img_placas_dir, y2_img_placas_dir = 190, 570
+
+# Area para detecção imagem de obstaculos
+x1_img_obs, x2_img_obs = 250, 590
+y1_img_obs, y2_img_obs = 550, 570 
 # --------------------------------------------------------
 
 
@@ -87,6 +100,19 @@ pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4
 pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
 
 # --------------------------------------------------------
+
+
+
+
+# --------------- Variaveis Obstaculos -------------------
+tresh_min_obs, tresh_max_obs = 50, 100
+
+pt_obstaculo_1, pt_obstaculo_2, pt_obstaculo_3, pt_obstaculo_4 = (240,440), (600,440), (220,490), (620,490)
+
+pontos_obstaculos = np.float32([[pt_obstaculo_1], [pt_obstaculo_2], [pt_obstaculo_3], [pt_obstaculo_4]])
+# --------------------------------------------------------
+
+
 
 
 # -------------- Classificadores Placas ------------------
