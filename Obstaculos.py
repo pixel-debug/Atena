@@ -13,6 +13,7 @@
 # --------------------------------------------------------
 import cv2
 import Variaveis as var
+import numpy as np
 
 
 def perspectiva_obstaculo(img):
@@ -42,8 +43,10 @@ def filtros_obstaculos(img):
 
 
 def detecta_obstaculos(img):
-
-	return img
+	soma = 0
+	for i in sum(np.array(img)): 
+		soma += i 
+	return soma
 
 
 
