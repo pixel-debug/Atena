@@ -77,12 +77,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	imagem_hsv = cv2.bitwise_and(imagem, imagem, mask=mascara)
 
 
-	imagem_rotacionada = rotaciona_imagem(imagem)
-
-	imagem_hsv = rotaciona_imagem(imagem_hsv)
 
 	# Apresentacao dos frames em tempo real
-	cv2.imshow("Streaming Camera Atena", imagem_rotacionada)
+	cv2.imshow("Streaming Camera Atena", imagem)
 
 	cv2.imshow('Interface HSV Atena', imagem_hsv)
 
