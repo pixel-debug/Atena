@@ -63,8 +63,6 @@ while(inicia is False):
 class main:
 	try:
 		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
-					
-			#print(ck1, ck2, ck3)	
 			
 			# ------------------- Obtencao valores sensores ----------------------
 			# Obtendo quadros capturados pela camera
@@ -84,6 +82,7 @@ class main:
 			# -------------- Obtentendo Respostas dos Tratamentos ---------------
 			# Deteccao das faixas na pista
 			(
+				imagem_perspectiva_pista,
 				deteccao_fototransistor_dir_inf,
 				deteccao_fototransistor_dir_sup, 
 				deteccao_fototransistor_esq_sup, 
@@ -93,7 +92,7 @@ class main:
 			) = trata.deteccao_faixas_pista(imagem, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 
 			# Deteccao de obstaculos na pista
-			deteccao_obstaculo = trata.deteccao_obstaculo(imagem, 0)					
+			deteccao_obstaculo = trata.deteccao_obstaculo(imagem_perspectiva_pista, 0)					
 
 			# Deteccao de placas na pista
 			(
@@ -103,7 +102,7 @@ class main:
 			) = trata.deteccao_placas(imagem)
 			# -------------------------------------------------------------------
 			
-			MOVIMENTO_LIBERADO = False
+			MOVIMENTO_FRENTE_LIBERADO = False
 			DETECCAO_FAIXA_DIR_FOTO = False
 			DETECCAO_FAIXA_ESQ_FOTO = False 
 			DETECCAO_FAIXA_DIR_VISAO = False
@@ -119,7 +118,7 @@ class main:
 			  (vs_deteccao_faixa_esq is False) and
 			  (deteccao_obstaculo is False)	
 			 ):
-				MOVIMENTO_LIBERADO = True	
+				MOVIMENTO_FRENTE_LIBERADO = True	
 
 			# Condicao para o robo fazer a correcao para a esquerda a partir dos fototransistores
 			if(
@@ -147,7 +146,7 @@ class main:
 						
 			# ------------------- Condicionais principais -------------------------
 			# Seguir em frente			
-			if(MOVIMENTO_LIBERADO is True):
+			if(MOVIMENTO_FRENTE_LIBERADO is True):
 				#print("Seguir frente")				
 				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
 			
