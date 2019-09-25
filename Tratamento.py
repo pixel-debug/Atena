@@ -86,6 +86,7 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	if cx_esq <= 45:
 		vs_detectou_faixa_esq_ext = True
 
+	img = img_perspectiva_pista
 	#tela.apresenta("Imagem Original", img, 10, 10)
 	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 950, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
@@ -93,19 +94,16 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	
 	#print(cx_esq, cx_dir)
 	
-	return ft_detectou_faixa_dir_ext, ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen, ft_detectou_faixa_esq_ext, vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext
+	return img, ft_detectou_faixa_dir_ext, ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen, ft_detectou_faixa_esq_ext, vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext
 
 
 
 def deteccao_obstaculo(img, distancia_obstaculo):
 	detectou_obstaculo = False
 	
-	img_perspectiva_obs = obstaculo.perspectiva_obstaculo(img)
-	img_filtros_obs = obstaculo.filtros_obstaculos(img_perspectiva_obs) 
+	img_filtros_obs = obstaculo.filtros_obstaculos(img) 
 
-	img_obstaculos = img_filtros_obs[var.y1_img_obs:var.y2_img_obs, var.x1_img_obs:var.x2_img_obs]
-
-	res = obstaculo.detecta_obstaculos(img_obstaculos)
+	res = obstaculo.detecta_obstaculos(img_filtros_obs)
 
 	if(res > 3000):
 		detectou_obstaculo = True
@@ -117,7 +115,7 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 	
 	sensor.aciona_buzina(detectou_obstaculo)
 	'''
-	tela.apresenta("Imagem obstaculos", img_obstaculos, 10, 10)
+	tela.apresenta("Imagem obstaculos", img_filtros_obs, 10, 10)
 	return detectou_obstaculo
 
 
