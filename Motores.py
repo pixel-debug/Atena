@@ -48,19 +48,19 @@ def parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda):
 def movimento_direita(velocidade, controle_velocidade_direita, controle_velocidade_esquerda):
 	GPIO.output(var.pin_IN1, True)
 	GPIO.output(var.pin_IN2, False)
-	controle_velocidade_direita.ChangeDutyCycle(velocidade)
+	controle_velocidade_direita.ChangeDutyCycle((velocidade * var.CONST_CORREC_INV))
 
 	GPIO.output(var.pin_IN3, False)
 	GPIO.output(var.pin_IN4, True)
-	controle_velocidade_esquerda.ChangeDutyCycle((velocidade * 0.75))
+	controle_velocidade_esquerda.ChangeDutyCycle((velocidade * var.CONST_CORREC_REF))
 
 
 def movimento_esquerda(velocidade, controle_velocidade_direita, controle_velocidade_esquerda):
 	GPIO.output(var.pin_IN1, False)
 	GPIO.output(var.pin_IN2, True)
-	controle_velocidade_direita.ChangeDutyCycle((velocidade * 0.75))
+	controle_velocidade_direita.ChangeDutyCycle((velocidade * var.CONST_CORREC_REF))
 	GPIO.output(var.pin_IN3, True)
 	GPIO.output(var.pin_IN4, False)
-	controle_velocidade_esquerda.ChangeDutyCycle(velocidade)
+	controle_velocidade_esquerda.ChangeDutyCycle((velocidade * var.CONST_CORREC_INV))
 
 
