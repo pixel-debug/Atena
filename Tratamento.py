@@ -163,7 +163,7 @@ def placa_pedestre(deteccao_obstaculo, controle_velocidade_direita, controle_vel
 		if(ft_dir_sup <= var.CONST_FT_DIR_CEN and ft_esq_sup <= var.CONST_FT_ESQ_CEN):
 			break
 	print("Aguarda 2 segundos para confirmar ausencia de pedestre...")
-	motor.parar_movimento(m.controle_velocidade_direita, m.controle_velocidade_esquerda)				
+	motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)				
 	time.sleep(var.tempoEsperaPlacaPesdestre)
 	if(deteccao_obstaculo is False):
 		print("pode continuar...")
