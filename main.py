@@ -22,6 +22,7 @@ import Tratamento as trata
 import Variaveis as var
 import Tela as tela
 import Interface as interface
+#import HSV as hsv
 import time
 
 
@@ -47,17 +48,28 @@ time.sleep(1)
 
 inicia = False
 inicializacao = False
-
+'''
 while(inicia is False):
 	opcao_destino = interface.menu_texto()	
 	inicializacao, ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
 	inicia = inicializacao
+'''
+
+
+def placa_pedestre():
+	motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)	
+	time.sleep(2)
+	
+	motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)	
+	time.sleep(4)
+
+
 
 class main:
 	try:
 		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
 					
-			print(ck1, ck2, ck3)	
+			#print(ck1, ck2, ck3)	
 			
 			# ------------------- Obtencao valores sensores ----------------------
 			# Obtendo quadros capturados pela camera
@@ -70,6 +82,9 @@ class main:
 			#distancia_obstaculo = sensor.vl530x()	
 			# -------------------------------------------------------------------
 
+			#tela.apresenta("Im", imagem, 1000, 10)
+			#stringPlaca = hsv.procura_placa(imagem)
+			#print(stringPlaca)
 		
 			# -------------- Obtentendo Respostas dos Tratamentos ---------------
 			# Deteccao das faixas na pista
@@ -83,8 +98,9 @@ class main:
 			) = trata.deteccao_faixas_pista(imagem, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 
 			# Deteccao de obstaculos na pista
-			#deteccao_obstaculo = trata.deteccao_obstaculo(distancia_obstaculo)
-			deteccao_obstaculo = False			
+			deteccao_obstaculo = trata.deteccao_obstaculo(imagem, 0)
+			#deteccao_obstaculo = False			
+			
 
 			# Deteccao de placas na pista
 			(
@@ -105,8 +121,7 @@ class main:
 			  (deteccao_fototransistor_esq_inf is False) and 
 			  (deteccao_fototransistor_esq_sup is False) and 
 			  (vs_deteccao_faixa_dir is False) and 
-			  (vs_deteccao_faixa_esq is False) and
-			  (deteccao_obstaculo is False)
+			  (vs_deteccao_faixa_esq is False) 
 			  ):
 				#print("Seguir frente")				
 				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
@@ -155,14 +170,45 @@ class main:
 				print("Parando")	
 				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 			# -------------------------------------------------------------------
+			LIBERACAO_FOTOTRANSISTORES = False
+			if(
+			  (deteccao_fototransistor_dir_inf is False) and 
+			  (deteccao_fototransistor_dir_sup is False) and 
+			  (deteccao_fototransistor_esq_inf is False) and 
+			  (deteccao_fototransistor_esq_sup is False)
+			  ):
+				LIBERACAO_FOTOTRANSISTORES = True
 
+			print(deteccao_placa_pedestre, deteccao_obstaculo)
 
+			# -------------------- Condicionais Placas---------------------------
 			if(deteccao_placa_pare is True):
 				trata.placa_pare(controle_velocidade_direita, controle_velocidade_esquerda)
-			if(deteccao_placa_pedestre is True):
-				print("placa pedestre...")
-				trata.placa_pare(controle_velocidade_direita, controle_velocidade_esquerda)
-				#trata.placa_pedestre(controle_velocidade_direita, controle_velocidade_esquerda, deteccao_fototransistor_dir_sup, deteccao_fototransistor_esq_sup)
+			elif(deteccao_placa_pedestre is True):
+				vs_deteccao_faixa_dir = False
+				vs_deteccao_faixa_esq = False
+				while(deteccao_obstaculo is False):
+					ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf = sensor.fototransistores()				
+					print("placa pedestre...", ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+					if(ft_dir_sup <= 22000 and ft_esq_sup <= 22000):
+						break
+				print("Aguarda 2 segundos para confirmar ausencia de pedestre...")
+				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)				
+				time.sleep(var.tempoEsperaPlacaPesdestre)
+				if(deteccao_obstaculo is False):
+					print("anda pra frente...")
+					while(LIBERACAO_FOTOTRANSISTORES is not True):
+						motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda)
+						if(LIBERACAO_FOTOTRANSISTORES is True):
+							break				
+		
+				else:
+					print("presença de obstaculo confirmada...")
+					while(deteccao_obstaculo is True):
+						motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+						deteccao_obstaculo = False				
+					
+			# -------------------------------------------------------------------	
 
 			
 				
