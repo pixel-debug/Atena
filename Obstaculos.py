@@ -31,7 +31,7 @@ def perspectiva_obstaculo(img):
 	return img
 
 
-def aplicacao_filtros(img):
+def filtros_obstaculos(img):
 	img_cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 	img_blur = cv2.GaussianBlur(img_cinza,(5,5),0)
@@ -39,3 +39,11 @@ def aplicacao_filtros(img):
 	img_tresh = cv2.inRange(img_blur, var.tresh_min_obs, var.tresh_max_obs) 
 
 	return img_tresh
+
+
+def detecta_obstaculos(img):
+
+	return img
+
+
+
