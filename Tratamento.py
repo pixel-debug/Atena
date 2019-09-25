@@ -23,6 +23,8 @@ import RPi.GPIO as GPIO
 import Sensores as sensor
 import Placas as placa
 import Interface as interface
+import numpy as np
+import Obstaculos as obstaculo
 
 
 def interface_menu(op):
@@ -58,7 +60,7 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext = False, False
 
 	img_perspectiva_pista = pista.perspectiva_pista(img)
-	img_filtros = pista.aplicacao_filtros(img_perspectiva_pista) 
+	img_filtros = pista.filtros_faixas(img_perspectiva_pista) 
 
 	img_faixa_esq = img_filtros[var.y1_faixa_esq:var.y2_faixa_esq, var.x1_faixa_esq:var.x2_faixa_esq]
 	img_faixa_esq, cx_esq = pista.detecta_faixas(img_faixa_esq)
@@ -85,7 +87,7 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 		vs_detectou_faixa_esq_ext = True
 
 	tela.apresenta("Imagem Original", img, 10, 10)
-	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 500, 10)
+	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 950, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	
@@ -95,13 +97,24 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 
 
 
-def deteccao_obstaculo(distancia_obstaculo):
+def deteccao_obstaculo(img, distancia_obstaculo):
 	detectou_obstaculo = False
+	
+	img_perspectiva_obs = obstaculo.perspectiva_obstaculo(img)
+	img_filtros_obs = obstaculo.filtros_obstaculos(img_perspectiva_obs) 
+
+	img_obstaculos = img_filtros_obs[var.y1_img_obs:var.y2_img_obs, var.x1_img_obs:var.x2_img_obs]
+
+	res = obstaculo.detecta_obstaculos(img_obstaculos)
+
+	print("\n",res)
+	'''	
 	if((distancia_obstaculo >= 0) and (distancia_obstaculo <= var.CONST_OBSTAC)):
 		detectou_obstaculo = True
 	
 	sensor.aciona_buzina(detectou_obstaculo)
-		
+	'''
+	tela.apresenta("Imagem obstaculos", img_obstaculos, 500, 10)
 	return detectou_obstaculo
 
 
@@ -120,7 +133,7 @@ def deteccao_placas(img):
 	if nome_placa == var.nome_p3:
 		detectou_plc_desvio = True
 
-	tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
+	#tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
 
 	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 
