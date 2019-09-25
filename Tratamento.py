@@ -86,7 +86,7 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	if cx_esq <= 45:
 		vs_detectou_faixa_esq_ext = True
 
-	tela.apresenta("Imagem Original", img, 10, 10)
+	#tela.apresenta("Imagem Original", img, 10, 10)
 	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 950, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
@@ -107,14 +107,17 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 
 	res = obstaculo.detecta_obstaculos(img_obstaculos)
 
-	print("\n",res)
+	if(res > 100):
+		detectou_obstaculo = True
+
+	#print("\n",res)
 	'''	
 	if((distancia_obstaculo >= 0) and (distancia_obstaculo <= var.CONST_OBSTAC)):
 		detectou_obstaculo = True
 	
 	sensor.aciona_buzina(detectou_obstaculo)
 	'''
-	tela.apresenta("Imagem obstaculos", img_obstaculos, 500, 10)
+	tela.apresenta("Imagem obstaculos", img_obstaculos, 10, 10)
 	return detectou_obstaculo
 
 
@@ -128,12 +131,13 @@ def deteccao_placas(img):
 	
 	if nome_placa == var.nome_p1 and (distancia_placa > 17 and distancia_placa <= 19):
 		detectou_plc_pare = True
-	if nome_placa == var.nome_p2 and (distancia_placa > 17 and distancia_placa <= 19):
-		detectou_plc_pedestre = True
-	if nome_placa == var.nome_p3:
+	elif nome_placa == var.nome_p2:
 		detectou_plc_desvio = True
+	elif nome_placa == var.nome_p3 and (distancia_placa > 6 and distancia_placa <= 13):
+		detectou_plc_pedestre = True
+	
 
-	#tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
+	tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
 
 	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 
@@ -152,16 +156,7 @@ def placa_pare(cvd, cve):
 	#deteccao_placa_pare = False
 
 
-def placa_pedestre(cvd, cve, dtc_ft_dir_sup, dtc_ft_esq_sup):
-	while((dtc_ft_dir_sup is False) and (dtc_ft_esq_sup is False)):	
-		motor.movimento_frente(cvd, cve)
-		dtc_ft_dir_sup, dtc_ft_esq_sup = True, True
-	if((dtc_ft_dir_sup is True) and (dtc_ft_esq_sup is True)):
-		motor.parar_movimento(cvd, cve)
-		time.sleep(4)
-		motor.movimento_frente(cvd, cve)
-		time.sleep(1)
-	#deteccao_placa_pare = False
+
 
 
 
