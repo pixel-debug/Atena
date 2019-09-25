@@ -89,8 +89,8 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	img = img_perspectiva_pista
 	#tela.apresenta("Imagem Original", img, 10, 10)
 	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 950, 10)
-	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
-	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
+	#tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
+	#tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	
 	#print(cx_esq, cx_dir)
 	
@@ -105,10 +105,10 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 
 	res = obstaculo.detecta_obstaculos(img_filtros_obs)
 
-	if(res > 3000):
+	if(res < 63500):
 		detectou_obstaculo = True
 
-	#print("\n",res)
+	print("\n",res)
 	'''	
 	if((distancia_obstaculo >= 0) and (distancia_obstaculo <= var.CONST_OBSTAC)):
 		detectou_obstaculo = True
@@ -135,7 +135,7 @@ def deteccao_placas(img):
 		detectou_plc_pedestre = True
 	
 
-	tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
+	#tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
 
 	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 
