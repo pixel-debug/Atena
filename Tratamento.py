@@ -59,6 +59,8 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen = False, False
 	vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext = False, False
 
+	status_normalidade_faixa_dir, status_normalidade_faixa_esq = False, False
+
 	img_perspectiva_pista = pista.perspectiva_pista(img)
 	img_filtros = pista.filtros_faixas(img_perspectiva_pista) 
 
@@ -81,17 +83,40 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 	elif (ft_esq_ext <= var.CONST_FT_ESQ_EXT):
 		ft_detectou_faixa_esq_ext = True
 
+
+
+	if((cx_dir >= 25) and (cx_dir <= 55)):
+		status_normalidade_faixa_dir = True
+
+	if((cx_esq >= 63) and (cx_esq <= 93)):
+		status_normalidade_faixa_esq = True
+
 	if cx_dir >= 70:
 		vs_detectou_faixa_dir_ext = True
+
 	if cx_esq <= 45:
 		vs_detectou_faixa_esq_ext = True
+
+	if(status_normalidade_faixa_dir is True):
+		status_dir = "Normal"
+	else:
+		status_dir = "ANORMAL"
+
+	if(status_normalidade_faixa_esq is True):
+		status_esq = "Normal"
+	else:
+		status_esq = "ANORMAL"
+	
+
+
+
+	print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_esq, cx_esq, status_dir, cx_dir))
 
 	img = img_perspectiva_pista
 	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 950, 10)
 	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
 	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	
-	#print(cx_esq, cx_dir)
 	
 	return img, ft_detectou_faixa_dir_ext, ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen, ft_detectou_faixa_esq_ext, vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext
 
@@ -130,7 +155,7 @@ def deteccao_placas(img):
 		detectou_plc_pare = True
 	elif nome_placa == var.nome_p2:
 		detectou_plc_desvio = True
-	elif nome_placa == var.nome_p3 and (distancia_placa > 6 and distancia_placa <= 13):
+	elif nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
 		detectou_plc_pedestre = True
 	
 
@@ -140,36 +165,53 @@ def deteccao_placas(img):
 
 
 
-def placa_pare(deteccao_placa_pare, ctr_vel_motor_dir, ctr_vel_motor_esq):
-	if(deteccao_placa_pare is True):
-		tempoPare = 0
-		print("Detectou Placa Pare...")	
-		motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-		time.sleep(4)
-		while(tempoPare <= var.tempoEsperaPlacaPare):
-			print("Andar ate nao ver placa pare")
-			motor.movimento_frente(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-			tempoPare += 1
-		print("Saiu da placa pare")
-	else:
-		deteccao_placa_pare is False
+def placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq):
+	tempoPare = 0
+	print("Detectou Placa Pare...")	
+	motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+	time.sleep(4)
+	while(tempoPare <= var.tempoEsperaPlacaPare):
+		print("Andar ate nao ver placa pare")
+		motor.movimento_frente(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+		tempoPare += 1
+	print("Saiu da placa pare")
+	
 	
 
 
-def placa_pedestre(deteccao_obstaculo, ctr_vel_motor_dir, ctr_vel_motor_esq):
-	print("Detectou Placa Pedestre...")	
-	while(deteccao_obstaculo is False):
-		_, ft_dir_sup, ft_esq_sup,_ = sensor.fototransistores()	
-		motor.movimento_frente(ctr_vel_motor_dir, ctr_vel_motor_esq)			
-		if(ft_dir_sup <= var.CONST_FT_DIR_CEN and ft_esq_sup <= var.CONST_FT_ESQ_CEN):
+def placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq):
+	DETECCAO_FAIXA_PEDESTRE = False
+	deteccao_obstaculo = False
+	tempoPedestre = 0
+	print("Detectou Placa Pedestre! Andar cuidadosamente.")	
+	while(deteccao_obstaculo is not True):	
+		while(DETECCAO_FAIXA_PEDESTRE is not True):
+			a, b, c, d = sensor.fototransistores()
+			motor.movimento_frente(var.velNormal+2, ctr_vel_motor_dir, ctr_vel_motor_esq)			
+			if(b <= var.CONST_FT_DIR_CEN and c <= var.CONST_FT_ESQ_CEN):
+				break
+			elif(a <= var.CONST_FT_DIR_CEN and d <= var.CONST_FT_ESQ_CEN):
+				break
+
+		print("Chegou na Faixa! Aguarda 5 segundos...")
+		motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+		time.sleep(5)
+
+		print("Verifica ausencia de pedestre...")
+		if(deteccao_obstaculo is False):
+			print("pode continuar...")
+			while(tempoPedestre <= var.tempoReacaoPlacaPedestre):
+				motor.movimento_frente(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+				tempoPedestre += 1
 			break
-	print("Aguarda 2 segundos para confirmar ausencia de pedestre...")
-	motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)				
-	time.sleep(var.tempoEsperaPlacaPesdestre)
-	if(deteccao_obstaculo is False):
-		print("pode continuar...")
-	else:
-		print("presença de obstaculo confirmada...")
+			
+		else:
+			print("presença de obstaculo confirmada...")
+			motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+		
+
+
+
 
 
 
