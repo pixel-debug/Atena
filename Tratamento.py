@@ -27,6 +27,7 @@ import numpy as np
 import Obstaculos as obstaculo
 
 
+# ########################### FUNCAO DE TRATAMENTO DA INTERFACE MENU ###############################
 def interface_menu(op):
 	inicializacao, destino_igreja, destino_teatro, destino_museu = False, False, False, False
 
@@ -52,15 +53,24 @@ def interface_menu(op):
 		inicializacao = True
 	
 	return inicializacao, destino_igreja, destino_teatro, destino_museu
+# ###############################################################################################
 
 
-def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
-	ft_detectou_faixa_dir_ext, ft_detectou_faixa_esq_ext = False, False 
-	ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen = False, False
-	vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext = False, False
+
+# ############################## FUNCAO DE DETECCAO DAS FAIXAS ###################################
+def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
+
+	# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
+	status_foto_dir_inf, status_foto_esq_inf = False, False 
+	status_foto_dir_sup, status_foto_esq_sup = False, False
+
+	status_visao_faixa_dir, status_visao_faixa_esq = False, False
 
 	status_normalidade_faixa_dir, status_normalidade_faixa_esq = False, False
+	# --------------------------------------------------------------------------------------------
 
+
+	# --------------- Manipulacao da imagem original para deteccao das faixas --------------------
 	img_perspectiva_pista = pista.perspectiva_pista(img)
 	img_filtros = pista.filtros_faixas(img_perspectiva_pista) 
 
@@ -69,33 +79,27 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 
 	img_faixa_dir = img_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
 	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
-
-	
-	if (ft_dir_ext <= var.CONST_FT_DIR_EXT):
-		ft_detectou_faixa_dir_ext = True
-
-	elif (ft_dir_cen <= var.CONST_FT_DIR_CEN):
-		ft_detectou_faixa_dir_cen = True
-
-	elif (ft_esq_cen <= var.CONST_FT_ESQ_CEN):
-		ft_detectou_faixa_esq_cen = True
-
-	elif (ft_esq_ext <= var.CONST_FT_ESQ_EXT):
-		ft_detectou_faixa_esq_ext = True
+	# --------------------------------------------------------------------------------------------
 
 
+	# -------------- Verificação da deteccao das faixas com os fototransistores ------------------
+	if (ft_dir_inf <= var.CONST_FT_DIR_INF):
+		status_foto_dir_inf = True
+	if (ft_dir_sup <= var.CONST_FT_DIR_SUP):
+		status_foto_dir_sup = True
+	if (ft_esq_sup <= var.CONST_FT_ESQ_SUP):
+		status_foto_esq_sup = True
+	if (ft_esq_inf <= var.CONST_FT_ESQ_INF):
+		status_foto_esq_inf = True
+	# --------------------------------------------------------------------------------------------
 
+
+	# ------------- Verificação do status de normalidade na detecção das faixas ------------------
 	if((cx_dir >= 25) and (cx_dir <= 55)):
 		status_normalidade_faixa_dir = True
 
 	if((cx_esq >= 63) and (cx_esq <= 93)):
 		status_normalidade_faixa_esq = True
-
-	if cx_dir >= 70:
-		vs_detectou_faixa_dir_ext = True
-
-	if cx_esq <= 45:
-		vs_detectou_faixa_esq_ext = True
 
 	if(status_normalidade_faixa_dir is True):
 		status_dir = "Normal"
@@ -106,22 +110,38 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 		status_esq = "Normal"
 	else:
 		status_esq = "ANORMAL"
+	# --------------------------------------------------------------------------------------------
+
+	# --------------------------- Detecção das faixas com Visao ----------------------------------
+	if cx_dir >= 70:
+		status_visao_faixa_dir = True
+
+	if cx_esq <= 45:
+		status_visao_faixa_esq = True
+	# --------------------------------------------------------------------------------------------
 	
-
-
-
 	print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_esq, cx_esq, status_dir, cx_dir))
 
-	img = img_perspectiva_pista
-	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 950, 10)
-	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
-	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
-	
-	
-	return img, ft_detectou_faixa_dir_ext, ft_detectou_faixa_dir_cen, ft_detectou_faixa_esq_cen, ft_detectou_faixa_esq_ext, vs_detectou_faixa_dir_ext, vs_detectou_faixa_esq_ext
+	retorno = [
+				img_perspectiva_pista, 
+				img_faixa_esq, 
+				img_faixa_dir, 
+				status_foto_dir_inf, 
+				status_foto_dir_sup, 
+				status_foto_esq_sup, 
+				status_foto_esq_inf, 
+				status_visao_faixa_dir, 
+				status_visao_faixa_esq, 
+				status_normalidade_faixa_dir, 
+				status_normalidade_faixa_esq
+              ]
+
+	return retorno
+# ###############################################################################################
 
 
 
+# ####################### FUNCAO DE TRATAMENTO DE DETECCAO DOS OBSTACULOS #######################
 def deteccao_obstaculo(img, distancia_obstaculo):
 	detectou_obstaculo = False
 	
@@ -141,9 +161,11 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 	'''
 	#tela.apresenta("Imagem obstaculos", img_filtros_obs, 10, 10)
 	return detectou_obstaculo
+# ###############################################################################################
 
 
 
+# ######################## FUNCAO DE TRATAMENTO DA DETECCAO DAS PLACAS ##########################
 def deteccao_placas(img):
 	detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio = False, False, False 
 		
@@ -162,7 +184,7 @@ def deteccao_placas(img):
 	tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
 
 	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
-
+# ###############################################################################################
 
 
 def placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq):
@@ -188,9 +210,9 @@ def placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq):
 		while(DETECCAO_FAIXA_PEDESTRE is not True):
 			a, b, c, d = sensor.fototransistores()
 			motor.movimento_frente(var.velNormal+2, ctr_vel_motor_dir, ctr_vel_motor_esq)			
-			if(b <= var.CONST_FT_DIR_CEN and c <= var.CONST_FT_ESQ_CEN):
+			if(b <= var.CONST_ft_dir_sup and c <= var.CONST_ft_esq_sup):
 				break
-			elif(a <= var.CONST_FT_DIR_CEN and d <= var.CONST_FT_ESQ_CEN):
+			elif(a <= var.CONST_ft_dir_sup and d <= var.CONST_ft_esq_sup):
 				break
 
 		print("Chegou na Faixa! Aguarda 5 segundos...")
