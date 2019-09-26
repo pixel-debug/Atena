@@ -67,8 +67,7 @@ class main:
 			# ------------------- Obtencao valores sensores ----------------------
 			# Obtendo quadros capturados pela camera
 			imagem = frame.array
-			tela.apresenta("Imagem Original", imagem, 10, 10)
-
+			
 			# Obtendo valores brutos dos fototransistores
 			ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf = sensor.fototransistores()
 
@@ -76,20 +75,21 @@ class main:
 			#distancia_obstaculo = sensor.vl530x()	
 			# -------------------------------------------------------------------
 
-			#tela.apresenta("Im", imagem, 1000, 10)
-			#stringPlaca = hsv.procura_placa(imagem)
-			#print(stringPlaca)
-		
+					
 			# -------------- Obtentendo Respostas dos Tratamentos ---------------
 			# Deteccao das faixas na pista
 			(
 				imagem_perspectiva_pista,
+				imagem_faixa_esq, 
+	   			imagem_faixa_dir,
 				deteccao_fototransistor_dir_inf,
 				deteccao_fototransistor_dir_sup, 
 				deteccao_fototransistor_esq_sup, 
 				deteccao_fototransistor_esq_inf, 
 				vs_deteccao_faixa_dir, 
-				vs_deteccao_faixa_esq
+				vs_deteccao_faixa_esq,
+				status_normalidade_faixa_dir, 
+				status_normalidade_faixa_esq
 			) = trata.deteccao_faixas_pista(imagem, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 
 			# Deteccao de obstaculos na pista
@@ -98,12 +98,24 @@ class main:
 
 			# Deteccao de placas na pista
 			(
+				img_area_detecao_placa,
 				deteccao_placa_pare, 
 				deteccao_placa_pedestre, 
 				deteccao_placa_desvio 
 			) = trata.deteccao_placas(imagem)
 			# -------------------------------------------------------------------
 			
+
+			# ------------------- Apresentacao Telas ----------------------------
+			tela.apresenta("Imagem Original", imagem, 10, 10)
+			tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
+			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 950, 10)
+			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
+			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
+			# -------------------------------------------------------------------
+
+
+			# ------------------ DEFININDO CHAVES ESPECIAIS ---------------------
 			MOVIMENTO_FRENTE_LIBERADO = False
 			DETECCAO_FAIXA_DIR_FOTO = False
 			DETECCAO_FAIXA_ESQ_FOTO = False 
@@ -143,10 +155,10 @@ class main:
 			# Condicao para o robo fazer a correcao para a esquerda a partir da visao
 			if(vs_deteccao_faixa_esq is True):
 				DETECCAO_FAIXA_ESQ_VISAO = True
-
+			# -------------------------------------------------------------------
 			
-						
-			# ------------------- Condicionais principais -------------------------
+			
+			# ----------------- Condicionais De Movimentacao --------------------
 			# Seguir em frente			
 			if(MOVIMENTO_FRENTE_LIBERADO is True):
 				#print("Seguir frente")				
@@ -199,9 +211,9 @@ class main:
 
 			# -------------------- Condicionais Placas---------------------------
 			if(deteccao_placa_pare is True):
-				trata.placa_pare(deteccao_placa_pare, ctr_vel_motor_dir, ctr_vel_motor_esq)
+				trata.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			elif(deteccao_placa_pedestre is True):
-				trata.placa_pedestre(deteccao_obstaculo, ctr_vel_motor_dir, ctr_vel_motor_esq)
+				trata.placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq)
 								
 					
 			# -------------------------------------------------------------------	
@@ -212,7 +224,7 @@ class main:
 			cont_frames += 1
 			#print(cont_frames)
 			#print(deteccao_placa_pare, deteccao_placa_pedestre,	deteccao_placa_desvio)
-			print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
 
 
