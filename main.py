@@ -157,7 +157,7 @@ class main:
 				vs_deteccao_faixa_dir = False
 				deteccao_fototransistor_dir_inf = True
 				while(deteccao_fototransistor_dir_inf is not False):
-					print("Virar Esquerda") 
+					#print("Virar Esquerda") 
 					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					deteccao_fototransistor_dir_inf = False
 
@@ -211,8 +211,8 @@ class main:
 			
 			cont_frames += 1
 			#print(cont_frames)
-			print(deteccao_placa_pare, deteccao_placa_pedestre,	deteccao_placa_desvio)
-			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+			#print(deteccao_placa_pare, deteccao_placa_pedestre,	deteccao_placa_desvio)
+			print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
 
 
