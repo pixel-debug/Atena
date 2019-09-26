@@ -98,8 +98,9 @@ class main:
 
 			# Deteccao de obstaculos na pista
 			(
-				imagem_obstaculos, 
-				deteccao_obstaculo
+				imagem_obstaculos,
+				status_obstaculo_visao, 
+				status_obstaculo_vl53x, 
 			) = trata.deteccao_obstaculo(imagem_obstaculo, 0)					
 			#deteccao_obstaculo = False
 
@@ -116,9 +117,9 @@ class main:
 
 			# ------------------- Apresentacao Telas ----------------------------
 			#tela.apresenta("Imagem Original", imagem, 10, 10)
-			#tela.apresenta("Imagem obstaculos", imagem_obstaculos, 10, 10)
+			tela.apresenta("Imagem obstaculos", imagem_obstaculos, 10, 10)
 			#tela.apresenta("Imagem Placas", imagem_detecao_placa, 500, 10)
-			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
+			tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
 			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
 			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
 			# -------------------------------------------------------------------
