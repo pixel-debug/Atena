@@ -57,8 +57,8 @@ while(inicia is False):
 
 
 
-
-
+# 138 frames em 1 minuto
+cont_frames = 0
 
 class main:
 	try:
@@ -150,15 +150,15 @@ class main:
 			# Seguir em frente			
 			if(MOVIMENTO_FRENTE_LIBERADO is True):
 				#print("Seguir frente")				
-				motor.movimento_frente(ctr_vel_motor_dir, ctr_vel_motor_esq) 
+				motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq) 
 			
 			# Detccao faixa direita
 			elif (DETECCAO_FAIXA_DIR_FOTO is True):
 				vs_deteccao_faixa_dir = False
 				deteccao_fototransistor_dir_inf = True
 				while(deteccao_fototransistor_dir_inf is not False):
-					#print("Virar Esquerda") 
-					motor.movimento_esquerda(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					print("Virar Esquerda") 
+					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					deteccao_fototransistor_dir_inf = False
 
 			# Detccao faixa esquerda
@@ -167,7 +167,7 @@ class main:
 				deteccao_fototransistor_esq_inf = True
 				while(deteccao_fototransistor_esq_inf is not False):
 					#print("Virar Direita") 
-					motor.movimento_esquerda(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					deteccao_fototransistor_esq_inf = False
 			
 	
@@ -176,8 +176,8 @@ class main:
 				if((deteccao_fototransistor_dir_inf is False) and (deteccao_fototransistor_dir_sup is False)):
 					while(DETECCAO_FAIXA_DIR_VISAO is not False):
 						#print("Virar Esquerda com Visao") 
-						motor.movimento_esquerda(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						vs_deteccao_faixa_dir = False						
+						motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						DETECCAO_FAIXA_DIR_VISAO = False						
 			
 
 			# Detccao faixa esquerda visao computacional
@@ -185,8 +185,8 @@ class main:
 				if((deteccao_fototransistor_esq_inf is  False) and (deteccao_fototransistor_esq_sup is  False)):
 					while(DETECCAO_FAIXA_ESQ_VISAO is not False):
 						#print("Virar Direita com Visao") 
-						motor.movimento_direita(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						vs_deteccao_faixa_esq = False
+						motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						DETECCAO_FAIXA_ESQ_VISAO = False
 		
 
 			# Qualquer anomalia, manter robô parado!
@@ -199,7 +199,7 @@ class main:
 
 			# -------------------- Condicionais Placas---------------------------
 			if(deteccao_placa_pare is True):
-				trata.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
+				trata.placa_pare(deteccao_placa_pare, ctr_vel_motor_dir, ctr_vel_motor_esq)
 			elif(deteccao_placa_pedestre is True):
 				trata.placa_pedestre(deteccao_obstaculo, ctr_vel_motor_dir, ctr_vel_motor_esq)
 								
@@ -209,9 +209,10 @@ class main:
 			
 				
 			
-			
-
-			print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+			cont_frames += 1
+			#print(cont_frames)
+			print(deteccao_placa_pare, deteccao_placa_pedestre,	deteccao_placa_desvio)
+			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
 
 
