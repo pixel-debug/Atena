@@ -85,12 +85,12 @@ class main:
 				imagem_perspectiva_pista,
 				imagem_faixa_esq, 
 	   			imagem_faixa_dir,
-				deteccao_fototransistor_dir_inf,
-				deteccao_fototransistor_dir_sup, 
-				deteccao_fototransistor_esq_sup, 
-				deteccao_fototransistor_esq_inf, 
-				vs_deteccao_faixa_dir, 
-				vs_deteccao_faixa_esq,
+				status_foto_dir_inf,
+				status_foto_dir_sup, 
+				status_foto_esq_sup, 
+				status_foto_esq_inf, 
+				status_visao_faixa_dir, 
+				status_visao_faixa_esq,
 				status_normalidade_faixa_dir, 
 				status_normalidade_faixa_esq
 			) = trata.deteccao_faixas_pista(imagem_pista, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
@@ -108,9 +108,9 @@ class main:
 			# Deteccao de placas na pista
 			(
 				imagem_detecao_placa,
-				deteccao_placa_pare, 
-				deteccao_placa_pedestre, 
-				deteccao_placa_desvio 
+				status_placa_pare, 
+				status_placa_pedestre, 
+				status_placa_desvio 
 			) = trata.deteccao_placas(imagem)
 			# -------------------------------------------------------------------
 			
@@ -134,36 +134,36 @@ class main:
 
 			# Condicao para o robo ter movimento liberado
 			if(
-			  (deteccao_fototransistor_dir_inf is False) and 
-			  (deteccao_fototransistor_dir_sup is False) and 
-			  (deteccao_fototransistor_esq_inf is False) and 
-			  (deteccao_fototransistor_esq_sup is False) and 
-			  (vs_deteccao_faixa_dir is False) and 
-			  (vs_deteccao_faixa_esq is False) and
+			  (status_foto_dir_inf is False) and 
+			  (status_foto_dir_sup is False) and 
+			  (status_foto_esq_inf is False) and 
+			  (status_foto_esq_sup is False) and 
+			  (status_visao_faixa_dir is False) and 
+			  (status_visao_faixa_esq is False) and
 			  (deteccao_obstaculo is False)	
 			 ):
 				MOVIMENTO_FRENTE_LIBERADO = True	
 
 			# Condicao para o robo fazer a correcao para a esquerda a partir dos fototransistores
 			if(
-			  (deteccao_fototransistor_dir_inf is True) or 
-			  (deteccao_fototransistor_dir_sup is True)
+			  (status_foto_dir_inf is True) or 
+			  (status_foto_dir_sup is True)
 			 ):
 				DETECCAO_FAIXA_DIR_FOTO = True
 
 			# Condicao para o robo fazer a correcao para a direita a partir dos fototransistores
 			if(
-			  (deteccao_fototransistor_esq_inf is True) or 
-			  (deteccao_fototransistor_esq_sup is True)
+			  (status_foto_esq_inf is True) or 
+			  (status_foto_esq_sup is True)
 			 ):
 				DETECCAO_FAIXA_ESQ_FOTO = True
 
 			# Condicao para o robo fazer a correcao para a direita a partir da visao
-			if(vs_deteccao_faixa_dir is True):
+			if(status_visao_faixa_dir is True):
 				DETECCAO_FAIXA_DIR_VISAO = True
 
 			# Condicao para o robo fazer a correcao para a esquerda a partir da visao
-			if(vs_deteccao_faixa_esq is True):
+			if(status_visao_faixa_esq is True):
 				DETECCAO_FAIXA_ESQ_VISAO = True
 			# -------------------------------------------------------------------
 			
@@ -176,26 +176,26 @@ class main:
 			
 			# Detccao faixa direita
 			elif (DETECCAO_FAIXA_DIR_FOTO is True):
-				vs_deteccao_faixa_dir = False
-				deteccao_fototransistor_dir_inf = True
-				while(deteccao_fototransistor_dir_inf is not False):
+				status_visao_faixa_dir = False
+				status_foto_dir_inf = True
+				while(status_foto_dir_inf is not False):
 					#print("Virar Esquerda") 
 					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					deteccao_fototransistor_dir_inf = False
+					status_foto_dir_inf = False
 
 			# Detccao faixa esquerda
 			elif (DETECCAO_FAIXA_ESQ_FOTO is True):
-				vs_deteccao_faixa_esq = False
-				deteccao_fototransistor_esq_inf = True
-				while(deteccao_fototransistor_esq_inf is not False):
+				status_visao_faixa_esq = False
+				status_foto_esq_inf = True
+				while(status_foto_esq_inf is not False):
 					#print("Virar Direita") 
 					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					deteccao_fototransistor_esq_inf = False
+					status_foto_esq_inf = False
 			
 	
 			# Detccao faixa direita visao computacional
 			elif (DETECCAO_FAIXA_DIR_VISAO is True):
-				if((deteccao_fototransistor_dir_inf is False) and (deteccao_fototransistor_dir_sup is False)):
+				if((status_foto_dir_inf is False) and (status_foto_dir_sup is False)):
 					while(DETECCAO_FAIXA_DIR_VISAO is not False):
 						#print("Virar Esquerda com Visao") 
 						motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
@@ -204,7 +204,7 @@ class main:
 
 			# Detccao faixa esquerda visao computacional
 			elif (DETECCAO_FAIXA_ESQ_VISAO is True):
-				if((deteccao_fototransistor_esq_inf is  False) and (deteccao_fototransistor_esq_sup is  False)):
+				if((status_foto_esq_inf is  False) and (status_foto_esq_sup is  False)):
 					while(DETECCAO_FAIXA_ESQ_VISAO is not False):
 						#print("Virar Direita com Visao") 
 						motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
@@ -220,9 +220,9 @@ class main:
 
 
 			# -------------------- Condicionais Placas---------------------------
-			if(deteccao_placa_pare is True):
+			if(status_placa_pare is True):
 				trata.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
-			elif(deteccao_placa_pedestre is True):
+			elif(status_placa_pedestre is True):
 				trata.placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq)
 								
 					
@@ -233,9 +233,9 @@ class main:
 			
 			cont_frames += 1
 			#print(cont_frames)
-			#print(deteccao_placa_pare, deteccao_placa_pedestre,	deteccao_placa_desvio)
+			#print(status_placa_pare, status_placa_pedestre,	status_placa_desvio)
 			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
-			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
+			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, status_visao_faixa_dir_ext, status_visao_faixa_esq_ext)
 
 
 			capturaFrames.truncate(0)
