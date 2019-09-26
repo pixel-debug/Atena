@@ -15,14 +15,14 @@
 import RPi.GPIO as GPIO
 import Variaveis as var
 
-def movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda):
+def movimento_frente(velocidade, controle_velocidade_direita, controle_velocidade_esquerda):
 	GPIO.output(var.pin_IN1, True)
 	GPIO.output(var.pin_IN2, False)
-	controle_velocidade_direita.ChangeDutyCycle(var.velocidade)
+	controle_velocidade_direita.ChangeDutyCycle(velocidade)
 
 	GPIO.output(var.pin_IN3, True)
 	GPIO.output(var.pin_IN4, False)
-	controle_velocidade_esquerda.ChangeDutyCycle(var.velocidade)
+	controle_velocidade_esquerda.ChangeDutyCycle(velocidade)
 
 
 def movimento_tras(controle_velocidade_direita, controle_velocidade_esquerda):
