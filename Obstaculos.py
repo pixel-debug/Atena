@@ -32,7 +32,7 @@ def perspectiva_obstaculo(img):
 
 	matriz = cv2.getPerspectiveTransform(var.pontos_obstaculos, var.pontos_destino)
 	img = cv2.warpPerspective(img, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
-	tela.apresenta("Imagem obstaculos", img, 10, 10)
+	
 	return img
 
 
