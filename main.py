@@ -37,11 +37,11 @@ GPIO.setwarnings(False)
 
 definir.configuracoes()
 
-controle_velocidade_direita = GPIO.PWM(var.pin_ENA, 500)
-controle_velocidade_direita.start(0)
+ctr_vel_motor_dir = GPIO.PWM(var.pin_ENA, 500)
+ctr_vel_motor_dir.start(0)
 
-controle_velocidade_esquerda = GPIO.PWM(var.pin_ENB, 500)
-controle_velocidade_esquerda.start(0)
+ctr_vel_motor_esq = GPIO.PWM(var.pin_ENB, 500)
+ctr_vel_motor_esq.start(0)
 
 
 time.sleep(1)
@@ -67,6 +67,7 @@ class main:
 			# ------------------- Obtencao valores sensores ----------------------
 			# Obtendo quadros capturados pela camera
 			imagem = frame.array
+			tela.apresenta("Imagem Original", imagem, 10, 10)
 
 			# Obtendo valores brutos dos fototransistores
 			ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf = sensor.fototransistores()
@@ -92,7 +93,8 @@ class main:
 			) = trata.deteccao_faixas_pista(imagem, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 
 			# Deteccao de obstaculos na pista
-			deteccao_obstaculo = trata.deteccao_obstaculo(imagem_perspectiva_pista, 0)					
+			#deteccao_obstaculo = trata.deteccao_obstaculo(imagem_perspectiva_pista, 0)					
+			deteccao_obstaculo = False
 
 			# Deteccao de placas na pista
 			(
@@ -148,7 +150,7 @@ class main:
 			# Seguir em frente			
 			if(MOVIMENTO_FRENTE_LIBERADO is True):
 				#print("Seguir frente")				
-				motor.movimento_frente(controle_velocidade_direita, controle_velocidade_esquerda) 
+				motor.movimento_frente(ctr_vel_motor_dir, ctr_vel_motor_esq) 
 			
 			# Detccao faixa direita
 			elif (DETECCAO_FAIXA_DIR_FOTO is True):
@@ -156,7 +158,7 @@ class main:
 				deteccao_fototransistor_dir_inf = True
 				while(deteccao_fototransistor_dir_inf is not False):
 					#print("Virar Esquerda") 
-					motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+					motor.movimento_esquerda(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					deteccao_fototransistor_dir_inf = False
 
 			# Detccao faixa esquerda
@@ -165,7 +167,7 @@ class main:
 				deteccao_fototransistor_esq_inf = True
 				while(deteccao_fototransistor_esq_inf is not False):
 					#print("Virar Direita") 
-					motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+					motor.movimento_esquerda(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					deteccao_fototransistor_esq_inf = False
 			
 	
@@ -174,7 +176,7 @@ class main:
 				if((deteccao_fototransistor_dir_inf is False) and (deteccao_fototransistor_dir_sup is False)):
 					while(DETECCAO_FAIXA_DIR_VISAO is not False):
 						#print("Virar Esquerda com Visao") 
-						motor.movimento_esquerda(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+						motor.movimento_esquerda(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
 						vs_deteccao_faixa_dir = False						
 			
 
@@ -183,23 +185,23 @@ class main:
 				if((deteccao_fototransistor_esq_inf is  False) and (deteccao_fototransistor_esq_sup is  False)):
 					while(DETECCAO_FAIXA_ESQ_VISAO is not False):
 						#print("Virar Direita com Visao") 
-						motor.movimento_direita(var.velocidade, controle_velocidade_direita, controle_velocidade_esquerda)
+						motor.movimento_direita(var.velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
 						vs_deteccao_faixa_esq = False
 		
 
 			# Qualquer anomalia, manter robô parado!
 			else:
 				print("Parando")	
-				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			# -------------------------------------------------------------------
 
 
 
 			# -------------------- Condicionais Placas---------------------------
 			if(deteccao_placa_pare is True):
-				trata.placa_pare(controle_velocidade_direita, controle_velocidade_esquerda)
+				trata.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			elif(deteccao_placa_pedestre is True):
-				trata.placa_pedestre(deteccao_obstaculo, controle_velocidade_direita, controle_velocidade_esquerda)
+				trata.placa_pedestre(deteccao_obstaculo, ctr_vel_motor_dir, ctr_vel_motor_esq)
 								
 					
 			# -------------------------------------------------------------------	
@@ -209,14 +211,14 @@ class main:
 			
 			
 
-			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+			print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, vs_deteccao_faixa_dir_ext, vs_deteccao_faixa_esq_ext)
 
 
 			capturaFrames.truncate(0)
 			
 			if cv2.waitKey(1) & 0xFF == 27:
-				motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
+				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 				cv2.destroyAllWindows()
 				GPIO.cleanup()
 				break
