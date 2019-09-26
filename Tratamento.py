@@ -143,27 +143,40 @@ def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
 
 # ####################### FUNCAO DE TRATAMENTO DE DETECCAO DOS OBSTACULOS #######################
 def deteccao_obstaculo(img, distancia_obstaculo):
-	detectou_obstaculo = False
 
+	# ------------- Variaveis que irao definir o status de deteccao de obstaculos ----------------
+	status_obstaculo_visao = False
+	status_obstaculo_vl53x = False
+	# --------------------------------------------------------------------------------------------
+
+	# --------------------------- Detecção das faixas com Visao ----------------------------------
 	img_perspectiva_obstaculos = obstaculo.perspectiva_obstaculo(img)	
 
 	img_filtros_obs = obstaculo.filtros_obstaculos(img_perspectiva_obstaculos) 
 
-	res = obstaculo.detecta_obstaculos(img_filtros_obs)
+	somatorio_matriz = obstaculo.detecta_obstaculos(img_filtros_obs)
 
-	if(res > 6000):
-		detectou_obstaculo = True
+	if(somatorio_matriz > 6000):
+		status_obstaculo_visao = True
+	# --------------------------------------------------------------------------------------------
 
-	print("\nDetectou Obstaculo: {0} \tValor: {1}".format(detectou_obstaculo, res))
-	'''	
-	if((distancia_obstaculo >= 0) and (distancia_obstaculo <= var.CONST_OBSTAC)):
-		detectou_obstaculo = True
+
+	# --------------------------- Detecção das faixas com VL53X ----------------------------------
+	if((distancia_obstaculo > 0) and (distancia_obstaculo <= var.CONST_OBSTAC)):
+		status_obstaculo_vl53x = True
+	# --------------------------------------------------------------------------------------------
+
+	sensor.aciona_buzina(status_obstaculo_vl53x)
+
+	print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, somatorio_matriz))
+
+	retorno = [
+				img_filtros_obs,
+				status_obstaculo_visao, 
+				status_obstaculo_vl53x
+			  ]	
 	
-	sensor.aciona_buzina(detectou_obstaculo)
-	'''
-	img = img_filtros_obs	
-	tela.apresenta("Imagem obstaculos", img, 10, 10)
-	return img, detectou_obstaculo
+	return retorno
 # ###############################################################################################
 
 
