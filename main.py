@@ -67,6 +67,9 @@ class main:
 			# ------------------- Obtencao valores sensores ----------------------
 			# Obtendo quadros capturados pela camera
 			imagem = frame.array
+
+			imagem_pista = imagem.copy()
+			imagem_obstaculo = imagem.copy()
 			
 			# Obtendo valores brutos dos fototransistores
 			ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf = sensor.fototransistores()
@@ -90,15 +93,20 @@ class main:
 				vs_deteccao_faixa_esq,
 				status_normalidade_faixa_dir, 
 				status_normalidade_faixa_esq
-			) = trata.deteccao_faixas_pista(imagem, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+			) = trata.deteccao_faixas_pista(imagem_pista, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+
 
 			# Deteccao de obstaculos na pista
-			#deteccao_obstaculo = trata.deteccao_obstaculo(imagem_perspectiva_pista, 0)					
-			deteccao_obstaculo = False
+			(
+				imagem_obstaculos, 
+				deteccao_obstaculo
+			) = trata.deteccao_obstaculo(imagem_obstaculo, 0)					
+			#deteccao_obstaculo = False
+
 
 			# Deteccao de placas na pista
 			(
-				img_area_detecao_placa,
+				imagem_detecao_placa,
 				deteccao_placa_pare, 
 				deteccao_placa_pedestre, 
 				deteccao_placa_desvio 
@@ -107,9 +115,10 @@ class main:
 			
 
 			# ------------------- Apresentacao Telas ----------------------------
-			tela.apresenta("Imagem Original", imagem, 10, 10)
-			tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
-			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 950, 10)
+			#tela.apresenta("Imagem Original", imagem, 10, 10)
+			#tela.apresenta("Imagem obstaculos", imagem_obstaculos, 10, 10)
+			#tela.apresenta("Imagem Placas", imagem_detecao_placa, 500, 10)
+			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
 			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
 			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
 			# -------------------------------------------------------------------
