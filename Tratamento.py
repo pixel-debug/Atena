@@ -120,7 +120,7 @@ def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
 		status_visao_faixa_esq = True
 	# --------------------------------------------------------------------------------------------
 	
-	print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_esq, cx_esq, status_dir, cx_dir))
+	#print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_esq, cx_esq, status_dir, cx_dir))
 
 	retorno = [
 				img_perspectiva_pista, 
@@ -144,23 +144,26 @@ def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
 # ####################### FUNCAO DE TRATAMENTO DE DETECCAO DOS OBSTACULOS #######################
 def deteccao_obstaculo(img, distancia_obstaculo):
 	detectou_obstaculo = False
-	
-	img_filtros_obs = obstaculo.filtros_obstaculos(img) 
+
+	img_perspectiva_obstaculos = obstaculo.perspectiva_obstaculo(img)	
+
+	img_filtros_obs = obstaculo.filtros_obstaculos(img_perspectiva_obstaculos) 
 
 	res = obstaculo.detecta_obstaculos(img_filtros_obs)
 
-	if(res < 63500):
+	if(res > 6000):
 		detectou_obstaculo = True
 
-	print("\n",res)
+	print("\nDetectou Obstaculo: {0} \tValor: {1}".format(detectou_obstaculo, res))
 	'''	
 	if((distancia_obstaculo >= 0) and (distancia_obstaculo <= var.CONST_OBSTAC)):
 		detectou_obstaculo = True
 	
 	sensor.aciona_buzina(detectou_obstaculo)
 	'''
-	#tela.apresenta("Imagem obstaculos", img_filtros_obs, 10, 10)
-	return detectou_obstaculo
+	img = img_filtros_obs	
+	tela.apresenta("Imagem obstaculos", img, 10, 10)
+	return img, detectou_obstaculo
 # ###############################################################################################
 
 
@@ -180,10 +183,8 @@ def deteccao_placas(img):
 	elif nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
 		detectou_plc_pedestre = True
 	
-
-	tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
-
-	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
+	img = img_area_detecao_placa
+	return img, detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 # ###############################################################################################
 
 
