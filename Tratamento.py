@@ -87,10 +87,9 @@ def deteccao_faixas_pista(img, ft_dir_ext, ft_dir_cen, ft_esq_cen, ft_esq_ext):
 		vs_detectou_faixa_esq_ext = True
 
 	img = img_perspectiva_pista
-	#tela.apresenta("Imagem Original", img, 10, 10)
 	#tela.apresenta("Imagem Perspe", img_perspectiva_pista, 950, 10)
-	#tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
-	#tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
+	tela.apresenta("Imagem Faixa Esquerda", img_faixa_esq, 10, 400)
+	tela.apresenta("Imagem Faixa Direita", img_faixa_dir, 500, 400)
 	
 	#print(cx_esq, cx_dir)
 	
@@ -115,7 +114,7 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 	
 	sensor.aciona_buzina(detectou_obstaculo)
 	'''
-	tela.apresenta("Imagem obstaculos", img_filtros_obs, 10, 10)
+	#tela.apresenta("Imagem obstaculos", img_filtros_obs, 10, 10)
 	return detectou_obstaculo
 
 
@@ -127,7 +126,7 @@ def deteccao_placas(img):
 
 	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img_area_detecao_placa, var.classificadores)
 	
-	if nome_placa == var.nome_p1 and (distancia_placa > 17 and distancia_placa <= 19):
+	if nome_placa == var.nome_p1 and (distancia_placa > 15 and distancia_placa <= 20):
 		detectou_plc_pare = True
 	elif nome_placa == var.nome_p2:
 		detectou_plc_desvio = True
@@ -135,33 +134,37 @@ def deteccao_placas(img):
 		detectou_plc_pedestre = True
 	
 
-	#tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
+	tela.apresenta("Imagem Placas", img_area_detecao_placa, 500, 10)
 
 	return detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
 
 
 
-def placa_pare(cvd, cve):	
-	motor.movimento_frente(cvd, cve)
-	time.sleep(1)
+def placa_pare(deteccao_placa_pare, ctr_vel_motor_dir, ctr_vel_motor_esq):
+	if(deteccao_placa_pare is True):
+		tempoPare = 0
+		print("Detectou Placa Pare...")	
+		motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+		time.sleep(4)
+		while(tempoPare <= var.tempoEsperaPlacaPare):
+			print("Andar ate nao ver placa pare")
+			motor.movimento_frente(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+			tempoPare += 1
+		print("Saiu da placa pare")
+	else:
+		deteccao_placa_pare is False
+	
 
-	print("placa detectada! Aguardando...")
-	motor.parar_movimento(cvd, cve)
-	time.sleep(4)
 
-	motor.movimento_frente(cvd, cve)
-	time.sleep(1)
-	#deteccao_placa_pare = False
-
-
-def placa_pedestre(deteccao_obstaculo, controle_velocidade_direita, controle_velocidade_esquerda):
+def placa_pedestre(deteccao_obstaculo, ctr_vel_motor_dir, ctr_vel_motor_esq):
+	print("Detectou Placa Pedestre...")	
 	while(deteccao_obstaculo is False):
-		_, ft_dir_sup, ft_esq_sup,_ = sensor.fototransistores()				
-		print("placa pedestre...", ft_dir_sup, ft_esq_sup)
+		_, ft_dir_sup, ft_esq_sup,_ = sensor.fototransistores()	
+		motor.movimento_frente(ctr_vel_motor_dir, ctr_vel_motor_esq)			
 		if(ft_dir_sup <= var.CONST_FT_DIR_CEN and ft_esq_sup <= var.CONST_FT_ESQ_CEN):
 			break
 	print("Aguarda 2 segundos para confirmar ausencia de pedestre...")
-	motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)				
+	motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)				
 	time.sleep(var.tempoEsperaPlacaPesdestre)
 	if(deteccao_obstaculo is False):
 		print("pode continuar...")
