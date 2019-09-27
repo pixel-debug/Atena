@@ -17,21 +17,29 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velocidade = 13
+velNormal = 12
 
-CONST_CORREC_REF = 1.50
-CONST_CORREC_INV = 1.35
+CONST_CORREC_REF = 1.70
+CONST_CORREC_INV = 1.45
 
-velEmergencia = 15
+velReacao = 18
+# --------------------------------------------------------
+
+
+# ----------------- Variaveis Tempo ----------------------
+tempoEsperaPlacaPare = 13
+tempoReacaoPlacaPedestre = 26
+tempoEsperaPlacaPesdestre = 2
+
 # --------------------------------------------------------
 
 
 # -------------- Contantes dos Sensores ------------------
 # Constantes para atuação dos fototransistores
-CONST_FT_DIR_EXT = 22500
-CONST_FT_DIR_CEN = 22500
-CONST_FT_ESQ_CEN = 22500
-CONST_FT_ESQ_EXT = 22500
+CONST_FT_DIR_INF = 21000
+CONST_FT_DIR_SUP = 19500
+CONST_FT_ESQ_SUP = 21000
+CONST_FT_ESQ_INF = 12000
 
 CONST_OBSTAC = 150
 
@@ -73,8 +81,8 @@ x1_img_placas_dir, x2_img_placas_dir = 572, 840
 y1_img_placas_dir, y2_img_placas_dir = 190, 570
 
 # Area para detecção imagem de obstaculos
-x1_img_obs, x2_img_obs = 250, 590
-y1_img_obs, y2_img_obs = 550, 570 
+x1_img_obs, x2_img_obs = 250, 840
+y1_img_obs, y2_img_obs = 550, 670 
 # --------------------------------------------------------
 
 
@@ -105,9 +113,9 @@ pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt
 
 
 # --------------- Variaveis Obstaculos -------------------
-tresh_min_obs, tresh_max_obs = 50, 100
+tresh_min_obs, tresh_max_obs = 45, 120
 
-pt_obstaculo_1, pt_obstaculo_2, pt_obstaculo_3, pt_obstaculo_4 = (240,440), (600,440), (220,490), (620,490)
+pt_obstaculo_1, pt_obstaculo_2, pt_obstaculo_3, pt_obstaculo_4 = (105,505), (725,505), (0,680), (840,680)
 
 pontos_obstaculos = np.float32([[pt_obstaculo_1], [pt_obstaculo_2], [pt_obstaculo_3], [pt_obstaculo_4]])
 # --------------------------------------------------------
