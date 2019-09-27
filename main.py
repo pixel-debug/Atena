@@ -133,7 +133,7 @@ class main:
 			  (status_foto_esq_sup is False) and 
 			  (status_visao_faixa_dir is False) and 
 			  (status_visao_faixa_esq is False) and
-			  (status_obstaculo_vl53x is False)	
+			  (status_obstaculo_vl53x is False)
 			 ):
 				MOVIMENTO_FRENTE_LIBERADO = True	
 
@@ -163,12 +163,16 @@ class main:
 			if(
 			  (status_visao_faixa_dir is False) and 
 			  (status_visao_faixa_esq is False) and
-			  (status_normalidade_faixa_dir is False) and
-			  (status_normalidade_faixa_esq is False)
+			  (status_normalidade_faixa_dir is True) and
+			  (status_normalidade_faixa_esq is True)
 			 ):
 				DETECCAO_OBSTACULOS_VISAO = status_obstaculo_visao
+			else:
+				DETECCAO_OBSTACULOS_VISAO = False
 			# -------------------------------------------------------------------
 			
+			print(status_visao_faixa_dir, status_visao_faixa_esq, status_normalidade_faixa_dir, status_normalidade_faixa_esq, DETECCAO_OBSTACULOS_VISAO)
+
 			
 			# ----------------- Condicionais De Movimentacao --------------------
 			# Seguir em frente			
@@ -197,22 +201,21 @@ class main:
 			
 	
 			# Detccao faixa direita visao computacional
-			elif (DETECCAO_FAIXA_DIR_VISAO is True):
-				if((status_foto_dir_inf is False) and (status_foto_dir_sup is False)):
-					while(DETECCAO_FAIXA_DIR_VISAO is not False):
-						#print("Virar Esquerda com Visao") 
-						motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						DETECCAO_FAIXA_DIR_VISAO = False						
+			elif (DETECCAO_FAIXA_DIR_VISAO is True):	
+				while(DETECCAO_FAIXA_DIR_VISAO is not False):
+					#print("Virar Esquerda com Visao") 
+					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					DETECCAO_FAIXA_DIR_VISAO = False						
 			
 
 			# Detccao faixa esquerda visao computacional
 			elif (DETECCAO_FAIXA_ESQ_VISAO is True):
-				if((status_foto_esq_inf is  False) and (status_foto_esq_sup is  False)):
-					while(DETECCAO_FAIXA_ESQ_VISAO is not False):
-						#print("Virar Direita com Visao") 
-						motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						DETECCAO_FAIXA_ESQ_VISAO = False
+				while(DETECCAO_FAIXA_ESQ_VISAO is not False):
+					#print("Virar Direita com Visao") 
+					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					DETECCAO_FAIXA_ESQ_VISAO = False
 		
+			
 
 			# Qualquer anomalia, manter robô parado!
 			else:
