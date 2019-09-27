@@ -117,22 +117,13 @@ class main:
 			# -------------------------------------------------------------------
 			
 
-			# ------------------- Apresentacao Telas ----------------------------
-			#tela.apresenta("Imagem Original", imagem, 10, 10)
-			tela.apresenta("Imagem obstaculos", imagem_obstaculos, 10, 10)
-			#tela.apresenta("Imagem Placas", imagem_detecao_placa, 500, 10)
-			tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
-			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
-			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
-			# -------------------------------------------------------------------
-
-
 			# ------------------ DEFININDO CHAVES ESPECIAIS ---------------------
 			MOVIMENTO_FRENTE_LIBERADO = False
 			DETECCAO_FAIXA_DIR_FOTO = False
 			DETECCAO_FAIXA_ESQ_FOTO = False 
 			DETECCAO_FAIXA_DIR_VISAO = False
 			DETECCAO_FAIXA_ESQ_VISAO = False
+			DETECCAO_OBSTACULOS_VISAO = False
 
 			# Condicao para o robo ter movimento liberado
 			if(
@@ -142,7 +133,7 @@ class main:
 			  (status_foto_esq_sup is False) and 
 			  (status_visao_faixa_dir is False) and 
 			  (status_visao_faixa_esq is False) and
-			  (deteccao_obstaculo is False)	
+			  (status_obstaculo_vl53x is False)	
 			 ):
 				MOVIMENTO_FRENTE_LIBERADO = True	
 
@@ -182,8 +173,8 @@ class main:
 			# ----------------- Condicionais De Movimentacao --------------------
 			# Seguir em frente			
 			if(MOVIMENTO_FRENTE_LIBERADO is True):
-				#print("Seguir frente")				
-				motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq) 
+				gerencia.seguir_em_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)			
+				
 			
 			# Detccao faixa direita
 			elif (DETECCAO_FAIXA_DIR_FOTO is True):
@@ -191,8 +182,9 @@ class main:
 				status_foto_dir_inf = True
 				while(status_foto_dir_inf is not False):
 					#print("Virar Esquerda") 
-					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					status_foto_dir_inf = False
+				
 
 			# Detccao faixa esquerda
 			elif (DETECCAO_FAIXA_ESQ_FOTO is True):
@@ -235,11 +227,22 @@ class main:
 				gerencia.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			elif(status_placa_pedestre is True):
 				gerencia.placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq)
+			elif(status_placa_desvio is True):
+				gerencia.placa_desvio(ctr_vel_motor_dir, ctr_vel_motor_esq)
 								
 					
 			# -------------------------------------------------------------------	
 
 			
+
+			# ------------------- Apresentacao Telas ----------------------------
+			tela.apresenta("Imagem Original", imagem, 10, 10)
+			tela.apresenta("Imagem obstaculos", imagem_obstaculos, 500, 10)
+			#tela.apresenta("Imagem Placas", imagem_detecao_placa, 1000, 10)
+			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
+			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
+			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
+			# -------------------------------------------------------------------
 				
 			
 			cont_frames += 1
