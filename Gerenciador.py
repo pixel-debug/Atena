@@ -70,3 +70,13 @@ def placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq):
 			print("presença de obstaculo confirmada...")
 			motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 # ###############################################################################################
+
+
+
+
+def analise_matriz_imagem(img):
+	soma_matriz = 0
+	for i in sum(np.array(img)): 
+		soma_matriz += i 
+	return soma_matriz
+
