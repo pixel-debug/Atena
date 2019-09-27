@@ -11,19 +11,23 @@
 #	Classe: Main
 
 # --------------------------------------------------------
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+
+
 import cv2
-import RPi.GPIO as GPIO
-import Configuracoes as definir
+import time
+#import HSV as hsv
+import Tela as tela
 import Motores as motor
+import Variaveis as var
+import RPi.GPIO as GPIO
 import Sensores as sensor
 import Tratamento as trata
-import Variaveis as var
-import Tela as tela
 import Interface as interface
-#import HSV as hsv
-import time
+from picamera import PiCamera
+import Gerenciador as gerencia
+import Configuracoes as definir
+from picamera.array import PiRGBArray
+
 
 
 frames = PiCamera()
@@ -102,8 +106,7 @@ class main:
 				status_obstaculo_visao, 
 				status_obstaculo_vl53x, 
 			) = trata.deteccao_obstaculo(imagem_obstaculo, 0)					
-			#deteccao_obstaculo = False
-
+			
 
 			# Deteccao de placas na pista
 			(
@@ -165,6 +168,15 @@ class main:
 			# Condicao para o robo fazer a correcao para a esquerda a partir da visao
 			if(status_visao_faixa_esq is True):
 				DETECCAO_FAIXA_ESQ_VISAO = True
+
+			# Condicao para o robo fazer a verificacao de obstaculos a partir da visao
+			if(
+			  (status_visao_faixa_dir is False) and 
+			  (status_visao_faixa_esq is False) and
+			  (status_normalidade_faixa_dir is False) and
+			  (status_normalidade_faixa_esq is False)
+			 ):
+				DETECCAO_OBSTACULOS_VISAO = status_obstaculo_visao
 			# -------------------------------------------------------------------
 			
 			
@@ -221,9 +233,9 @@ class main:
 
 			# -------------------- Condicionais Placas---------------------------
 			if(status_placa_pare is True):
-				trata.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
+				gerencia.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			elif(status_placa_pedestre is True):
-				trata.placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq)
+				gerencia.placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq)
 								
 					
 			# -------------------------------------------------------------------	
@@ -232,7 +244,9 @@ class main:
 				
 			
 			cont_frames += 1
+			print(DETECCAO_OBSTACULOS_VISAO)
 			#print(cont_frames)
+			#print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, 0))
 			#print(status_placa_pare, status_placa_pedestre,	status_placa_desvio)
 			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, status_visao_faixa_dir_ext, status_visao_faixa_esq_ext)
