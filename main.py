@@ -31,8 +31,8 @@ from picamera.array import PiRGBArray
 
 
 frames = PiCamera()
-frames.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
 frames.framerate = var.taxa_quadros
+frames.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
 capturaFrames = PiRGBArray(frames, size=(var.tam_original_tela_x, var.tam_original_tela_y))
 
 GPIO.setmode(GPIO.BCM)
@@ -41,22 +41,21 @@ GPIO.setwarnings(False)
 
 definir.configuracoes()
 
-ctr_vel_motor_dir = GPIO.PWM(var.pin_ENA, 500)
-ctr_vel_motor_dir.start(0)
-
-ctr_vel_motor_esq = GPIO.PWM(var.pin_ENB, 500)
+ctr_vel_motor_esq, ctr_vel_motor_dir = GPIO.PWM(var.pin_ENB, 500), GPIO.PWM(var.pin_ENA, 500)
 ctr_vel_motor_esq.start(0)
-
+ctr_vel_motor_dir.start(0)
 
 time.sleep(1)
 
-inicia = False
+
 inicializacao = False
+autorizado = False
+
 '''
-while(inicia is False):
+while(inicializacao is False):
 	opcao_destino = interface.menu_texto()	
-	inicializacao, ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
-	inicia = inicializacao
+	autorizado, ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
+	inicializacao = autorizado
 '''
 
 
@@ -244,7 +243,7 @@ class main:
 				
 			
 			cont_frames += 1
-			print(DETECCAO_OBSTACULOS_VISAO)
+			#print(DETECCAO_OBSTACULOS_VISAO)
 			#print(cont_frames)
 			#print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, 0))
 			#print(status_placa_pare, status_placa_pedestre,	status_placa_desvio)
