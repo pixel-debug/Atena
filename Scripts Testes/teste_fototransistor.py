@@ -26,11 +26,16 @@ ads_a = ADS.ADS1115(i2c, address=0x48)
 ads_b = ADS.ADS1115(i2c, address=0x49)
 
 
-# Criando duas entradas para leitura dos canais 0 e 1 do conversor AD
-a0 = AnalogIn(ads, ADS.P0)
-a1 = AnalogIn(ads, ADS.P1)
-a2 = AnalogIn(ads, ADS.P2)
-a3 = AnalogIn(ads, ADS.P3)
+# Criando entradas para leituras dos canais do dois conversores AD
+a0 = AnalogIn(ads_a, ADS.P0)
+a1 = AnalogIn(ads_a, ADS.P1)
+a2 = AnalogIn(ads_a, ADS.P2)
+a3 = AnalogIn(ads_a, ADS.P3)
+
+b0 = AnalogIn(ads_b, ADS.P0)
+b1 = AnalogIn(ads_b, ADS.P1)
+b2 = AnalogIn(ads_b, ADS.P2)
+b3 = AnalogIn(ads_b, ADS.P3)
 
 # 1º valor raw e 2º valor da tensão
 while True:
