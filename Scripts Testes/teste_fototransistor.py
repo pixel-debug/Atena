@@ -39,5 +39,5 @@ b3 = AnalogIn(ads_b, ADS.P3)
 
 # 1º valor raw e 2º valor da tensão
 while True:
-    print("A0:{:>5} \tA1:{:>5} \tA2:{:>5} \tA3:{:>5}".format(a0.value, a1.value, a2.value, a3.value))
+    print("A0:{:>5} A1:{:>5} A2:{:>5} A3:{:>5} \tB0:{:>5} B1:{:>5} B2:{:>5} B3:{:>5}".format(a0.value, a1.value, a2.value, a3.value, b0.value, b1.value, b2.value, b3.value))
     time.sleep(0.5)
