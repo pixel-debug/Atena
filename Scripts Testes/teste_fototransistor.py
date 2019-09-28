@@ -22,7 +22,9 @@ from adafruit_ads1x15.analog_in import AnalogIn
 i2c = busio.I2C(board.SCL, board.SDA)
 
 # Criando um objeto ADC com a interface i2c
-ads = ADS.ADS1115(i2c)
+ads_a = ADS.ADS1115(i2c, address=0x48)
+ads_b = ADS.ADS1115(i2c, address=0x49)
+
 
 # Criando duas entradas para leitura dos canais 0 e 1 do conversor AD
 a0 = AnalogIn(ads, ADS.P0)
