@@ -88,14 +88,18 @@ class main:
 				imagem_perspectiva_pista,
 				imagem_faixa_esq, 
 	   			imagem_faixa_dir,
-				status_foto_dir_inf,
-				status_foto_dir_sup, 
-				status_foto_esq_sup, 
-				status_foto_esq_inf, 
+				status_a0, 
+				status_a1, 
+				status_a2, 
+				status_a3,
+				status_b0, 
+				status_b1, 
+				status_b2, 
+				status_b3,
 				status_visao_faixa_dir, 
 				status_visao_faixa_esq,
-				status_normalidade_faixa_dir, 
-				status_normalidade_faixa_esq
+				status_anormalidade_faixa_dir, 
+				status_anormalidade_faixa_esq
 			) = trata.deteccao_faixas_pista(imagem_pista, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
 
 
@@ -119,37 +123,27 @@ class main:
 
 			# ------------------ DEFININDO CHAVES ESPECIAIS ---------------------
 			MOVIMENTO_FRENTE_LIBERADO = False
-			DETECCAO_FAIXA_DIR_FOTO = False
-			DETECCAO_FAIXA_ESQ_FOTO = False 
+
 			DETECCAO_FAIXA_DIR_VISAO = False
 			DETECCAO_FAIXA_ESQ_VISAO = False
+
 			DETECCAO_OBSTACULOS_VISAO = False
 
 			# Condicao para o robo ter movimento liberado
 			if(
-			  (status_foto_dir_inf is False) and 
-			  (status_foto_dir_sup is False) and 
-			  (status_foto_esq_inf is False) and 
-			  (status_foto_esq_sup is False) and 
+			  (status_a0 is False) and 
+			  (status_a1 is False) and 
+			  (status_a2 is False) and 
+			  (status_a3 is False) and
+			  (status_b0 is False) and 
+			  (status_b1 is False) and 
+			  (status_b2 is False) and 
+			  (status_b3 is False) and  
 			  (status_visao_faixa_dir is False) and 
 			  (status_visao_faixa_esq is False) and
 			  (status_obstaculo_vl53x is False)
-			 ):
+			  ):
 				MOVIMENTO_FRENTE_LIBERADO = True	
-
-			# Condicao para o robo fazer a correcao para a esquerda a partir dos fototransistores
-			if(
-			  (status_foto_dir_inf is True) or 
-			  (status_foto_dir_sup is True)
-			 ):
-				DETECCAO_FAIXA_DIR_FOTO = True
-
-			# Condicao para o robo fazer a correcao para a direita a partir dos fototransistores
-			if(
-			  (status_foto_esq_inf is True) or 
-			  (status_foto_esq_sup is True)
-			 ):
-				DETECCAO_FAIXA_ESQ_FOTO = True
 
 			# Condicao para o robo fazer a correcao para a direita a partir da visao
 			if(status_visao_faixa_dir is True):
@@ -163,25 +157,42 @@ class main:
 			if(
 			  (status_visao_faixa_dir is False) and 
 			  (status_visao_faixa_esq is False) and
-			  (status_normalidade_faixa_dir is True) and
-			  (status_normalidade_faixa_esq is True)
-			 ):
+			  (status_anormalidade_faixa_dir is False) and
+			  (status_anormalidade_faixa_esq is False)
+			  ):
 				DETECCAO_OBSTACULOS_VISAO = status_obstaculo_visao
 			else:
 				DETECCAO_OBSTACULOS_VISAO = False
 			# -------------------------------------------------------------------
 			
-			print(status_visao_faixa_dir, status_visao_faixa_esq, status_normalidade_faixa_dir, status_normalidade_faixa_esq, DETECCAO_OBSTACULOS_VISAO)
-
+			
 			
 			# ----------------- Condicionais De Movimentacao --------------------
-			# Seguir em frente			
+			# Seguir em frente ou manter robô parado		
 			if(MOVIMENTO_FRENTE_LIBERADO is True):
 				gerencia.seguir_em_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)			
-				
+			else:
+				print("Anomalia, manter robô parado!")	
+				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+	
+			# Detccao faixa direita visao computacional
+			if (DETECCAO_FAIXA_DIR_VISAO is True):	
+				while(DETECCAO_FAIXA_DIR_VISAO is not False):
+					#print("Virar Esquerda com Visao") 
+					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					DETECCAO_FAIXA_DIR_VISAO = False						
+			
+
+			# Detccao faixa esquerda visao computacional
+			if (DETECCAO_FAIXA_ESQ_VISAO is True):
+				while(DETECCAO_FAIXA_ESQ_VISAO is not False):
+					#print("Virar Direita com Visao") 
+					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					DETECCAO_FAIXA_ESQ_VISAO = False
+		
 			
 			# Detccao faixa direita
-			elif (DETECCAO_FAIXA_DIR_FOTO is True):
+			if (DETECCAO_FAIXA_DIR_FOTO is True):
 				status_visao_faixa_dir = False
 				status_foto_dir_inf = True
 				while(status_foto_dir_inf is not False):
@@ -198,29 +209,8 @@ class main:
 					#print("Virar Direita") 
 					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					status_foto_esq_inf = False
-			
-	
-			# Detccao faixa direita visao computacional
-			elif (DETECCAO_FAIXA_DIR_VISAO is True):	
-				while(DETECCAO_FAIXA_DIR_VISAO is not False):
-					#print("Virar Esquerda com Visao") 
-					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					DETECCAO_FAIXA_DIR_VISAO = False						
-			
 
-			# Detccao faixa esquerda visao computacional
-			elif (DETECCAO_FAIXA_ESQ_VISAO is True):
-				while(DETECCAO_FAIXA_ESQ_VISAO is not False):
-					#print("Virar Direita com Visao") 
-					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					DETECCAO_FAIXA_ESQ_VISAO = False
-		
-			
 
-			# Qualquer anomalia, manter robô parado!
-			else:
-				print("Parando")	
-				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			# -------------------------------------------------------------------
 
 
@@ -240,8 +230,9 @@ class main:
 
 			# ------------------- Apresentacao Telas ----------------------------
 			tela.apresenta("Imagem Original", imagem, 10, 10)
+
+			tela.apresenta("Imagem Placas", imagem_detecao_placa, 1000, 10)
 			tela.apresenta("Imagem obstaculos", imagem_obstaculos, 500, 10)
-			#tela.apresenta("Imagem Placas", imagem_detecao_placa, 1000, 10)
 			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
 			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
 			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
@@ -251,6 +242,7 @@ class main:
 			cont_frames += 1
 			#print(DETECCAO_OBSTACULOS_VISAO)
 			#print(cont_frames)
+			#print(status_visao_faixa_dir, status_visao_faixa_esq, status_normalidade_faixa_dir, status_normalidade_faixa_esq, DETECCAO_OBSTACULOS_VISAO)
 			#print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, 0))
 			#print(status_placa_pare, status_placa_pedestre,	status_placa_desvio)
 			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
