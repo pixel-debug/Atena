@@ -42,13 +42,17 @@ def placas_checkpoints(img, nome, min_H, max_H, min_S, max_S, min_V, max_V, area
 	for c in contours:
 		if ((cv2.contourArea(c) > area_min) and (cv2.contourArea(c) < area_max)):
 			x,y,w,h = cv2.boundingRect(c)
+			distancia_placa = calculo_distancia_placa(x, w)
 			cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
 			cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+			cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 			img_nova = img[y:(y+h),x:(x+w)]
 
 			#print(x,y,w,h)
 			return img_nova
 
+def calculo_distancia_placa(x, w):
+	return int((-0.26316) * ((x + w)-x) + 45.78947)
 
 def isola_placa1(img):
 	return isola_placa(img,126,151,70,180,77,255,4000,50000)
