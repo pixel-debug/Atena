@@ -65,7 +65,7 @@ def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 
 	status_visao_faixa_dir, status_visao_faixa_esq = False, False
 
-	status_normalidade_faixa_dir, status_normalidade_faixa_esq = False, False
+	status_anormalidade_faixa_dir, status_anormalidade_faixa_esq = False, False
 	# --------------------------------------------------------------------------------------------
 
 
@@ -107,18 +107,18 @@ def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 
 
 	# ------------- Verificação do status de normalidade na detecção das faixas ------------------
-	if((cx_dir >= 25) and (cx_dir <= 55)):
-		status_normalidade_faixa_dir = True
+	if((cx_dir <= 25) and (cx_dir >= 55)):
+		status_anormalidade_faixa_dir = True
 
-	if((cx_esq >= 63) and (cx_esq <= 93)):
-		status_normalidade_faixa_esq = True
+	if((cx_esq <= 63) and (cx_esq >= 93)):
+		status_anormalidade_faixa_esq = True
 
-	if(status_normalidade_faixa_dir is True):
+	if(status_anormalidade_faixa_dir is False):
 		status_dir = "Normal"
 	else:
 		status_dir = "ANORMAL"
 
-	if(status_normalidade_faixa_esq is True):
+	if(status_anormalidade_faixa_esq is False):
 		status_esq = "Normal"
 	else:
 		status_esq = "ANORMAL"
@@ -149,8 +149,8 @@ def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 				status_b3,
 				status_visao_faixa_dir, 
 				status_visao_faixa_esq, 
-				status_normalidade_faixa_dir, 
-				status_normalidade_faixa_esq
+				status_anormalidade_faixa_dir, 
+				status_anormalidade_faixa_esq
               ]
 
 	return retorno
@@ -200,21 +200,21 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 
 # ######################## FUNCAO DE TRATAMENTO DA DETECCAO DAS PLACAS ##########################
 def deteccao_placas(img):
-	detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio = False, False, False 
+	status_plc_pare, status_plc_pedestre, status_plc_desvio = False, False, False 
 		
 	img_area_detecao_placa = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
 	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img_area_detecao_placa, var.classificadores)
 	
 	if nome_placa == var.nome_p1 and (distancia_placa > 15 and distancia_placa <= 20):
-		detectou_plc_pare = True
+		status_plc_pare = True
 	elif nome_placa == var.nome_p2:
-		detectou_plc_desvio = True
+		status_plc_desvio = True
 	elif nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
-		detectou_plc_pedestre = True
+		status_plc_pedestre = True
 	
 	img = img_area_detecao_placa
-	return img, detectou_plc_pare, detectou_plc_pedestre, detectou_plc_desvio
+	return img, status_plc_pare, status_plc_pedestre, status_plc_desvio
 # ###############################################################################################
 
 
