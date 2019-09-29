@@ -17,6 +17,7 @@ from picamera import PiCamera
 import time
 import cv2
 import numpy as np
+import Variaveis as var
 
 # Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
 camera = PiCamera()
@@ -26,68 +27,41 @@ rawCapture = PiRGBArray(camera, size=(720, 560))
 time.sleep(0.1)
 
 
-def placas_checkpoints(img, nome, min_H, max_H, min_S, max_S, min_V, max_V, area_min, area_max):
+def placas_checkpoints(img, dados_hsv):
 	img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+	img_nova = ""
 
 	img_clone = img.copy()
 
-	hsv_min = np.array([min_H, min_S, min_V])
-	hsv_max = np.array([max_H, max_S, max_V])
+	for d in dados_hsv:
+		nome, valores_hsv_checkpoints = d
+				
+		min_H, max_H, min_S, max_S, min_V, max_V = valores_hsv_checkpoints
+		
+		hsv_min = np.array([min_H, min_S, min_V])
+		hsv_max = np.array([max_H, max_S, max_V])
 	
-	mascara = cv2.inRange(img_hsv, hsv_min, hsv_max)
+		mascara = cv2.inRange(img_hsv, hsv_min, hsv_max)
 
-	img_resultado = cv2.bitwise_and(img, img, mask=mascara)
+		img_resultado = cv2.bitwise_and(img, img, mask=mascara)
 	
-	_, contours, _ = cv2.findContours(mascara, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-	for c in contours:
-		if ((cv2.contourArea(c) > area_min) and (cv2.contourArea(c) < area_max)):
-			x,y,w,h = cv2.boundingRect(c)
-			distancia_placa = calculo_distancia_placa(x, w)
-			cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
-			cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-			cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-			img_nova = img[y:(y+h),x:(x+w)]
+		_, contours, _ = cv2.findContours(mascara, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		for c in contours:
+			if ((cv2.contourArea(c) > var.area_min) and (cv2.contourArea(c) < var.area_max)):
+				x,y,w,h = cv2.boundingRect(c)
+				distancia_placa = calculo_distancia_placa(x, w)
+				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
+				cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+				cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+				img_nova = img[y:(y+h),x:(x+w)]
 
-			#print(x,y,w,h)
-			return img_nova
+	return img_nova
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
 
-def isola_placa1(img):
-	return isola_placa(img,126,151,70,180,77,255,4000,50000)
 
-def isola_placa2(img):
-	return isola_placa(img,83,90,240,250,240,252,40000,50000)
-
-def isola_placa3(img):
-	return isola_placa(img,21,34,180,202,165,175,40000,50000)
-
-def isola_placa_verde(img):
-	return isola_placa(img,65,75,191,255,132,150,4000,50000)
-
-def isola_placa_marrom(img):
-	return isola_placa(img,7,15,122,231,135,180,4000,50000)
-
-
-'''
-def procura_placa(imagemCamera):
-	if(imagemPlaca = isola_placa1(imagemCamera)):	
-		stringPlaca = "museu"
-	elif(imagemPlaca = isola_placa2(imagemCamera)):
-		stringPlaca = "teatro"
-	elif(imagemPlaca = isola_placa3(imagemCamera)):
-		stringPlaca = "igreja"
-	elif(imagemPlaca = isola_placa_verde(imagemCamera)):	
-		stringPlaca = 'verde'
-	elif(imagemPlaca = isola_placa_marrom(imagemCamera)):	
-		stringPlaca = "marrom"
-	else:
-		stringPlaca = "nada"
-	
-	cv2.imshow(stringPlaca,imagemPlaca)
-	return stringPlaca
-'''
 
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -95,23 +69,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 	
-
-	nome_check_1 = "Museu."
-	placa_check_1 = placas_checkpoints(imagem, nome_check_1, 126, 151,70,180,77,255,4000,50000)
-	
-	nome_check_2 = "Igreja."
-	placa_check_2 = placas_checkpoints(imagem, nome_check_2, 9, 84, 101,255,131,255,4000,50000)	
-		
-	nome_check_3 = "Teatro."
-	placa_check_3 = placas_checkpoints(imagem, nome_check_3, 82, 111, 49, 255, 85, 255, 4000, 50000)
-	
-
-	'''
-	placa_check_2 = isola_placa(imagem,126,151,70,180,77,255,4000,50000)	
-	nome_check_2 = "Igreja."	
-
-	
-	'''
+	asda = placas_checkpoints(imagem, var.dados_hsv)
 
 	#cv2.imshow("dsdfas",stringPlaca)
 
