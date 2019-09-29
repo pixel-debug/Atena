@@ -23,6 +23,7 @@ import Motores as motor
 import Sensores as sensor
 import Interface as interface
 import Obstaculos as obstaculo
+import Gerenciador as gerencia
 
 
 # ########################### FUNCAO DE TRATAMENTO DA INTERFACE MENU ###############################
@@ -77,6 +78,10 @@ def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
 
 	img_faixa_dir = img_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
 	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
+
+	soma_matriz_img_esq = gerencia.analise_matriz_imagem(img_faixa_esq)
+	soma_matriz_img_dir = gerencia.analise_matriz_imagem(img_faixa_dir)
+	#print(soma_matriz_img_esq, soma_matriz_img_dir)
 	# --------------------------------------------------------------------------------------------
 
 
@@ -111,13 +116,14 @@ def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
 	# --------------------------------------------------------------------------------------------
 
 	# --------------------------- Detecção das faixas com Visao ----------------------------------
-	if cx_dir >= 70:
+	if cx_dir >= 74:
 		status_visao_faixa_dir = True
 
 	if cx_esq <= 45:
 		status_visao_faixa_esq = True
 	# --------------------------------------------------------------------------------------------
 	
+	#print("Faixa Esq: {0} \tFaixa Dir: {1}: ".format(cx_esq, cx_dir))
 	#print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_esq, cx_esq, status_dir, cx_dir))
 
 	retorno = [
@@ -154,7 +160,7 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 
 	somatorio_matriz = obstaculo.detecta_obstaculos(img_filtros_obs)
 
-	if(somatorio_matriz > 6000):
+	if(somatorio_matriz  > 17000):
 		status_obstaculo_visao = True
 	# --------------------------------------------------------------------------------------------
 
@@ -164,10 +170,10 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 		status_obstaculo_vl53x = True
 	# --------------------------------------------------------------------------------------------
 
-	sensor.aciona_buzina(status_obstaculo_vl53x)
+	sensor.aciona_buzina(status_obstaculo_visao)
 
-	print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, somatorio_matriz))
-
+	#print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, somatorio_matriz))
+	#print(somatorio_matriz)
 	retorno = [
 				img_filtros_obs,
 				status_obstaculo_visao, 
