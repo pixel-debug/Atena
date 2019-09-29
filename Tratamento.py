@@ -57,11 +57,11 @@ def interface_menu(op):
 
 
 # ############################## FUNCAO DE DETECCAO DAS FAIXAS ###################################
-def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
+def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 
 	# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
-	status_foto_dir_inf, status_foto_esq_inf = False, False 
-	status_foto_dir_sup, status_foto_esq_sup = False, False
+	status_a0, status_a1, status_a2, status_a3 = False, False, False, False 
+	status_b0, status_b1, status_b2, status_b3 = False, False, False, False 
 
 	status_visao_faixa_dir, status_visao_faixa_esq = False, False
 
@@ -86,14 +86,23 @@ def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
 
 
 	# -------------- Verificação da deteccao das faixas com os fototransistores ------------------
-	if (ft_dir_inf <= var.CONST_FT_DIR_INF):
-		status_foto_dir_inf = True
-	if (ft_dir_sup <= var.CONST_FT_DIR_SUP):
-		status_foto_dir_sup = True
-	if (ft_esq_sup <= var.CONST_FT_ESQ_SUP):
-		status_foto_esq_sup = True
-	if (ft_esq_inf <= var.CONST_FT_ESQ_INF):
-		status_foto_esq_inf = True
+	if (a0 <= var.CONST_A0):
+		status_a0 = True
+	if (a1 <= var.CONST_A1):
+		status_a1 = True
+	if (a2 <= var.CONST_A2):
+		status_a2 = True
+	if (a3 <= var.CONST_A3):
+		status_a3 = True
+
+	if (b0 <= var.CONST_B0):
+		status_b0 = True
+	if (b1 <= var.CONST_B1):
+		status_b1 = True
+	if (b2 <= var.CONST_B2):
+		status_b2 = True
+	if (b3 <= var.CONST_B3):
+		status_b3 = True
 	# --------------------------------------------------------------------------------------------
 
 
@@ -130,10 +139,14 @@ def deteccao_faixas_pista(img, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf):
 				img_perspectiva_pista, 
 				img_faixa_esq, 
 				img_faixa_dir, 
-				status_foto_dir_inf, 
-				status_foto_dir_sup, 
-				status_foto_esq_sup, 
-				status_foto_esq_inf, 
+				status_a0, 
+				status_a1, 
+				status_a2, 
+				status_a3,
+				status_b0, 
+				status_b1, 
+				status_b2, 
+				status_b3,
 				status_visao_faixa_dir, 
 				status_visao_faixa_esq, 
 				status_normalidade_faixa_dir, 
