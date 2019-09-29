@@ -17,12 +17,12 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velNormal = 12
+velNormal = 18
 
-CONST_CORREC_REF = 1.70
-CONST_CORREC_INV = 1.45
+CONST_CORREC_REF = 1.75
+CONST_CORREC_INV = 1.60
 
-velReacao = 18
+velReacao = 20
 # --------------------------------------------------------
 
 
@@ -36,10 +36,17 @@ tempoEsperaPlacaPesdestre = 2
 
 # -------------- Contantes dos Sensores ------------------
 # Constantes para atuação dos fototransistores
-CONST_FT_DIR_INF = 21000
-CONST_FT_DIR_SUP = 19500
-CONST_FT_ESQ_SUP = 21000
-CONST_FT_ESQ_INF = 12000
+CONST_A0 = 7000
+CONST_A1 = 1500
+CONST_A2 = 1500
+CONST_A3 = 1400
+
+CONST_B0 = 7000
+CONST_B1 = 1500
+CONST_B2 = 1500
+CONST_B3 = 1400
+
+
 
 CONST_OBSTAC = 150
 
@@ -113,7 +120,7 @@ pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt
 
 
 # --------------- Variaveis Obstaculos -------------------
-tresh_min_obs, tresh_max_obs = 45, 120
+tresh_min_obs, tresh_max_obs = 150, 240
 
 pt_obstaculo_1, pt_obstaculo_2, pt_obstaculo_3, pt_obstaculo_4 = (105,505), (725,505), (0,680), (840,680)
 
