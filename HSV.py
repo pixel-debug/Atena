@@ -26,7 +26,7 @@ rawCapture = PiRGBArray(camera, size=(720, 560))
 time.sleep(0.1)
 
 
-def placas_checkpoints(img, min_H, max_H, min_S, max_S, min_V, max_V, area_min, area_max):
+def placas_checkpoints(img, nome, min_H, max_H, min_S, max_S, min_V, max_V, area_min, area_max):
 	img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 	img_clone = img.copy()
@@ -43,6 +43,7 @@ def placas_checkpoints(img, min_H, max_H, min_S, max_S, min_V, max_V, area_min, 
 		if ((cv2.contourArea(c) > area_min) and (cv2.contourArea(c) < area_max)):
 			x,y,w,h = cv2.boundingRect(c)
 			cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
+			cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 			img_nova = img[y:(y+h),x:(x+w)]
 
 			#print(x,y,w,h)
@@ -91,15 +92,17 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	imagem = frame.array
 	
 
-	placa_check_1 = isola_placa(imagem,126,151,70,180,77,255,4000,50000)
 	nome_check_1 = "Museu."
+	placa_check_1 = placas_checkpoints(imagem, nome_check_1,126,151,70,180,77,255,4000,50000)
+	
 
+	'''
 	placa_check_2 = isola_placa(imagem,126,151,70,180,77,255,4000,50000)	
 	nome_check_2 = "Igreja."	
 
 	placa_check_3 = isola_placa(imagem,126,151,70,180,77,255,4000,50000)
 	nome_check_3 = "Teatro."
-
+	'''
 
 	#cv2.imshow("dsdfas",stringPlaca)
 
