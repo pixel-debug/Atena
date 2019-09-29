@@ -97,15 +97,20 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	
 
 	nome_check_1 = "Museu."
-	placa_check_1 = placas_checkpoints(imagem, nome_check_1,126,151,70,180,77,255,4000,50000)
+	placa_check_1 = placas_checkpoints(imagem, nome_check_1, 126, 151,70,180,77,255,4000,50000)
+	
+	nome_check_2 = "Igreja."
+	placa_check_2 = placas_checkpoints(imagem, nome_check_2, 9, 84, 101,255,131,255,4000,50000)	
+		
+	nome_check_3 = "Teatro."
+	placa_check_3 = placas_checkpoints(imagem, nome_check_3, 82, 111, 49, 255, 85, 255, 4000, 50000)
 	
 
 	'''
 	placa_check_2 = isola_placa(imagem,126,151,70,180,77,255,4000,50000)	
 	nome_check_2 = "Igreja."	
 
-	placa_check_3 = isola_placa(imagem,126,151,70,180,77,255,4000,50000)
-	nome_check_3 = "Teatro."
+	
 	'''
 
 	#cv2.imshow("dsdfas",stringPlaca)
