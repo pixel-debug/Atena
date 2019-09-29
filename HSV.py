@@ -28,9 +28,12 @@ time.sleep(0.1)
 
 
 def placas_checkpoints(img, dados_hsv):
+	status_ck_1, status_ck_2, status_ck_3 =  False, False, False
+	img_nova, nome_real, distancia_placa = " - ",  " - ", " - "
+	
 	img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-	img_nova = ""
+	
 
 	img_clone = img.copy()
 
@@ -56,7 +59,23 @@ def placas_checkpoints(img, dados_hsv):
 				cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 				img_nova = img[y:(y+h),x:(x+w)]
 
-	return img_nova
+				if nome == var.nome_check_1:
+					nome_real = nome
+					status_ck_1 = True
+
+				if nome == var.nome_check_2:
+					nome_real = nome
+					status_ck_2 = True
+
+				if nome == var.nome_check_3:
+					nome_real = nome
+					status_ck_3 = True
+
+
+				
+				
+
+	return img_nova, nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
@@ -69,7 +88,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# O vetor com os frames capturados sao armazenados no vetor image	
 	imagem = frame.array
 	
-	asda = placas_checkpoints(imagem, var.dados_hsv)
+	img_nova, nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa = placas_checkpoints(imagem, var.dados_hsv)
+
+	print(nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa)
 
 	#cv2.imshow("dsdfas",stringPlaca)
 
