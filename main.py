@@ -75,7 +75,7 @@ class main:
 			imagem_obstaculo = imagem.copy()
 			
 			# Obtendo valores brutos dos fototransistores
-			ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf = sensor.fototransistores()
+			a0, a1, a2, a3, b0, b1, b2, b3 = sensor.fototransistores()
 
 			# Obtendo valores brutos sensor de obstaculo 
 			#distancia_obstaculo = sensor.vl530x()	
@@ -100,7 +100,7 @@ class main:
 				status_visao_faixa_esq,
 				status_anormalidade_faixa_dir, 
 				status_anormalidade_faixa_esq
-			) = trata.deteccao_faixas_pista(imagem_pista, ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
+			) = trata.deteccao_faixas_pista(imagem_pista, a0, a1, a2, a3, b0, b1, b2, b3)
 
 
 			# Deteccao de obstaculos na pista
@@ -153,6 +153,7 @@ class main:
 			if(status_visao_faixa_esq is True):
 				DETECCAO_FAIXA_ESQ_VISAO = True
 
+			'''
 			# Condicao para o robo fazer a verificacao de obstaculos a partir da visao
 			if(
 			  (status_visao_faixa_dir is False) and 
@@ -163,55 +164,95 @@ class main:
 				DETECCAO_OBSTACULOS_VISAO = status_obstaculo_visao
 			else:
 				DETECCAO_OBSTACULOS_VISAO = False
+			'''			
 			# -------------------------------------------------------------------
 			
 			
+			# ------------------ *** Condicionais De Movimentacao *** ------------------------
 			
-			# ----------------- Condicionais De Movimentacao --------------------
-			# Seguir em frente ou manter robô parado		
+			# ------------------ Seguir em frente ou manter robô parado ----------------------	
 			if(MOVIMENTO_FRENTE_LIBERADO is True):
+				print("Seguindo em frente...")
 				gerencia.seguir_em_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)			
 			else:
 				print("Anomalia, manter robô parado!")	
 				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-	
-			# Detccao faixa direita visao computacional
+			# --------------------------------------------------------------------------------
+
+
+			# -------------------- Detccao faixa direita Visao Comp --------------------------
 			if (DETECCAO_FAIXA_DIR_VISAO is True):	
 				while(DETECCAO_FAIXA_DIR_VISAO is not False):
-					#print("Virar Esquerda com Visao") 
+					print("Virar Esquerda com Visao") 
 					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					DETECCAO_FAIXA_DIR_VISAO = False						
-			
+			# --------------------------------------------------------------------------------
+	
 
-			# Detccao faixa esquerda visao computacional
+			# -------------------- Detccao faixa esquerda Visao Comp -------------------------
 			if (DETECCAO_FAIXA_ESQ_VISAO is True):
 				while(DETECCAO_FAIXA_ESQ_VISAO is not False):
-					#print("Virar Direita com Visao") 
+					print("Virar Direita com Visao") 
 					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					DETECCAO_FAIXA_ESQ_VISAO = False
-		
+			# --------------------------------------------------------------------------------
 			
-			# Detccao faixa direita
-			if (DETECCAO_FAIXA_DIR_FOTO is True):
-				status_visao_faixa_dir = False
-				status_foto_dir_inf = True
-				while(status_foto_dir_inf is not False):
-					#print("Virar Esquerda") 
+
+			# -------------------------- Detccao faixa direita -------------------------------
+			if (status_a0 is True):
+				while(status_a0 is not False):
+					print("Virar Esquerda A0")
+					a0, _, _, _, _, _, _, _ = sensor.fototransistores() 
+					motor.movimento_direita(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(a0 >= var.CONST_A0): 
+						status_a0 = False
+
+			if (status_a1 is True):
+				while(status_a1 is not False):
+					print("Virar Esquerda A1")
+					_, a1, _, _, _, _, _, _ = sensor.fototransistores() 
 					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					status_foto_dir_inf = False
-				
+					if(a1 >= var.CONST_A1): 
+						status_a1 = False
 
-			# Detccao faixa esquerda
-			elif (DETECCAO_FAIXA_ESQ_FOTO is True):
-				status_visao_faixa_esq = False
-				status_foto_esq_inf = True
-				while(status_foto_esq_inf is not False):
-					#print("Virar Direita") 
+			if (status_a2 is True):
+				while(status_a2 is not False):
+					print("Virar Esquerda A2")
+					_, _, a2, _, _, _, _, _ = sensor.fototransistores() 
+					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(a2 >= var.CONST_A2): 
+						status_a2 = False
+			# --------------------------------------------------------------------------------	
+
+			# ------------------------- Detccao faixa esquerda -------------------------------
+			if (status_b0 is True):
+				while(status_b0 is not False):
+					print("Virar Direita B0")
+					_, _, _, _, b0, _, _, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(b0 >= var.CONST_B0): 
+						status_b0 = False
+
+			if (status_b1 is True):
+				while(status_b1 is not False):
+					print("Virar Direita B1")
+					_, _, _, _, _, b1, _, _ = sensor.fototransistores() 
 					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					status_foto_esq_inf = False
+					if(b1 >= var.CONST_B1): 
+						status_b1 = False
+
+			if (status_b2 is True):
+				while(status_b2 is not False):
+					print("Virar Direita B2")
+					_, _, _, _, _, _, b2, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(b2 >= var.CONST_B2): 
+						status_b2 = False
+			# -------------------------------------------------------------------------------
 
 
-			# -------------------------------------------------------------------
+
+			
 
 
 
@@ -240,8 +281,8 @@ class main:
 				
 			
 			cont_frames += 1
+			print("A0:{:>5} A1:{:>5} A2:{:>5} A3:{:>5} \tB0:{:>5} B1:{:>5} B2:{:>5} B3:{:>5}".format(a0, a1, a2, a3, b0, b1, b2, b3))
 			#print(DETECCAO_OBSTACULOS_VISAO)
-			#print(cont_frames)
 			#print(status_visao_faixa_dir, status_visao_faixa_esq, status_normalidade_faixa_dir, status_normalidade_faixa_esq, DETECCAO_OBSTACULOS_VISAO)
 			#print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, 0))
 			#print(status_placa_pare, status_placa_pedestre,	status_placa_desvio)
