@@ -32,14 +32,20 @@ def aciona_buzina(ativa):
 		
 
 def fototransistores():
-	ads = ADS.ADS1115(i2c)
+	ads_a = ADS.ADS1115(i2c, address=0x49)
+	ads_b = ADS.ADS1115(i2c, address=0x48)
 
-	ft_dir_extrem = AnalogIn(ads, ADS.P0)
-	ft_dir_centro = AnalogIn(ads, ADS.P1)
-	ft_esq_centro = AnalogIn(ads, ADS.P2)
-	ft_esq_extrem = AnalogIn(ads, ADS.P3)
+	a0 = AnalogIn(ads_a, ADS.P0)
+	a1 = AnalogIn(ads_a, ADS.P1)
+	a2 = AnalogIn(ads_a, ADS.P2)
+	a3 = AnalogIn(ads_a, ADS.P3)
 
-	return ft_dir_extrem.value, ft_dir_centro.value, ft_esq_centro.value, ft_esq_extrem.value
+	b0 = AnalogIn(ads_b, ADS.P0)
+	b1 = AnalogIn(ads_b, ADS.P1)
+	b2 = AnalogIn(ads_b, ADS.P2)
+	b3 = AnalogIn(ads_b, ADS.P3)
+
+	return a0.value, a1.value, a2.value, a3.value, b0.value, b1.value, b2.value, b3.value
 
 
 def vl530x():
