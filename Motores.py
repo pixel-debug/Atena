@@ -25,14 +25,14 @@ def movimento_frente(velocidade, controle_velocidade_direita, controle_velocidad
 	controle_velocidade_esquerda.ChangeDutyCycle(velocidade)
 
 
-def movimento_tras(controle_velocidade_direita, controle_velocidade_esquerda):
+def movimento_tras(velocidade, controle_velocidade_direita, controle_velocidade_esquerda):
 	GPIO.output(var.pin_IN1, False)
 	GPIO.output(var.pin_IN2, True)
-	controle_velocidade_direita.ChangeDutyCycle(var.velocidade)
+	controle_velocidade_direita.ChangeDutyCycle(velocidade)
 
 	GPIO.output(var.pin_IN3, False)
 	GPIO.output(var.pin_IN4, True)
-	controle_velocidade_esquerda.ChangeDutyCycle(var.velocidade)
+	controle_velocidade_esquerda.ChangeDutyCycle(velocidade)
 
 
 def parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda):
