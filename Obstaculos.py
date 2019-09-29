@@ -18,7 +18,7 @@ import Tela as tela
 
 
 def perspectiva_obstaculo(img):
-	'''
+	
 	cv2.line(img, var.pt_obstaculo_1, var.pt_obstaculo_2, (var.cor_azul), 4)
 	cv2.line(img, var.pt_obstaculo_1, var.pt_obstaculo_3, (var.cor_azul), 4)
 	cv2.line(img, var.pt_obstaculo_2, var.pt_obstaculo_4, (var.cor_azul), 4)
@@ -28,8 +28,9 @@ def perspectiva_obstaculo(img):
 	cv2.line(img, var.pt_destino_1, var.pt_destino_3, (var.cor_verde), 4)
 	cv2.line(img, var.pt_destino_2, var.pt_destino_4, (var.cor_verde), 4)
 	cv2.line(img, var.pt_destino_3, var.pt_destino_4, (var.cor_verde), 4)
-	'''
+	
 
+	
 	matriz = cv2.getPerspectiveTransform(var.pontos_obstaculos, var.pontos_destino)
 	img = cv2.warpPerspective(img, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
 	
@@ -47,10 +48,10 @@ def filtros_obstaculos(img):
 
 
 def detecta_obstaculos(img):
-	soma = 0
+	soma_matriz_obs = 0
 	for i in sum(np.array(img)): 
-		soma += i 
-	return soma
+		soma_matriz_obs += i 
+	return soma_matriz_obs
 
 
 
