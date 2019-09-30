@@ -12,19 +12,12 @@
 
 # --------------------------------------------------------
 
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-import time
+
 import cv2
+import time
 import numpy as np
 import Variaveis as var
 
-# Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
-camera = PiCamera()
-camera.resolution = (720, 560)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(720, 560))
-time.sleep(0.1)
 
 
 def placas_checkpoints(img, dados_hsv):
@@ -32,8 +25,6 @@ def placas_checkpoints(img, dados_hsv):
 	img_nova, nome_real, distancia_placa = " - ",  " - ", " - "
 	
 	img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-	
 
 	img_clone = img.copy()
 
@@ -71,37 +62,11 @@ def placas_checkpoints(img, dados_hsv):
 					nome_real = nome
 					status_ck_3 = True
 
-
-				
-				
-
 	return img_nova, nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa
+
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
 
 
 
-
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-	
-	# O vetor com os frames capturados sao armazenados no vetor image	
-	imagem = frame.array
-	
-	img_nova, nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa = placas_checkpoints(imagem, var.dados_hsv)
-
-	print(nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa)
-
-	#cv2.imshow("dsdfas",stringPlaca)
-
-	# Apresenta as imagens capturas por meio dos frames
-	cv2.imshow("Streaming Camera Atena", imagem)
-
-	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
-	rawCapture.truncate(0)
-
-	# Se prescionar a letra 'q' sai do programa
-	if cv2.waitKey(1) & 0xFF == 27:
-		break
-
-cv2.destroyAllWindows()
