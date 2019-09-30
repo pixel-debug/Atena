@@ -32,8 +32,8 @@ def aciona_buzina(ativa):
 		
 
 def fototransistores():
-	ads_a = ADS.ADS1115(i2c, address=0x49)
-	ads_b = ADS.ADS1115(i2c, address=0x48)
+	ads_a = ADS.ADS1115(i2c, address=0x48)
+	ads_b = ADS.ADS1115(i2c, address=0x49)
 
 	a0 = AnalogIn(ads_a, ADS.P0)
 	a1 = AnalogIn(ads_a, ADS.P1)
