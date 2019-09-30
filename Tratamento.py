@@ -14,6 +14,7 @@
 
 import cv2
 import time
+import HSV as hsv
 import numpy as np
 import Tela as tela
 import Pista as pista
@@ -25,33 +26,33 @@ import Interface as interface
 import Obstaculos as obstaculo
 import Gerenciador as gerencia
 
-
+import HSV as hsv
 # ########################### FUNCAO DE TRATAMENTO DA INTERFACE MENU ###############################
 def interface_menu(op):
 	inicializacao, destino_igreja, destino_teatro, destino_museu = False, False, False, False
 
 	if(op == 1):
-		nome = "Igreja"
-	elif(op == 2):
-		nome = "Teatro"
-	elif(op == 3):
 		nome = "Museu"
+	elif(op == 2):
+		nome = "Igreja"
+	elif(op == 3):
+		nome = "Teatro" 
 	else:
-		print("bost")
+		print("Error")
 	
 	confir = interface.confirma_opcao(op, nome)
 
 	if(op == 1) and (confir == 1):
-		destino_igreja = True
-		inicializacao = True
-	elif(op == 2) and (confir == 1):
-		destino_teatro = True
-		inicializacao = True
-	elif(op == 3) and (confir == 1):
 		destino_museu = True
 		inicializacao = True
+	elif(op == 2) and (confir == 1):
+		destino_igreja = True
+		inicializacao = True
+	elif(op == 3) and (confir == 1):
+		destino_teatro = True
+		inicializacao = True
 	
-	return inicializacao, destino_igreja, destino_teatro, destino_museu
+	return inicializacao, destino_museu, destino_igreja, destino_teatro, 
 # ###############################################################################################
 
 
@@ -216,5 +217,37 @@ def deteccao_placas(img):
 	img = img_area_detecao_placa
 	return img, status_plc_pare, status_plc_pedestre, status_plc_desvio
 # ###############################################################################################
+
+
+
+# ####################### FUNCAO DE TRATAMENTO DAS PLACAS DE CHECKPOINTS ########################
+def deteccao_checkpoints(img):
+	status_ck_1, status_ck_2, status_ck_3 = False, False, False 
+		
+	img_deteccao_checkpoints = img[var.y1_img_ck:var.y2_img_ck, var.x1_img_ck:var.x2_img_ck]
+
+	img_area_ck, nome_ck, status_ck_1, status_ck_2, status_ck_3, distancia_placa = hsv.placas_checkpoints(img, var.dados_hsv)
+	
+	if nome_ck == var.nome_check_1:
+		status_ck_1 = True
+	if nome_ck == var.nome_check_2:
+		status_ck_2 = True
+	if nome_ck == var.nome_check_3:
+		status_ck_3 = True
+	
+	return img_area_ck, img_deteccao_checkpoints, status_ck_1, status_ck_2, status_ck_3
+# ###############################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
 
 
