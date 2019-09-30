@@ -36,18 +36,18 @@ tempoEsperaPlacaPesdestre = 2
 
 # -------------- Contantes dos Sensores ------------------
 # Constantes para atuação dos fototransistores
-CONST_A0 = 7000
-CONST_A1 = 1500
-CONST_A2 = 1500
-CONST_A3 = 1400
+CONST_A0 = 3000
+CONST_A1 = 3000
+CONST_A2 = 3000
+CONST_A3 = 3000
 
-CONST_B0 = 7000
-CONST_B1 = 1500
-CONST_B2 = 1500
-CONST_B3 = 1400
+CONST_B0 = 3000
+CONST_B1 = 3000
+CONST_B2 = 3000
+CONST_B3 = 3000
 
 
-
+# Constantes Deteccao Obstaculos VL530X
 CONST_OBSTAC = 150
 
 # --------------------------------------------------------
@@ -90,6 +90,9 @@ y1_img_placas_dir, y2_img_placas_dir = 190, 570
 # Area para detecção imagem de obstaculos
 x1_img_obs, x2_img_obs = 250, 840
 y1_img_obs, y2_img_obs = 550, 670 
+
+x1_img_ck, x2_img_ck = 0, 268
+y1_img_ck, y2_img_ck = 190, 570
 # --------------------------------------------------------
 
 
@@ -141,9 +144,9 @@ classificador_p3 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadore
 nome_p3 = "Pedestre"
 
 classificadores = 	[
-				(nome_p1, classificador_p1), 
-				(nome_p2, classificador_p2), 
-				(nome_p3, classificador_p3)
+						(nome_p1, classificador_p1), 
+						(nome_p2, classificador_p2), 
+						(nome_p3, classificador_p3)
 					]
 # --------------------------------------------------------
 
@@ -159,6 +162,49 @@ CONST_TEMPO_ESPERA = 12
 # --------------------------------------------------------
 
 
+
+
+# ---------------- Variaveis HSV -------------------------
+area_min, area_max = 4000, 50000
+
+
+nome_check_1 = "Museu."
+min_H_ck1 = 126 
+max_H_ck1 = 151
+min_S_ck1 = 70
+max_S_ck1 = 180
+min_V_ck1 = 77 
+max_V_ck1 = 255
+
+placa_check_1 = [min_H_ck1, max_H_ck1, min_S_ck1, max_S_ck1, min_V_ck1, max_V_ck1]
+
+nome_check_2 = "Igreja."
+min_H_ck2 = 9 
+max_H_ck2 = 84
+min_S_ck2 = 101
+max_S_ck2 = 255 
+min_V_ck2 = 131 
+max_V_ck2 = 255
+
+placa_check_2 = [min_H_ck2, max_H_ck2, min_S_ck2, max_S_ck2, min_V_ck2, max_V_ck2]
+
+nome_check_3 = "Teatro."
+min_H_ck3 = 82 
+max_H_ck3 = 111
+min_S_ck3 = 49 
+max_S_ck3 = 255 
+min_V_ck3 = 85 
+max_V_ck3 = 255
+
+placa_check_3 = [min_H_ck3, max_H_ck3, min_S_ck3, max_S_ck3, min_V_ck3, max_V_ck3]
+
+
+dados_hsv = [
+				(nome_check_1, placa_check_1),
+				(nome_check_2, placa_check_2),
+				(nome_check_3, placa_check_3)	
+			]
+# --------------------------------------------------------
 
 
 
