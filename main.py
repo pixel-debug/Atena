@@ -51,12 +51,10 @@ time.sleep(1)
 inicializacao = False
 autorizado = False
 
-'''
 while(inicializacao is False):
 	opcao_destino = interface.menu_texto()	
-	autorizado, ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
-	inicializacao = autorizado
-'''
+	resposta_autorizacao, ck1, ck2, ck3 = trata.interface_menu(opcao_destino)
+	inicializacao = resposta_autorizacao
 
 
 
@@ -67,7 +65,9 @@ class main:
 	try:
 		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
 			
-			# ------------------- Obtencao valores sensores ----------------------
+			print(ck1, ck2, ck3)
+
+			# --------------------------- Obtencao valores sensores --------------------------
 			# Obtendo quadros capturados pela camera
 			imagem = frame.array
 
@@ -79,10 +79,10 @@ class main:
 
 			# Obtendo valores brutos sensor de obstaculo 
 			#distancia_obstaculo = sensor.vl530x()	
-			# -------------------------------------------------------------------
+			# --------------------------------------------------------------------------------
 
 					
-			# -------------- Obtentendo Respostas dos Tratamentos ---------------
+			# --------------------- Obtentendo Respostas dos Tratamentos ---------------------
 			# Deteccao das faixas na pista
 			(
 				imagem_perspectiva_pista,
@@ -118,10 +118,20 @@ class main:
 				status_placa_pedestre, 
 				status_placa_desvio 
 			) = trata.deteccao_placas(imagem)
-			# -------------------------------------------------------------------
-			
 
-			# ------------------ DEFININDO CHAVES ESPECIAIS ---------------------
+
+			# Deteccao de checkpoints na pista
+			(
+				imagem_area_checkpoints,
+				imagem_deteccao_checkpoints,
+				status_ck_1, 
+				status_ck_2, 
+				status_ck_3,
+			) = trata.deteccao_checkpoints(imagem)
+			# --------------------------------------------------------------------------------
+			
+			
+			# -------------------------- DEFININDO CHAVES ESPECIAIS --------------------------
 			MOVIMENTO_FRENTE_LIBERADO = False
 
 			DETECCAO_FAIXA_DIR_VISAO = False
@@ -165,7 +175,7 @@ class main:
 			else:
 				DETECCAO_OBSTACULOS_VISAO = False
 			'''			
-			# -------------------------------------------------------------------
+			# --------------------------------------------------------------------------------
 			
 			
 			# ------------------ *** Condicionais De Movimentacao *** ------------------------
@@ -251,12 +261,7 @@ class main:
 			# -------------------------------------------------------------------------------
 
 
-
-			
-
-
-
-			# -------------------- Condicionais Placas---------------------------
+			# -------------------------- Condicionais Placas---------------------------------
 			if(status_placa_pare is True):
 				gerencia.placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			elif(status_placa_pedestre is True):
@@ -265,19 +270,33 @@ class main:
 				gerencia.placa_desvio(ctr_vel_motor_dir, ctr_vel_motor_esq)
 								
 					
-			# -------------------------------------------------------------------	
+			# -------------------------------------------------------------------------------
 
-			
+		
+			# ------------------------ Condicionais Checkpoints -----------------------------
+			if((ck1 is True) and (status_ck_1 is True)):
+				print("Você chegou no destino {0}. Desligando...".format(var.nome_check_1))			
+				break
+			elif((ck2 is True) and (status_ck_2 is True)):  
+				print("Você chegou no destino {0}. Desligando...".format(var.nome_check_2))
+				break
+			elif((ck3 is True) and (status_ck_3 is True)):
+				print("Você chegou no destino {0}. Desligando...".format(var.nome_check_3))
+				break
 
-			# ------------------- Apresentacao Telas ----------------------------
-			tela.apresenta("Imagem Original", imagem, 10, 10)
+			# -------------------------------------------------------------------------------
 
-			tela.apresenta("Imagem Placas", imagem_detecao_placa, 1000, 10)
-			tela.apresenta("Imagem obstaculos", imagem_obstaculos, 500, 10)
+
+
+			# -------------------------- Apresentacao Telas ---------------------------------
+			#tela.apresenta("Imagem Original", imagem, 10, 10)
+			tela.apresenta("Imagem Checkpoints", imagem_deteccao_checkpoints, 10, 10)
+			tela.apresenta("Imagem Placas", imagem_detecao_placa, 500, 10)
+			#tela.apresenta("Imagem obstaculos", imagem_obstaculos, 500, 10)
 			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
-			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
-			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
-			# -------------------------------------------------------------------
+			#tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
+			#tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
+			# -------------------------------------------------------------------------------
 				
 			
 			cont_frames += 1
