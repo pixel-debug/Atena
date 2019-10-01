@@ -17,12 +17,14 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velNormal = 18
+velNormal = 16
 
-CONST_CORREC_REF = 1.75
-CONST_CORREC_INV = 1.60
+CONST_CORREC_REF = 1.85
+CONST_CORREC_INV = 1.70
 
-velReacao = 20
+velReacao = 23
+velVisao = 19
+velEmergencia = 20
 # --------------------------------------------------------
 
 
@@ -36,15 +38,15 @@ tempoEsperaPlacaPesdestre = 2
 
 # -------------- Contantes dos Sensores ------------------
 # Constantes para atuação dos fototransistores
-CONST_A0 = 3000
-CONST_A1 = 3000
-CONST_A2 = 3000
-CONST_A3 = 3000
+CONST_A0 = 4500
+CONST_A1 = 4500
+CONST_A2 = 45
+CONST_A3 = 30
 
-CONST_B0 = 3000
-CONST_B1 = 3000
-CONST_B2 = 3000
-CONST_B3 = 3000
+CONST_B0 = 4500
+CONST_B1 = 4500
+CONST_B2 = 30
+CONST_B3 = 30
 
 
 # Constantes Deteccao Obstaculos VL530X
@@ -166,6 +168,16 @@ CONST_TEMPO_ESPERA = 12
 
 # ---------------- Variaveis HSV -------------------------
 area_min, area_max = 4000, 50000
+
+nome_placa_verde = ""
+min_H_v = 33 
+max_H_v = 92
+min_S_v = 31
+max_S_v = 220
+min_V_v = 92 
+max_V_v = 230
+
+placa_verde = [min_H_v, max_H_v, min_S_v, max_S_v, min_V_v, max_V_v]
 
 
 nome_check_1 = "Museu."
