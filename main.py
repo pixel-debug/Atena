@@ -73,15 +73,24 @@ class main:
 			# Obtendo quadros capturados pela camera
 			imagem = frame.array
 
-			imagem_pista = imagem.copy()
-			imagem_obstaculo = imagem.copy()
-			
 			# Obtendo valores brutos dos fototransistores
 			a0, a1, a2, a3, b0, b1, b2, b3 = sensor.fototransistores()
 
 			# Obtendo valores brutos sensor de obstaculo 
 			#distancia_obstaculo = sensor.vl530x()	
 			# --------------------------------------------------------------------------------
+
+
+			# --------------------------- Definindo Imagens Filhas ---------------------------
+			imagem_pista = imagem.copy()
+
+			imagem_sinalizacao_dir = imagem.copy()
+			imagem_sinalizacao_esq = imagem.copy()
+
+			imagem_obstaculo = imagem.copy()
+
+			imagem_sinalizacao_dir = imagem_sinalizacao_dir[var.y1_img_sinalizacao_dir:var.y2_img_sinalizacao_dir, var.x1_img_sinalizacao_dir:var.x2_img_sinalizacao_dir]
+			imagem_sinalizacao_esq = imagem_sinalizacao_esq[var.y1_img_sinalizacao_esq:var.y2_img_sinalizacao_esq, var.x1_img_sinalizacao_esq:var.x2_img_sinalizacao_esq]
 
 			
 			# --------------------- Obtentendo Respostas dos Tratamentos ---------------------
@@ -108,36 +117,34 @@ class main:
 				status_b3
 			) = trata.deteccao_faixas_fototransistores(a0, a1, a2, a3, b0, b1, b2, b3)
 
-			'''
+		
 			# Deteccao de obstaculos na pista
 			(
 				imagem_obstaculos,
 				status_obstaculo_visao, 
 				status_obstaculo_vl53x, 
 			) = trata.deteccao_obstaculo(imagem_obstaculo, 0)					
-			'''
+			
 			status_obstaculo_vl53x = False
 
-			'''
+			
 			# Deteccao de placas na pista
 			(
-				imagem_detecao_placa,
 				status_placa_pare, 
 				status_placa_pedestre, 
 				status_placa_desvio 
-			) = trata.deteccao_placas(imagem)
-			'''
+			) = trata.sinalizacao_direita(imagem_sinalizacao_dir)
+			
 
-			'''
+			
 			# Deteccao de checkpoints na pista
 			(
 				imagem_area_checkpoints,
-				imagem_deteccao_checkpoints,
 				status_ck_1, 
 				status_ck_2, 
 				status_ck_3,
-			) = trata.deteccao_checkpoints(imagem)
-			'''
+			) = trata.sinalizacao_esquerda(imagem_sinalizacao_esq)
+			
 			# --------------------------------------------------------------------------------
 			
 
@@ -244,8 +251,21 @@ class main:
 			# --------------------------------------------------------------------------------
 
 
-
 			# -------------------------- Apresentacao Telas ---------------------------------
+			tela.apresenta("Sinalizacoes da Esquerda", imagem_sinalizacao_esq, 80, 10)
+			tela.apresenta("Imagem Original", imagem, 580, 10)
+			tela.apresenta("Sinalizacoes da Direita", imagem_sinalizacao_dir, 1080, 10)
+		
+			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 80, 355)
+			tela.apresenta("Imagem Perspetiva Pista", imagem_perspectiva_pista, 580, 355)
+			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 1080, 355)
+
+			tela.apresenta("Imagem obstaculos", imagem_obstaculos, 580, 705)
+
+			# -------------------------------------------------------------------------------
+
+			'''
+			# ----------------- Apresentacao Telas Monitor Pequeno ---------------------------
 			#cv2.imshow("Imagem Placas",imagem)
 			tela.apresenta("Imagem Original", imagem, 10, 10)
 			#tela.apresenta("Imagem Checkpoints", imagem_deteccao_checkpoints, 10, 10)
@@ -255,7 +275,9 @@ class main:
 			#tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
 			#tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
 			# -------------------------------------------------------------------------------
-				
+			'''
+			
+			cv2.imwrite("Semaforo/3/"+str(cont_frames)+".jpg", imagem)	
 			
 			cont_frames += 1
 			#print(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
