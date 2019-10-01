@@ -25,11 +25,13 @@ import Interface as interface
 import Obstaculos as obstaculo
 
 
-
+# ##################### FUNCAO PARA DEFINICAO DOS COMANDOS DO ROBO ##############################
 def definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x):
 	MOVIMENTO_FRENTE = False
+
 	CORRECAO_MOTOR_DIR_VISAO = False
 	CORRECAO_MOTOR_ESQ_VISAO = False
+
 	DETECCAO_OBSTACULOS_VISAO = False
 
 	# Condicao para o robo ter movimento liberado
@@ -56,6 +58,8 @@ def definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0,
 	if(status_visao_faixa_esq is True):
 		CORRECAO_MOTOR_ESQ_VISAO = True
 
+
+
 	'''
 	# Condicao para o robo fazer a verificacao de obstaculos a partir da visao
 	if(
@@ -77,19 +81,24 @@ def definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0,
 					CORRECAO_MOTOR_ESQ_VISAO,
 					DETECCAO_OBSTACULOS_VISAO,
 			   ]
+
 	return COMANDOS
 
+# ###############################################################################################
 
 
 
-def movimento_frente(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+# ##################### FUNCAO PARA GERENCIAR MOVIMENTO E CORRECAO ##############################
+def movimento_frente(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq):
 	motor.movimento_frente(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
 
-def correcao_motor_esq(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
-	motor.movimento_esquerda(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
-
-def correcao_motor_dir(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+def correcao_motor_esq(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq):
 	motor.movimento_direita(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+
+def correcao_motor_dir(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq):
+	motor.movimento_esquerda(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+# ###############################################################################################
+
 
 
 # ########################## FUNCAO PARA GERENCIAR ACAO PLACA PARE ##############################
