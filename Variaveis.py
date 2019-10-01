@@ -204,6 +204,38 @@ dados_hsv = [
 				(nome_check_2, placa_check_2),
 				(nome_check_3, placa_check_3)	
 			]
+
+
+
+nome_semaforo_verde = "Sinal Verde"
+min_H_sem_verde = 56 
+max_H_sem_verde = 75
+min_S_sem_verde = 140 
+max_S_sem_verde = 255 
+min_V_sem_verde = 75 
+max_V_sem_verde = 255
+
+
+semaforo_verde = [min_H_sem_verde, max_H_sem_verde, min_S_sem_verde, max_S_sem_verde, min_V_sem_verde, max_V_sem_verde]
+
+
+nome_semaforo_vermelho = "Sinal Vermelho"
+min_H_sem_vermelho = 0 
+max_H_sem_vermelho = 179
+min_S_sem_vermelho = 132
+max_S_sem_vermelho = 255
+min_V_sem_vermelho = 208 
+max_V_sem_vermelho = 255
+
+
+semaforo_vermelho = [min_H_sem_vermelho, max_H_sem_vermelho, min_S_sem_vermelho, max_S_sem_vermelho, min_V_sem_vermelho, max_V_sem_vermelho]
+
+
+dados_semaforo = [
+					(nome_semaforo_verde, semaforo_verde),
+					(nome_semaforo_vermelho, semaforo_vermelho)
+				 ]
+	
 # --------------------------------------------------------
 
 
