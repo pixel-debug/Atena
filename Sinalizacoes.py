@@ -14,9 +14,9 @@
 import cv2
 import Variaveis as var
 
-def detecta_placa(img, classificadores):
+def detecta_placas_direita(img, classificadores):
 	deteccao, nome_real, distancia_placa = " - ",  " - ", " - "
-	val_pare, val_pedestre, val_desvio =  False, False, False
+	status_pare, status_pedestre, status_desvio =  False, False, False
 
 	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 	
@@ -36,20 +36,57 @@ def detecta_placa(img, classificadores):
 			cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 			if nome == var.nome_p1:
 				nome_real = nome
-				val_pare = True
-				deteccao = val_pare
+				status_pare = True
+				deteccao = status_pare
 			if nome == var.nome_p2:
 				nome_real = nome
-				val_pedestre = True
-				deteccao = val_pedestre
+				status_pedestre = True
+				deteccao = status_pedestre
 			if nome == var.nome_p3:
 				nome_real = nome
-				val_desvio = True
-				deteccao = val_desvio 
+				status_desvio = True
+				deteccao = status_desvio 
 
 		
 	return deteccao, nome_real, distancia_placa
 
+
+
+def detecta_placas_esquerda(img, classificadores):
+	deteccao, nome_real, distancia_placa = " - ",  " - ", " - "
+	status_60km, status_virar_esq, status_proibido_virar =  False, False, False
+
+	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	
+	for c in classificadores:
+		nome, classificador = c
+		
+		img_detecta_placa = classificador.detectMultiScale(img_gray, 1.2, 10)
+		
+		for (x,y,w,h) in img_detecta_placa:
+			cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+
+		for (x,y,w,h) in img_detecta_placa:
+			distancia_placa = calculo_distancia_placa(x, w)
+
+		for (x,y,w,h) in img_detecta_placa:
+			cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+			cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+			if nome == var.nome_p1:
+				nome_real = nome
+				status_60km = True
+				deteccao = status_60km
+			if nome == var.nome_p2:
+				nome_real = nome
+				status_virar_esq = True
+				deteccao = status_virar_esq
+			if nome == var.nome_p3:
+				nome_real = nome
+				status_proibido_virar = True
+				deteccao = status_proibido_virar 
+
+		
+	return deteccao, nome_real, distancia_placa
 
 
 def placas_checkpoints(img, dados_hsv):
@@ -61,9 +98,9 @@ def placas_checkpoints(img, dados_hsv):
 	img_clone = img.copy()
 
 	for d in dados_hsv:
-		nome, valores_hsv_checkpoints = d
+		nome, statusores_hsv_checkpoints = d
 				
-		min_H, max_H, min_S, max_S, min_V, max_V = valores_hsv_checkpoints
+		min_H, max_H, min_S, max_S, min_V, max_V = statusores_hsv_checkpoints
 		
 		hsv_min = np.array([min_H, min_S, min_V])
 		hsv_max = np.array([max_H, max_S, max_V])
