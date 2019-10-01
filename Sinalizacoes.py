@@ -8,7 +8,7 @@
 #	Instituição: CEFET-MG	
 # 	Link github: https://github.com/EstanislauFilho/Atena
 
-#	Script: Placas
+#	Script: Sinalizacoes
 
 # --------------------------------------------------------
 import cv2
@@ -50,49 +50,55 @@ def detecta_placa(img, classificadores):
 		
 	return deteccao, nome_real, distancia_placa
 
+
+
+def placas_checkpoints(img, dados_hsv):
+	status_ck_1, status_ck_2, status_ck_3, = False, False, False
+	img_nova, nome_real, distancia_placa = " - ", " - ",  " - "
+	
+	img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+	img_clone = img.copy()
+
+	for d in dados_hsv:
+		nome, valores_hsv_checkpoints = d
+				
+		min_H, max_H, min_S, max_S, min_V, max_V = valores_hsv_checkpoints
+		
+		hsv_min = np.array([min_H, min_S, min_V])
+		hsv_max = np.array([max_H, max_S, max_V])
+	
+		mascara = cv2.inRange(img_hsv, hsv_min, hsv_max)
+
+		img_resultado = cv2.bitwise_and(img, img, mask=mascara)
+	
+		_, contours, _ = cv2.findContours(mascara, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		for c in contours:
+			if ((cv2.contourArea(c) > var.area_min) and (cv2.contourArea(c) < var.area_max)):
+				x,y,w,h = cv2.boundingRect(c)
+				distancia_placa = calculo_distancia_placa(x, w)
+				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
+				cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+				cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+				img_nova = img[y:(y+h),x:(x+w)]
+
+				if nome == var.nome_check_1:
+					nome_real = nome
+					status_ck_1 = True
+
+				if nome == var.nome_check_2:
+					nome_real = nome
+					status_ck_2 = True
+
+				if nome == var.nome_check_3:
+					nome_real = nome
+					status_ck_3 = True
+
+	return img_nova, nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa
+
+
+
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
-
-
-'''
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-import RPi.GPIO as GPIO
-import time
-import cv2
-import Variaveis as var
-
-# Inicializacao e configuracao da camera 
-camera = PiCamera()
-camera.resolution = (var.tam_original_tela_x, var.tam_original_tela_y)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(var.tam_original_tela_x, var.tam_original_tela_y))
-
-
-
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-	imagem = frame.array
-
-	reigao_placa = imagem[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
-
-	detectou_placa, nome_placa, distancia_placa = detecta_placas(imagem, var.classificadores)
-	
-	print("Detectou Placa: {0} \tNome Placa: {1} \tDistancia Placa: {2}".format(detectou_placa, nome_placa, distancia_placa))
-	
-	# Apresenta imagem
-	cv2.imshow("Frame", imagem)
-
-	cv2.imshow("Regiao Placa", reigao_placa)
-
-
-	# limpa o buffer de quadros e prepara para receber o proximo
-	rawCapture.truncate(0)
-
-	if cv2.waitKey(1) & 0xFF == 27:
-		break
-	 
-print("Cleaning up")
-GPIO.cleanup()
-'''
 
 
