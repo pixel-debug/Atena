@@ -229,7 +229,7 @@ def sinalizacao_direita(img):
 	elif nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_pedestre = True
 	
-	return img, status_plc_pare, status_plc_pedestre, status_plc_desvio
+	return status_plc_pare, status_plc_pedestre, status_plc_desvio
 # ###############################################################################################
 
 
@@ -247,7 +247,7 @@ def sinalizacao_esquerda(img):
 	if nome_ck == var.nome_check_3:
 		status_ck_3 = True
 	
-	return img_area_ck, img_deteccao_checkpoints, status_ck_1, status_ck_2, status_ck_3
+	return img_area_ck, status_ck_1, status_ck_2, status_ck_3
 # ##############################################################################################
 
 
