@@ -58,7 +58,7 @@ def interface_menu(op):
 
 
 # ############################## FUNCAO DE DETECCAO DAS FAIXAS ###################################
-def deteccao_faixas_visaocomp(img):
+def deteccao_faixas_visao(img):
 
 	# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
 	status_visao_faixa_dir, status_visao_faixa_esq = False, False
@@ -117,14 +117,6 @@ def deteccao_faixas_visaocomp(img):
 				img_perspectiva_pista, 
 				img_faixa_esq, 
 				img_faixa_dir, 
-				status_a0, 
-				status_a1, 
-				status_a2, 
-				status_a3,
-				status_b0, 
-				status_b1, 
-				status_b2, 
-				status_b3,
 				status_visao_faixa_dir, 
 				status_visao_faixa_esq, 
 				status_anormalidade_faixa_dir, 
@@ -172,21 +164,20 @@ def deteccao_faixas_fototransistores(a0, a1, a2, a3, b0, b1, b2, b3):
 				status_b0, 
 				status_b1, 
 				status_b2,
-				status_b3
+				status_b2
               ]
 
 	return retorno
 
 
 # ####################### FUNCAO DE TRATAMENTO DE DETECCAO DOS OBSTACULOS #######################
-def deteccao_obstaculo(img, distancia_obstac# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
-		status_a0, status_a1, status_a2, status_a3 = False, False, False, False 
-		status_b0, status_b1, status_b2, status_b3 = False, False, False, False 
+def deteccao_obstaculo(img, distancia_obstaculo):
 
-		status_visao_faixa_dir, status_visao_faixa_esq = False, False
+	# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
+	status_visao_faixa_dir, status_visao_faixa_esq = False, False
 
-		status_anormalidade_faixa_dir, status_anormalidade_faixa_esq = False, False
-		# --------------------------------------------------------------------------------------------ulo):
+	status_anormalidade_faixa_dir, status_anormalidade_faixa_esq = False, False
+	# --------------------------------------------------------------------------------------------
 
 	# ------------- Variaveis que irao definir o status de deteccao de obstaculos ----------------
 	status_obstaculo_visao = False
