@@ -58,12 +58,9 @@ def interface_menu(op):
 
 
 # ############################## FUNCAO DE DETECCAO DAS FAIXAS ###################################
-def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
+def deteccao_faixas_visaocomp(img):
 
 	# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
-	status_a0, status_a1, status_a2, status_a3 = False, False, False, False 
-	status_b0, status_b1, status_b2, status_b3 = False, False, False, False 
-
 	status_visao_faixa_dir, status_visao_faixa_esq = False, False
 
 	status_anormalidade_faixa_dir, status_anormalidade_faixa_esq = False, False
@@ -85,28 +82,7 @@ def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 	#print(soma_matriz_img_esq, soma_matriz_img_dir)
 	# --------------------------------------------------------------------------------------------
 
-
-	# -------------- Verificação da deteccao das faixas com os fototransistores ------------------
-	if (a0 <= var.CONST_A0):
-		status_a0 = True
-	if (a1 <= var.CONST_A1):
-		status_a1 = True
-	if (a2 <= var.CONST_A2):
-		status_a2 = True
-	if (a3 <= var.CONST_A3):
-		status_a3 = True
-
-	if (b0 <= var.CONST_B0):
-		status_b0 = True
-	if (b1 <= var.CONST_B1):
-		status_b1 = True
-	if (b2 <= var.CONST_B2):
-		status_b2 = True
-	if (b3 <= var.CONST_B3):
-		status_b3 = True
-	# --------------------------------------------------------------------------------------------
-
-
+	'''
 	# ------------- Verificação do status de normalidade na detecção das faixas ------------------
 	if((cx_dir <= 25) and (cx_dir >= 55)):
 		status_anormalidade_faixa_dir = True
@@ -124,6 +100,7 @@ def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 	else:
 		status_esq = "ANORMAL"
 	# --------------------------------------------------------------------------------------------
+	'''
 
 	# --------------------------- Detecção das faixas com Visao ----------------------------------
 	if cx_dir >= 74:
@@ -134,7 +111,7 @@ def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 	# --------------------------------------------------------------------------------------------
 	
 	#print("Faixa Esq: {0} \tFaixa Dir: {1}: ".format(cx_esq, cx_dir))
-	#print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_esq, cx_esq, status_dir, cx_dir))
+	#print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_visao_faixa_esq, cx_esq, status_visao_faixa_dir, cx_dir))
 
 	retorno = [
 				img_perspectiva_pista, 
@@ -159,8 +136,57 @@ def deteccao_faixas_pista(img, a0, a1, a2, a3, b0, b1, b2, b3):
 
 
 
+def deteccao_faixas_fototransistores(a0, a1, a2, a3, b0, b1, b2, b3):
+
+	# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
+	status_a0, status_a1, status_a2, status_a3 = False, False, False, False 
+	status_b0, status_b1, status_b2, status_b3 = False, False, False, False 
+	# --------------------------------------------------------------------------------------------
+
+
+	# -------------- Verificação da deteccao das faixas com os fototransistores ------------------
+	if (a0 <= var.CONST_A0):
+		status_a0 = True
+	if (a1 <= var.CONST_A1):
+		status_a1 = True
+	if (a2 <= var.CONST_A2):
+		status_a2 = True
+	if (a3 <= var.CONST_A3):
+		status_a3 = True
+
+	if (b0 <= var.CONST_B0):
+		status_b0 = True
+	if (b1 <= var.CONST_B1):
+		status_b1 = True
+	if (b2 <= var.CONST_B2):
+		status_b2 = True
+	if (b3 <= var.CONST_B3):
+		status_b3 = True
+	# --------------------------------------------------------------------------------------------
+
+	retorno = [ 
+				status_a0, 
+				status_a1, 
+				status_a2, 
+				status_a3,
+				status_b0, 
+				status_b1, 
+				status_b2,
+				status_b3
+              ]
+
+	return retorno
+
+
 # ####################### FUNCAO DE TRATAMENTO DE DETECCAO DOS OBSTACULOS #######################
-def deteccao_obstaculo(img, distancia_obstaculo):
+def deteccao_obstaculo(img, distancia_obstac# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
+		status_a0, status_a1, status_a2, status_a3 = False, False, False, False 
+		status_b0, status_b1, status_b2, status_b3 = False, False, False, False 
+
+		status_visao_faixa_dir, status_visao_faixa_esq = False, False
+
+		status_anormalidade_faixa_dir, status_anormalidade_faixa_esq = False, False
+		# --------------------------------------------------------------------------------------------ulo):
 
 	# ------------- Variaveis que irao definir o status de deteccao de obstaculos ----------------
 	status_obstaculo_visao = False
