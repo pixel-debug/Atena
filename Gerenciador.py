@@ -26,23 +26,61 @@ import Obstaculos as obstaculo
 
 
 
-def seguir_em_frente(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq):
-	motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq) 
+def definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x):
+	MOVIMENTO_FRENTE = False
+	CORRECAO_MOTOR_DIR_VISAO = False
+	CORRECAO_MOTOR_ESQ_VISAO = False
+	DETECCAO_OBSTACULOS_VISAO = False
 
-def correcao_motor_dir(status_visao_faixa_dir, velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq):
-	#if(status_visao_faixa_dir is True):
-	print(status_visao_faixa_dir)	
-	status_foto_dir_inf = True
-	status_foto_dir_sup = True
-	while((status_foto_dir_inf is not False) or (status_foto_dir_sup is not False)):
-		print("CORREEEEEEGEEEEEE...")
-		ft_dir_inf, ft_dir_sup, _, _ = sensor.fototransistores()
-		motor.movimento_esquerda(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
-		if((ft_dir_inf <= var.CONST_FT_DIR_INF) or (ft_dir_sup <= var.CONST_FT_DIR_SUP)):
-			status_foto_dir_inf = True
-			status_foto_dir_sup = True
-		else:
-			break
+	# Condicao para o robo ter movimento liberado
+	if(
+		  (status_a0 is False) and 
+		  (status_a1 is False) and 
+		  (status_a2 is False) and 
+		  (status_a3 is False) and
+		  (status_b0 is False) and 
+		  (status_b1 is False) and 
+		  (status_b2 is False) and 
+		  (status_b3 is False) and  
+		  (status_visao_faixa_dir is False) and 
+		  (status_visao_faixa_esq is False) and
+		  (status_obstaculo_vl53x is False)
+	  ):
+		MOVIMENTO_FRENTE = True	
+	 
+	# Condicao para o robo fazer a correcao para a direita a partir da visao
+	if(status_visao_faixa_dir is True):
+		CORRECAO_MOTOR_DIR_VISAO = True
+
+	# Condicao para o robo fazer a correcao para a esquerda a partir da visao
+	if(status_visao_faixa_esq is True):
+		CORRECAO_MOTOR_ESQ_VISAO = True
+
+	'''
+	# Condicao para o robo fazer a verificacao de obstaculos a partir da visao
+	if(
+	  (status_visao_faixa_dir is False) and 
+	  (status_visao_faixa_esq is False) and
+	  (status_anormalidade_faixa_dir is False) and
+	  (status_anormalidade_faixa_esq is False)
+	  ):
+		DETECCAO_OBSTACULOS_VISAO = status_obstaculo_visao
+	else:
+		DETECCAO_OBSTACULOS_VISAO = False
+	
+	# --------------------------------------------------------------------------------
+	'''
+
+	COMANDOS = [
+					MOVIMENTO_FRENTE,
+					CORRECAO_MOTOR_DIR_VISAO,
+					CORRECAO_MOTOR_ESQ_VISAO,
+					DETECCAO_OBSTACULOS_VISAO,
+			   ]
+	return COMANDOS
+
+
+
 
 # ########################## FUNCAO PARA GERENCIAR ACAO PLACA PARE ##############################
 def placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq):
