@@ -216,13 +216,11 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 
 
 
-# ######################## FUNCAO DE TRATAMENTO DA DETECCAO DAS PLACAS ##########################
-def deteccao_placas(img):
+# ###################### FUNCAO DE TRATAMENTO DA SINALIZACOES A DIREITA #########################
+def sinalizacao_direita(img):
 	status_plc_pare, status_plc_pedestre, status_plc_desvio = False, False, False 
-		
-	img_area_detecao_placa = img[var.y1_img_placas_dir:var.y2_img_placas_dir, var.x1_img_placas_dir:var.x2_img_placas_dir]
 
-	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img_area_detecao_placa, var.classificadores)
+	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img, var.classificadores)
 	
 	if nome_placa == var.nome_p1 and (distancia_placa > 15 and distancia_placa <= 20):
 		status_plc_pare = True
@@ -231,18 +229,15 @@ def deteccao_placas(img):
 	elif nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_pedestre = True
 	
-	img = img_area_detecao_placa
 	return img, status_plc_pare, status_plc_pedestre, status_plc_desvio
 # ###############################################################################################
 
 
 
-# ####################### FUNCAO DE TRATAMENTO DAS PLACAS DE CHECKPOINTS ########################
-def deteccao_checkpoints(img):
+# ###################### FUNCAO DE TRATAMENTO DAS SINALIZACOES A ESQUERDA #######################
+def sinalizacao_esquerda(img):
 	status_ck_1, status_ck_2, status_ck_3 = False, False, False 
 		
-	img_deteccao_checkpoints = img[var.y1_img_ck:var.y2_img_ck, var.x1_img_ck:var.x2_img_ck]
-
 	img_area_ck, nome_ck, status_ck_1, status_ck_2, status_ck_3, distancia_placa = hsv.placas_checkpoints(img, var.dados_hsv)
 	
 	if nome_ck == var.nome_check_1:
@@ -253,7 +248,7 @@ def deteccao_checkpoints(img):
 		status_ck_3 = True
 	
 	return img_area_ck, img_deteccao_checkpoints, status_ck_1, status_ck_2, status_ck_3
-# ###############################################################################################
+# ##############################################################################################
 
 
 
