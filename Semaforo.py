@@ -48,3 +48,7 @@ def detecta_semaforo(img, classificadores):
 def calculo_distancia_semaforo(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
 
+
+
+
+
