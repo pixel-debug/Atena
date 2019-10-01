@@ -17,7 +17,6 @@ import cv2
 import time
 import glob
 #import HSV as hsv
-import Tela as tela
 import Motores as motor
 import Variaveis as var
 import RPi.GPIO as GPIO
@@ -252,28 +251,28 @@ class main:
 
 
 			# -------------------------- Apresentacao Telas ---------------------------------
-			tela.apresenta("Sinalizacoes da Esquerda", imagem_sinalizacao_esq, 80, 10)
-			tela.apresenta("Imagem Original", imagem, 580, 10)
-			tela.apresenta("Sinalizacoes da Direita", imagem_sinalizacao_dir, 1080, 10)
+			interface.apresenta_tela("Sinalizacoes da Esquerda", imagem_sinalizacao_esq, 80, 10)
+			interface.apresenta_tela("Imagem Original", imagem, 580, 10)
+			interface.apresenta_tela("Sinalizacoes da Direita", imagem_sinalizacao_dir, 1080, 10)
 		
-			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 80, 355)
-			tela.apresenta("Imagem Perspetiva Pista", imagem_perspectiva_pista, 580, 355)
-			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 1080, 355)
+			interface.apresenta_tela("Imagem Faixa Esquerda", imagem_faixa_esq, 80, 355)
+			interface.apresenta_tela("Imagem Perspetiva Pista", imagem_perspectiva_pista, 580, 355)
+			interface.apresenta_tela("Imagem Faixa Direita", imagem_faixa_dir, 1080, 355)
 
-			tela.apresenta("Imagem obstaculos", imagem_obstaculos, 580, 705)
+			interface.apresenta_tela("Imagem obstaculos", imagem_obstaculos, 580, 705)
 
 			# -------------------------------------------------------------------------------
 
 			'''
 			# ----------------- Apresentacao Telas Monitor Pequeno ---------------------------
 			#cv2.imshow("Imagem Placas",imagem)
-			tela.apresenta("Imagem Original", imagem, 10, 10)
-			#tela.apresenta("Imagem Checkpoints", imagem_deteccao_checkpoints, 10, 10)
-			#tela.apresenta("Imagem Placas", imagem_detecao_placa, 500, 10)
-			#tela.apresenta("Imagem obstaculos", imagem_obstaculos, 500, 10)
-			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
-			#tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
-			#tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
+			interface.apresenta_tela("Imagem Original", imagem, 10, 10)
+			#interface.apresenta_tela("Imagem Checkpoints", imagem_deteccao_checkpoints, 10, 10)
+			#interface.apresenta_tela("Imagem Placas", imagem_detecao_placa, 500, 10)
+			#interface.apresenta_tela("Imagem obstaculos", imagem_obstaculos, 500, 10)
+			#interface.apresenta_tela("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
+			#interface.apresenta_tela("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
+			#interface.apresenta_tela("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
 			# -------------------------------------------------------------------------------
 			'''
 			
