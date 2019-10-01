@@ -82,6 +82,16 @@ def definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0,
 
 
 
+def movimento_frente(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+	motor.movimento_frente(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+
+def correcao_motor_esq(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+	motor.movimento_esquerda(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+
+def correcao_motor_dir(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+	motor.movimento_direita(velocidade, ctr_vel_motor_dir, ctr_vel_motor_esq)
+
+
 # ########################## FUNCAO PARA GERENCIAR ACAO PLACA PARE ##############################
 def placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq):
 	tempoPare = 0
