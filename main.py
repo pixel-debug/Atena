@@ -15,6 +15,7 @@
 
 import cv2
 import time
+import glob
 #import HSV as hsv
 import Tela as tela
 import Motores as motor
@@ -27,7 +28,6 @@ from picamera import PiCamera
 import Gerenciador as gerencia
 import Configuracoes as definir
 from picamera.array import PiRGBArray
-
 
 
 frames = PiCamera()
@@ -46,6 +46,7 @@ ctr_vel_motor_esq.start(0)
 ctr_vel_motor_dir.start(0)
 
 time.sleep(1)
+
 
 
 inicializacao = False
@@ -82,36 +83,42 @@ class main:
 			#distancia_obstaculo = sensor.vl530x()	
 			# --------------------------------------------------------------------------------
 
-					
+			
 			# --------------------- Obtentendo Respostas dos Tratamentos ---------------------
 			# Deteccao das faixas na pista
 			(
 				imagem_perspectiva_pista,
 				imagem_faixa_esq, 
 	   			imagem_faixa_dir,
-				status_a0, 
-				status_a1, 
-				status_a2, 
-				status_a3,
-				status_b0, 
-				status_b1, 
-				status_b2, 
-				status_b3,
 				status_visao_faixa_dir, 
 				status_visao_faixa_esq,
 				status_anormalidade_faixa_dir, 
 				status_anormalidade_faixa_esq
-			) = trata.deteccao_faixas_pista(imagem_pista, a0, a1, a2, a3, b0, b1, b2, b3)
+			) = trata.deteccao_faixas_visao(imagem_pista)
+			
 
+			(
+				status_a0, 
+				status_a1, 
+				status_a2, 
+				status_a3, 
+				status_b0, 
+				status_b1, 
+				status_b2, 
+				status_b3
+			) = trata.deteccao_faixas_fototransistores(a0, a1, a2, a3, b0, b1, b2, b3)
 
+			'''
 			# Deteccao de obstaculos na pista
 			(
 				imagem_obstaculos,
 				status_obstaculo_visao, 
 				status_obstaculo_vl53x, 
 			) = trata.deteccao_obstaculo(imagem_obstaculo, 0)					
-			
+			'''
+			status_obstaculo_vl53x = False
 
+			'''
 			# Deteccao de placas na pista
 			(
 				imagem_detecao_placa,
@@ -119,8 +126,9 @@ class main:
 				status_placa_pedestre, 
 				status_placa_desvio 
 			) = trata.deteccao_placas(imagem)
+			'''
 
-
+			'''
 			# Deteccao de checkpoints na pista
 			(
 				imagem_area_checkpoints,
@@ -129,126 +137,10 @@ class main:
 				status_ck_2, 
 				status_ck_3,
 			) = trata.deteccao_checkpoints(imagem)
-			# --------------------------------------------------------------------------------
-			
-			
-			# -------------------------- DEFININDO CHAVES ESPECIAIS --------------------------
-			MOVIMENTO_FRENTE_LIBERADO = False
-
-			DETECCAO_FAIXA_DIR_VISAO = False
-			DETECCAO_FAIXA_ESQ_VISAO = False
-
-			DETECCAO_OBSTACULOS_VISAO = False
-
-			# Condicao para o robo ter movimento liberado
-			if(
-			  (status_a0 is False) and 
-			  (status_a1 is False) and 
-			  (status_a2 is False) and 
-			  (status_a3 is False) and
-			  (status_b0 is False) and 
-			  (status_b1 is False) and 
-			  (status_b2 is False) and 
-			  (status_b3 is False) and  
-			  (status_visao_faixa_dir is False) and 
-			  (status_visao_faixa_esq is False) and
-			  (status_obstaculo_vl53x is False)
-			  
-			  ):
-				MOVIMENTO_FRENTE_LIBERADO = True	
-
-			# Condicao para o robo fazer a correcao para a direita a partir da visao
-			if(status_visao_faixa_dir is True):
-				DETECCAO_FAIXA_DIR_VISAO = True
-
-			# Condicao para o robo fazer a correcao para a esquerda a partir da visao
-			if(status_visao_faixa_esq is True):
-				DETECCAO_FAIXA_ESQ_VISAO = True
-
 			'''
-			# Condicao para o robo fazer a verificacao de obstaculos a partir da visao
-			if(
-			  (status_visao_faixa_dir is False) and 
-			  (status_visao_faixa_esq is False) and
-			  (status_anormalidade_faixa_dir is False) and
-			  (status_anormalidade_faixa_esq is False)
-			  ):
-				DETECCAO_OBSTACULOS_VISAO = status_obstaculo_visao
-			else:
-				DETECCAO_OBSTACULOS_VISAO = False
-			'''			
 			# --------------------------------------------------------------------------------
 			
-			
-			# ------------------ *** Condicionais De Movimentacao *** ------------------------
-			
-			# ------------------ Seguir em frente ou manter robô parado ----------------------	
-			if(MOVIMENTO_FRENTE_LIBERADO is True):
-				print("Seguindo em frente...")
-				gerencia.seguir_em_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)					
-			# --------------------------------------------------------------------------------
-			
-			# -------------------- Detccao faixa direita Visao Comp --------------------------
-			elif (DETECCAO_FAIXA_DIR_VISAO is True):
-				MOVIMENTO_FRENTE_LIBERADO is False	
-				while(DETECCAO_FAIXA_DIR_VISAO is not False):
-					print("Virar Esquerda com Visao") 
-					motor.movimento_esquerda(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					DETECCAO_FAIXA_DIR_VISAO = False						
-			# --------------------------------------------------------------------------------
-	
-			# -------------------- Detccao faixa esquerda Visao Comp -------------------------
-			elif (DETECCAO_FAIXA_ESQ_VISAO is True):
-				MOVIMENTO_FRENTE_LIBERADO is False
-				while(DETECCAO_FAIXA_ESQ_VISAO is not False):
-					print("Virar Direita com Visao") 
-					motor.movimento_direita(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					DETECCAO_FAIXA_ESQ_VISAO = False
-			# --------------------------------------------------------------------------------
-			
-			else:
-				print("Anomalia, manter robô parado!")	
-				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-			'''
-			# -------------------------- Detccao faixa direita -------------------------------
-			if (status_a0 is True):
-				while(status_a0 is not False):
-					print("Virar Esquerda A0")
-					a0, _, _, _, _, _, _, _ = sensor.fototransistores() 
-					motor.movimento_esquerda(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(a0 >= var.CONST_A0): 
-						status_a0 = False
 
-			if (status_a1 is True):
-				while(status_a1 is not False):
-					print("Virar Esquerda A1")
-					_, a1, _, _, _, _, _, _ = sensor.fototransistores() 
-					motor.movimento_esquerda(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(a1 >= var.CONST_A1): 
-						status_a1 = False
-
-			
-			# --------------------------------------------------------------------------------	
-
-			# ------------------------- Detccao faixa esquerda -------------------------------
-			if (status_b0 is True):
-				while(status_b0 is not False):
-					print("Virar Direita B0")
-					_, _, _, _, b0, _, _, _ = sensor.fototransistores() 
-					motor.movimento_direita(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(b0 >= var.CONST_B0): 
-						status_b0 = False
-
-			if (status_b1 is True):
-				while(status_b1 is not False):
-					print("Virar Direita B1")
-					_, _, _, _, _, b1, _, _ = sensor.fototransistores() 
-					motor.movimento_direita(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(b1 >= var.CONST_B1): 
-						status_b1 = False
-
-			# -------------------------------------------------------------------------------
-			'''
 			'''
 			# -------------------------- Condicionais Placas---------------------------------
 			if(status_placa_pare is True):
@@ -276,19 +168,97 @@ class main:
 			# -------------------------------------------------------------------------------
 
 
+			# ----------------------------- DEFININDO COMANDOS ------------------------------
+			(
+				MOVIMENTO_FRENTE,
+				CORRECAO_MOTOR_DIR_VISAO,
+				CORRECAO_MOTOR_ESQ_VISAO,
+				DETECCAO_OBSTACULOS_VISAO,
+			) = gerencia.definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
+			# -------------------------------------------------------------------------------
+					
+
+			# ------------------ *** Condicionais De Movimentacao *** -----------------------
+			
+			# Seguir em frente ou manter robô parado 	
+			if(MOVIMENTO_FRENTE is True):
+				print("Seguindo em frente...")
+				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)					
+			
+
+			# Correcao do motor da direita com Visao Comp 
+			elif (CORRECAO_MOTOR_DIR_VISAO is True):
+				while(CORRECAO_MOTOR_DIR_VISAO is not False):
+					print("Virar Esquerda com Visao") 
+					gerencia.correcao_motor_dir(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					CORRECAO_MOTOR_DIR_VISAO = False					
+		
+
+			# Correcao do motor da esquerda com Visao Comp 
+			elif (CORRECAO_MOTOR_ESQ_VISAO is True):
+				while(CORRECAO_MOTOR_ESQ_VISAO is not False):
+					print("Virar Direita com Visao")
+					gerencia.correcao_motor_esq(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					CORRECAO_MOTOR_ESQ_VISAO = False
+			
+		
+			# Detccao faixa direita Fototransitor
+			elif (status_a0 is True):
+				while(status_a0 is not False):
+					print("Virar Esquerda A0")
+					a0, _, _, _, _, _, _, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(a0 >= var.CONST_A0): 
+						status_a0 = False
+
+			elif (status_a1 is True):
+				while(status_a1 is not False):
+					print("Virar Esquerda A1")
+					_, a1, _, _, _, _, _, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(a1 >= var.CONST_A1): 
+						status_a1 = False
+
+
+			# Detccao faixa esquerda Fototransitor
+			elif (status_b0 is True):
+				while(status_b0 is not False):
+					print("Virar Direita B0")
+					_, _, _, _, b0, _, _, _ = sensor.fototransistores() 
+					motor.movimento_direita(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(b0 >= var.CONST_B0): 
+						status_b0 = False
+
+			elif (status_b1 is True):
+				while(status_b1 is not False):
+					print("Virar Direita B1")
+					_, _, _, _, _, b1, _, _ = sensor.fototransistores() 
+					motor.movimento_direita(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(b1 >= var.CONST_B1): 
+						status_b1 = False
+
+	
+			else:
+				print("Anomalia, manter robô parado!")	
+				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+			# --------------------------------------------------------------------------------
+
+
 
 			# -------------------------- Apresentacao Telas ---------------------------------
+			#cv2.imshow("Imagem Placas",imagem)
 			tela.apresenta("Imagem Original", imagem, 10, 10)
 			#tela.apresenta("Imagem Checkpoints", imagem_deteccao_checkpoints, 10, 10)
-			tela.apresenta("Imagem Placas", imagem_detecao_placa, 500, 10)
+			#tela.apresenta("Imagem Placas", imagem_detecao_placa, 500, 10)
 			#tela.apresenta("Imagem obstaculos", imagem_obstaculos, 500, 10)
 			#tela.apresenta("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
-			tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
-			tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
+			#tela.apresenta("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
+			#tela.apresenta("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
 			# -------------------------------------------------------------------------------
 				
 			
 			cont_frames += 1
+			#print(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
 			#print("A0:{:>5} A1:{:>5} A2:{:>5} A3:{:>5} \tB0:{:>5} B1:{:>5} B2:{:>5} B3:{:>5}".format(a0, a1, a2, a3, b0, b1, b2, b3))
 			#print(DETECCAO_OBSTACULOS_VISAO)
 			#print(status_visao_faixa_dir, status_visao_faixa_esq, status_normalidade_faixa_dir, status_normalidade_faixa_esq, DETECCAO_OBSTACULOS_VISAO)
