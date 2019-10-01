@@ -59,7 +59,7 @@ CONST_OBSTAC = 150
 # Tamanho Tela
 tam_original_tela_x, tam_original_tela_y = 840, 680
 
-tam_mini_tela_x, tam_mini_tela_y = 480, 320
+tam_mini_tela_x, tam_mini_tela_y = 460, 300
 
 # Taxa de quadros por segundo
 taxa_quadros = 32
@@ -86,15 +86,18 @@ x1_faixa_dir, x2_faixa_dir = 460, 580
 y1_faixa_dir, y2_faixa_dir = 550, 650
 
 # Area para detecção das placas
-x1_img_placas_dir, x2_img_placas_dir = 572, 840
-y1_img_placas_dir, y2_img_placas_dir = 190, 570
+x1_img_sinalizacao_dir, x2_img_sinalizacao_dir = 572, 840
+y1_img_sinalizacao_dir, y2_img_sinalizacao_dir = 190, 570
+
+x1_img_sinalizacao_esq, x2_img_sinalizacao_esq = 0, 268
+y1_img_sinalizacao_esq, y2_img_sinalizacao_esq = 190, 570
+
 
 # Area para detecção imagem de obstaculos
 x1_img_obs, x2_img_obs = 250, 840
 y1_img_obs, y2_img_obs = 550, 670 
 
-x1_img_ck, x2_img_ck = 0, 268
-y1_img_ck, y2_img_ck = 190, 570
+
 # --------------------------------------------------------
 
 
