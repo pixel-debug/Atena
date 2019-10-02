@@ -16,7 +16,6 @@
 import cv2
 import time
 import glob
-#import HSV as hsv
 import Motores as motor
 import Variaveis as var
 import RPi.GPIO as GPIO
@@ -64,8 +63,7 @@ cont_frames = 0
 class main:
 	try:
 		for frame in frames.capture_continuous(capturaFrames, format="bgr", use_video_port=True):
-			
-			#print(ck1, ck2, ck3)
+
 			ck1, ck2, ck3 = False, False, False
 
 			# --------------------------- Obtencao valores sensores --------------------------
@@ -131,19 +129,22 @@ class main:
 			(
 				status_placa_pare, 
 				status_placa_pedestre, 
-				status_placa_desvio 
+				status_placa_desvio, 
+				status_placa_60, 
+				status_placa_proib_virar,
+				status_semaforo_vermelho,  
+				status_semaforo_verde
 			) = trata.sinalizacao_direita(imagem_sinalizacao_dir)
 			
 
-			
+			'''
 			# Deteccao de checkpoints na pista
 			(
-				imagem_area_checkpoints,
 				status_ck_1, 
 				status_ck_2, 
 				status_ck_3,
 			) = trata.sinalizacao_esquerda(imagem_sinalizacao_esq)
-			
+			'''
 			# --------------------------------------------------------------------------------
 			
 
@@ -182,8 +183,38 @@ class main:
 				DETECCAO_OBSTACULOS_VISAO,
 			) = gerencia.definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
 			# -------------------------------------------------------------------------------
-					
+				
+			DETECCAO_OBSTACULOS_VISAO = False	
+			if(status_semaforo_vermelho is True):
+				while((status_a3 is False) and (status_b3 is False)):
+					print("andar ate faixa de contencao.")
+					_, _, _, a3, _, _, _, b3 = sensor.fototransistores() 
+					motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
+						print("chegou faixa contenção...") 
+						status_a3, status_b3 = True, True
 
+				print("Sinal vermelho!!! Esperando sinal verde abrir...")
+				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+
+			if(status_semaforo_verde is True):
+				print("Verifica se tem obstaculo...")
+				if(DETECCAO_OBSTACULOS_VISAO is True):
+					print("fica parado ate obstaculo sair...")
+				else:
+					print("Sem presença de obstaculos Continuaaa...")
+					while((status_a3 is True) and (status_b3 is True)):
+						print("andar ate SAAAIR faixa de pedestre.")
+						_, _, _, a3, _, _, _, b3 = sensor.fototransistores() 
+						motor.movimento_frente(var.velNormal+2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						if((a3 >= var.CONST_A3) and (b3 >= var.CONST_B3)):
+							print("Saiu da faixa de pedestre...") 
+							status_a3, status_b3 = False, False	
+				print("Sinal vede!!! Liberado...")
+			else:
+				motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+	
+			'''
 			# ------------------ *** Condicionais De Movimentacao *** -----------------------
 			
 			# Seguir em frente ou manter robô parado 	
@@ -248,7 +279,7 @@ class main:
 				print("Anomalia, manter robô parado!")	
 				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			# --------------------------------------------------------------------------------
-
+			'''
 
 			# -------------------------- Apresentacao Telas ---------------------------------
 			interface.apresenta_tela("Sinalizacoes da Esquerda", imagem_sinalizacao_esq, 80, 10)
@@ -276,7 +307,6 @@ class main:
 			# -------------------------------------------------------------------------------
 			'''
 			
-			cv2.imwrite("Semaforo/3/"+str(cont_frames)+".jpg", imagem)	
 			
 			cont_frames += 1
 			#print(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
@@ -284,11 +314,8 @@ class main:
 			#print(DETECCAO_OBSTACULOS_VISAO)
 			#print(status_visao_faixa_dir, status_visao_faixa_esq, status_normalidade_faixa_dir, status_normalidade_faixa_esq, DETECCAO_OBSTACULOS_VISAO)
 			#print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, 0))
-			#print(status_placa_pare, status_placa_pedestre,	status_placa_desvio)
-			#print(ft_dir_inf, ft_dir_sup, ft_esq_sup, ft_esq_inf)
-			#print(ft_deteccao_faixa_dir_ext, ft_deteccao_faixa_dir_cen, ft_deteccao_faixa_esq_cen, ft_deteccao_faixa_esq_ext, status_visao_faixa_dir_ext, status_visao_faixa_esq_ext)
-
-
+			print(status_placa_pare, status_placa_pedestre, status_placa_desvio, status_placa_60, status_placa_proib_virar, status_semaforo_vermelho, status_semaforo_verde)
+	
 			capturaFrames.truncate(0)
 			
 			if cv2.waitKey(1) & 0xFF == 27:
