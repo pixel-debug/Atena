@@ -184,35 +184,50 @@ class main:
 			) = gerencia.definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
 			# -------------------------------------------------------------------------------
 				
-			DETECCAO_OBSTACULOS_VISAO = False	
+			DETECCAO_OBSTACULOS_VISAO = False
+			if(status_semaforo_vermelho is False):	
+				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+
 			if(status_semaforo_vermelho is True):
-				while((status_a3 is False) and (status_b3 is False)):
-					print("andar ate faixa de contencao.")
-					_, _, _, a3, _, _, _, b3 = sensor.fototransistores() 
-					motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+				print("Sinal vermelho!!!")
+				SINAL_VERMELHO = True
+				while(SINAL_VERMELHO is True):
+					_, _, _, a3, _, _, _, b3 = sensor.fototransistores()
+					print("Indo ate a faixa de conteção para aguardar...")
+					gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
-						print("chegou faixa contenção...") 
-						status_a3, status_b3 = True, True
-
-				print("Sinal vermelho!!! Esperando sinal verde abrir...")
-				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-
+						print("Faixa de contenão")
+						motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)	
+						SINAL_VERMELHO = False
+				
+				print("Aguardando abrir sinal verde!")
+				if(status_semaforo_verde is False):
+					print("Sinal verde esta fechado!")
+					motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)		
+					SINAL_VERMELHO = True
+				
+								
+			
 			if(status_semaforo_verde is True):
-				print("Verifica se tem obstaculo...")
-				if(DETECCAO_OBSTACULOS_VISAO is True):
-					print("fica parado ate obstaculo sair...")
-				else:
-					print("Sem presença de obstaculos Continuaaa...")
-					while((status_a3 is True) and (status_b3 is True)):
-						print("andar ate SAAAIR faixa de pedestre.")
-						_, _, _, a3, _, _, _, b3 = sensor.fototransistores() 
-						motor.movimento_frente(var.velNormal+2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+				print("Sinal verde!!!")
+				if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
+					SINAL_VERDE = True
+					while(SINAL_VERDE is True):
+						_, _, _, a3, _, _, _, b3 = sensor.fototransistores()
+						print("Faixa de contenção \tA3:{:>5} B3:{:>5}".format(_, _, _, a3, _, _, _, b3))
+						motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+
+						if(obstaculo is False):
+							print("Sem obstaculo! Prosseguir...")
+							gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)						
+					
 						if((a3 >= var.CONST_A3) and (b3 >= var.CONST_B3)):
-							print("Saiu da faixa de pedestre...") 
-							status_a3, status_b3 = False, False	
-				print("Sinal vede!!! Liberado...")
-			else:
-				motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+							print("Saiu da faixa de contenção...")
+							SINAL_VERDE = False
+							#break
+			#else:
+				#motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+					
 	
 			'''
 			# ------------------ *** Condicionais De Movimentacao *** -----------------------
