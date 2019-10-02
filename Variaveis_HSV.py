@@ -50,11 +50,11 @@ dados_checkpoints = [
 # ------------------------ Semáforo --------------------- 
 
 nome_semaforo_verde_hsv = "Sinal Verde"
-min_H_sem_verde = 62 
-max_H_sem_verde = 45
-min_S_sem_verde = 140 
+min_H_sem_verde = 0
+max_H_sem_verde = 93
+min_S_sem_verde = 172 
 max_S_sem_verde = 255 
-min_V_sem_verde = 0 
+min_V_sem_verde = 99 
 max_V_sem_verde = 255
 
 
