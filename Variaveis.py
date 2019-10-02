@@ -17,7 +17,7 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velNormal = 16
+velNormal = 15
 
 CONST_CORREC_REF = 1.85
 CONST_CORREC_INV = 1.70
@@ -41,12 +41,12 @@ tempoEsperaPlacaPesdestre = 2
 CONST_A0 = 4500
 CONST_A1 = 4500
 CONST_A2 = 45
-CONST_A3 = 30
+CONST_A3 = 4500
 
 CONST_B0 = 4500
 CONST_B1 = 4500
 CONST_B2 = 30
-CONST_B3 = 30
+CONST_B3 = 4500
 
 
 # Constantes Deteccao Obstaculos VL530X
@@ -87,10 +87,10 @@ y1_faixa_dir, y2_faixa_dir = 550, 650
 
 # Area para detecção das placas
 x1_img_sinalizacao_dir, x2_img_sinalizacao_dir = 572, 840
-y1_img_sinalizacao_dir, y2_img_sinalizacao_dir = 190, 570
+y1_img_sinalizacao_dir, y2_img_sinalizacao_dir = 120, 570
 
 x1_img_sinalizacao_esq, x2_img_sinalizacao_esq = 0, 268
-y1_img_sinalizacao_esq, y2_img_sinalizacao_esq = 190, 570
+y1_img_sinalizacao_esq, y2_img_sinalizacao_esq = 120, 570
 
 
 # Area para detecção imagem de obstaculos
@@ -148,11 +148,19 @@ nome_p2 = "Desvio"
 classificador_p3 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
 nome_p3 = "Pedestre"
 
-classificadores = 	[
-						(nome_p1, classificador_p1), 
-						(nome_p2, classificador_p2), 
-						(nome_p3, classificador_p3)
-					]
+classificador_p4 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_60.xml')
+nome_p4 = "60 km/h"
+
+classificador_p5 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_proibido_virar.xml')
+nome_p5 = "Proib. Virar"
+
+classificadores_placas_direita = 	[
+										(nome_p1, classificador_p1), 
+										(nome_p2, classificador_p2), 
+										(nome_p3, classificador_p3),
+										(nome_p4, classificador_p4),
+										(nome_p5, classificador_p5)
+									]
 # --------------------------------------------------------
 
 
@@ -223,11 +231,11 @@ dados_hsv = [
 
 
 nome_semaforo_verde = "Sinal Verde"
-min_H_sem_verde = 56 
-max_H_sem_verde = 75
+min_H_sem_verde = 62 
+max_H_sem_verde = 45
 min_S_sem_verde = 140 
 max_S_sem_verde = 255 
-min_V_sem_verde = 75 
+min_V_sem_verde = 0 
 max_V_sem_verde = 255
 
 
@@ -239,7 +247,7 @@ min_H_sem_vermelho = 0
 max_H_sem_vermelho = 179
 min_S_sem_vermelho = 132
 max_S_sem_vermelho = 255
-min_V_sem_vermelho = 208 
+min_V_sem_vermelho = 130 
 max_V_sem_vermelho = 255
 
 
