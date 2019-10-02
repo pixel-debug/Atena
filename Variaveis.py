@@ -17,7 +17,7 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velNormal = 15
+velNormal = 16
 
 CONST_CORREC_REF = 1.85
 CONST_CORREC_INV = 1.70
@@ -154,6 +154,7 @@ nome_p4 = "60 km/h"
 classificador_p5 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_proibido_virar.xml')
 nome_p5 = "Proib. Virar"
 
+
 classificadores_placas_direita = 	[
 										(nome_p1, classificador_p1), 
 										(nome_p2, classificador_p2), 
@@ -165,101 +166,12 @@ classificadores_placas_direita = 	[
 
 
 
-# -------------- Constantes das Placas -------------------
-# Constantes para distancia de deteccao das placas
-CONST_DETECCAO_INI = 11
-CONST_DETECCAO_FIM = 15
+# ------------- Classificadores Semaforo -----------------
+classificador_semaforo = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo_verde.xml')
+nome_semaforo_verde = "Sinal Aberto"
 
-# Tempo de espera [ 12 = 5 segundos reais] 
-CONST_TEMPO_ESPERA = 12
 # --------------------------------------------------------
 
-
-
-
-# ---------------- Variaveis HSV -------------------------
-area_min, area_max = 4000, 50000
-
-nome_placa_verde = ""
-min_H_v = 33 
-max_H_v = 92
-min_S_v = 31
-max_S_v = 220
-min_V_v = 92 
-max_V_v = 230
-
-placa_verde = [min_H_v, max_H_v, min_S_v, max_S_v, min_V_v, max_V_v]
-
-
-nome_check_1 = "Museu."
-min_H_ck1 = 126 
-max_H_ck1 = 151
-min_S_ck1 = 70
-max_S_ck1 = 180
-min_V_ck1 = 77 
-max_V_ck1 = 255
-
-placa_check_1 = [min_H_ck1, max_H_ck1, min_S_ck1, max_S_ck1, min_V_ck1, max_V_ck1]
-
-nome_check_2 = "Igreja."
-min_H_ck2 = 9 
-max_H_ck2 = 84
-min_S_ck2 = 101
-max_S_ck2 = 255 
-min_V_ck2 = 131 
-max_V_ck2 = 255
-
-placa_check_2 = [min_H_ck2, max_H_ck2, min_S_ck2, max_S_ck2, min_V_ck2, max_V_ck2]
-
-nome_check_3 = "Teatro."
-min_H_ck3 = 82 
-max_H_ck3 = 111
-min_S_ck3 = 49 
-max_S_ck3 = 255 
-min_V_ck3 = 85 
-max_V_ck3 = 255
-
-placa_check_3 = [min_H_ck3, max_H_ck3, min_S_ck3, max_S_ck3, min_V_ck3, max_V_ck3]
-
-
-dados_hsv = [
-				(nome_check_1, placa_check_1),
-				(nome_check_2, placa_check_2),
-				(nome_check_3, placa_check_3)	
-			]
-
-
-
-nome_semaforo_verde = "Sinal Verde"
-min_H_sem_verde = 62 
-max_H_sem_verde = 45
-min_S_sem_verde = 140 
-max_S_sem_verde = 255 
-min_V_sem_verde = 0 
-max_V_sem_verde = 255
-
-
-semaforo_verde = [min_H_sem_verde, max_H_sem_verde, min_S_sem_verde, max_S_sem_verde, min_V_sem_verde, max_V_sem_verde]
-
-
-nome_semaforo_vermelho = "Sinal Vermelho"
-min_H_sem_vermelho = 0 
-max_H_sem_vermelho = 179
-min_S_sem_vermelho = 132
-max_S_sem_vermelho = 255
-min_V_sem_vermelho = 130 
-max_V_sem_vermelho = 255
-
-
-semaforo_vermelho = [min_H_sem_vermelho, max_H_sem_vermelho, min_S_sem_vermelho, max_S_sem_vermelho, min_V_sem_vermelho, max_V_sem_vermelho]
-
-
-dados_semaforo = [
-					(nome_semaforo_verde, semaforo_verde),
-					(nome_semaforo_vermelho, semaforo_vermelho)
-				 ]
-	
-# --------------------------------------------------------
 
 
 
