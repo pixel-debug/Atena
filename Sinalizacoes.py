@@ -14,6 +14,7 @@
 import cv2
 import numpy as np
 import Variaveis as var
+import Variaveis_HSV as var_hsv
 
 def detecta_placas_direita(img, classificadores):
 	deteccao, nome_real, distancia_placa = " - ",  " - ", " - "
@@ -90,6 +91,29 @@ def detecta_placas_esquerda(img, classificadores):
 	return nome_real, distancia_placa
 
 
+def detecta_semaforo(img, classificador):
+	nome_estado, distancia_semaforo = " - ", " - "
+	status_vermelho, status_amarelo, status_verde =  False, False, False
+
+	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	
+	img_detecta_semaforo = classificador.detectMultiScale(img_gray, 1.1, 5)
+	
+	for (x,y,w,h) in img_detecta_semaforo:
+		cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+
+	for (x,y,w,h) in img_detecta_semaforo:
+		cv2.putText(img, nome_estado, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+		cv2.putText(img, str(distancia_semaforo)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+
+		if nome_estado == var.nome_semaforo_verde:
+			nome_estado = var.nome_semaforo_verde
+			status_verde = True
+
+
+	return nome_estado, status_verde		
+
+
 def placas_checkpoints(img, dados_hsv):
 	status_ck_1, status_ck_2, status_ck_3, = False, False, False
 	img_nova, nome_real, distancia_placa = " - ", " - ",  " - "
@@ -135,35 +159,8 @@ def placas_checkpoints(img, dados_hsv):
 	return img_nova, nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa
 
 
-'''
-def detecta_semaforo(img, classificadores):
-	nome, distancia_semaforo = "Semáforo", " - "
-	estado_vermelho, estado_amarelo, estado_verde =  False, False, False
 
-	img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-	
-	
-	img_detecta_semaforo = classificador.detectMultiScale(img_gray, 1.2, 10)
-	
-	for (x,y,w,h) in img_detecta_semaforo:
-		cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-
-	for (x,y,w,h) in img_detecta_semaforo:
-		distancia_semaforo = calculo_distancia_semaforo(x, w)
-
-	for (x,y,w,h) in img_detecta_semaforo:
-		cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-		cv2.putText(img, str(distancia_semaforo)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-	if estado == vermelho:
-		estado_vermelho = True
-	if estado == amarelo:
-		estado_amarelo = True
-	if estado == verde:
-		estado_verde = True
-'''
-
-
-def semaforo(img, dados_hsv):
+def hsv_semaforo(img, dados_hsv):
 	status_vermelho,  status_verde = False, False
 	img_nova, nome_real, distancia_placa = " - ", " - ",  " - "
 	
@@ -185,28 +182,26 @@ def semaforo(img, dados_hsv):
 	
 		_, contours, _ = cv2.findContours(mascara, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 		for c in contours:
-			if (cv2.contourArea(c) > 1000):
+			if (cv2.contourArea(c) > 3000):
 				x,y,w,h = cv2.boundingRect(c)
 				distancia_placa = calculo_distancia_placa(x, w)
 				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
 				cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 				cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-
-				if nome == var.nome_semaforo_vermelho:
+				print(distancia_placa)
+				if nome == var_hsv.nome_semaforo_vermelho_hsv:
 					nome_real = nome
 					status_vermelho = True
+					status_verde = False
 
-				if nome == var.nome_semaforo_verde:
+				elif nome == var_hsv.nome_semaforo_verde_hsv:
 					nome_real = nome
+					status_vermelho = False
 					status_verde = True
 
 	return  nome_real, status_vermelho, status_verde
 
 
-
-
-		
-	return estado_vermelho, estado_amarelo, estado_verde, distancia_placa
 
 def calculo_distancia_placa(x, w):
 	return int((-0.26316) * ((x + w)-x) + 45.78947)
