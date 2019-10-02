@@ -42,13 +42,16 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
 
-classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_virar.xml')
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_virar.xml')
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_checkpoint1.xml')
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_checkpoint2.xml')
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_checkpoint3.xml')
+
+
+classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo_verde.xml')
 
 # Captura dos quadros por segundo
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -58,7 +61,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
 	# Procurando caracteristicas semelhante na imagem capturada a partir do classificador
-	faces = classificador.detectMultiScale(gray, 1.1, 5)
+	faces = classificador.detectMultiScale(gray, 1.1, 10)
 
 	for (x,y,w,h) in faces:
 	    cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
