@@ -146,7 +146,7 @@ class main:
 			) = trata.sinalizacao_esquerda(imagem_sinalizacao_esq)
 			'''
 			# --------------------------------------------------------------------------------
-			
+			status_semaforo_vermelho, status_semaforo_verde = False, False
 
 			'''
 			# -------------------------- Condicionais Placas---------------------------------
@@ -185,50 +185,52 @@ class main:
 			# -------------------------------------------------------------------------------
 				
 			DETECCAO_OBSTACULOS_VISAO = False
-			if(status_semaforo_vermelho is False):	
-				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 
-			if(status_semaforo_vermelho is True):
-				print("Sinal vermelho!!!")
-				SINAL_VERMELHO = True
-				while(SINAL_VERMELHO is True):
+	
+			FAIXA_PEDESTRE = False
+			FAIXA_CONTENCAO = False
+
+			if(status_placa_pedestre is True):
+				FAIXA_PEDESTRE = False
+				print("Detectou Placa Pedestre! Andar cuidadosamente.")
+	
+				while(FAIXA_PEDESTRE is False):
 					_, _, _, a3, _, _, _, b3 = sensor.fototransistores()
-					print("Indo ate a faixa de conteção para aguardar...")
-					gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
-						print("Faixa de contenão")
-						motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)	
-						SINAL_VERMELHO = False
-				
-				print("Aguardando abrir sinal verde!")
-				if(status_semaforo_verde is False):
-					print("Sinal verde esta fechado!")
-					motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)		
-					SINAL_VERMELHO = True
-				
-								
-			
-			if(status_semaforo_verde is True):
-				print("Sinal verde!!!")
-				if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
-					SINAL_VERDE = True
-					while(SINAL_VERDE is True):
-						_, _, _, a3, _, _, _, b3 = sensor.fototransistores()
-						print("Faixa de contenção \tA3:{:>5} B3:{:>5}".format(_, _, _, a3, _, _, _, b3))
+					print("Indo ate a faixa de conteção para aguardar \tA3:{:>5} B3:{:>5}".format(_, _, _, a3, _, _, _, b3))
+					
+					if(DETECCAO_OBSTACULOS_VISAO is False):	
+						motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					else:
 						motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 
-						if(obstaculo is False):
-							print("Sem obstaculo! Prosseguir...")
-							gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)						
+					if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
+						print("Chegou na faixa de contecao!")
+						FAIXA_PEDESTRE = True
+				
+				for i in range(100000):
+					motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+
+				if(DETECCAO_OBSTACULOS_VISAO is False):	
+					if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
+						FAIXA_CONTENCAO = True
+
+						while(FAIXA_CONTENCAO is True):
+							_, _, _, a3, _, _, _, b3 = sensor.fototransistores()
+							print("Saindo da faixa de contenção \tA3:{:>5} B3:{:>5}".format(_, _, _, a3, _, _, _, b3))
+
+							if(DETECCAO_OBSTACULOS_VISAO is False):
+								print("Sem obstaculo! Prosseguir...")
+								gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)						
+
+							if((a3 >= var.CONST_A3) and (b3 >= var.CONST_B3)):
+								print("Saiu da faixa de contenção...")
+								FAIXA_CONTENCAO = False
+							
+				else:
+					motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)									
+
 					
-						if((a3 >= var.CONST_A3) and (b3 >= var.CONST_B3)):
-							print("Saiu da faixa de contenção...")
-							SINAL_VERDE = False
-							#break
-			#else:
-				#motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-					
-	
+
 			'''
 			# ------------------ *** Condicionais De Movimentacao *** -----------------------
 			
@@ -237,7 +239,6 @@ class main:
 				print("Seguindo em frente...")
 				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)					
 			
-
 			# Correcao do motor da direita com Visao Comp 
 			elif (CORRECAO_MOTOR_DIR_VISAO is True):
 				while(CORRECAO_MOTOR_DIR_VISAO is not False):
@@ -245,7 +246,6 @@ class main:
 					gerencia.correcao_motor_dir(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					CORRECAO_MOTOR_DIR_VISAO = False					
 		
-
 			# Correcao do motor da esquerda com Visao Comp 
 			elif (CORRECAO_MOTOR_ESQ_VISAO is True):
 				while(CORRECAO_MOTOR_ESQ_VISAO is not False):
@@ -271,7 +271,6 @@ class main:
 					if(a1 >= var.CONST_A1): 
 						status_a1 = False
 
-
 			# Detccao faixa esquerda Fototransitor
 			elif (status_b0 is True):
 				while(status_b0 is not False):
@@ -289,12 +288,11 @@ class main:
 					if(b1 >= var.CONST_B1): 
 						status_b1 = False
 
-	
 			else:
 				print("Anomalia, manter robô parado!")	
 				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 			# --------------------------------------------------------------------------------
-			'''
+			'''			
 
 			# -------------------------- Apresentacao Telas ---------------------------------
 			interface.apresenta_tela("Sinalizacoes da Esquerda", imagem_sinalizacao_esq, 80, 10)
