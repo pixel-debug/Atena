@@ -24,9 +24,13 @@ camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare.xml')
+
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_60.xml')
 
-classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo_verde.xml')
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_proibido_virar.xml')
+
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo_verde.xml')
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_cachorro.xml')
 
@@ -36,13 +40,9 @@ classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/c
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_mulher.xml')
 
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare.xml')
-
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
 
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_proibido_virar.xml')
-
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_virar.xml')
+classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_virar.xml')
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_checkpoint1.xml')
 
