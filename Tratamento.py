@@ -14,19 +14,16 @@
 
 import cv2
 import time
-import HSV as hsv
 import numpy as np
-import Tela as tela
 import Pista as pista
-import Placas as placa
-import Variaveis as var
 import Motores as motor
+import Variaveis as var
 import Sensores as sensor
 import Interface as interface
 import Obstaculos as obstaculo
 import Gerenciador as gerencia
+import Sinalizacoes as sinalizacao
 
-import HSV as hsv
 # ########################### FUNCAO DE TRATAMENTO DA INTERFACE MENU ###############################
 def interface_menu(op):
 	inicializacao, destino_igreja, destino_teatro, destino_museu = False, False, False, False
@@ -218,18 +215,54 @@ def deteccao_obstaculo(img, distancia_obstaculo):
 
 # ###################### FUNCAO DE TRATAMENTO DA SINALIZACOES A DIREITA #########################
 def sinalizacao_direita(img):
-	status_plc_pare, status_plc_pedestre, status_plc_desvio = False, False, False 
+	(	
+		status_plc_pare, 
+		status_plc_pedestre, 
+		status_plc_desvio, 
+		status_plc_60, 
+		status_plc_proib_virar,
+		status_vermelho,  
+		status_verde 
+	) = False, False, False, False, False, False, False  
 
-	detectou_placa, nome_placa, distancia_placa = placa.detecta_placa(img, var.classificadores)
+	nome_placa, distancia_placa = sinalizacao.detecta_placas_direita(img, var.classificadores_placas_direita)
+
+	estado_semaforo, distancia_semaforo, status_verde = sinalizacao.semaforo(img, var.dados_semaforo)
 	
 	if nome_placa == var.nome_p1 and (distancia_placa > 15 and distancia_placa <= 20):
 		status_plc_pare = True
-	elif nome_placa == var.nome_p2:
+
+	if nome_placa == var.nome_p2:
 		status_plc_desvio = True
-	elif nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
+
+	if nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_pedestre = True
+
+	if nome_placa == var.nome_p4 and (distancia_placa > 9 and distancia_placa <= 17):
+		status_plc_60 = True
+
+	if nome_placa == var.nome_p5 and (distancia_placa > 9 and distancia_placa <= 17):
+		status_plc_proib_virar = True
+
+	if estado_semaforo == var.nome_semaforo_vermelho:
+		status_vermelho = True
+
+	if estado_semaforo == var.nome_semaforo_verde:
+		status_verde = True
+
+	retorno = [
+				status_plc_pare, 
+				status_plc_pedestre, 
+				status_plc_desvio, 
+				status_plc_60, 
+				status_plc_proib_virar,
+				status_vermelho,  
+				status_verde
+			  ]
 	
-	return status_plc_pare, status_plc_pedestre, status_plc_desvio
+	return retorno
+
+
 # ###############################################################################################
 
 
@@ -238,7 +271,7 @@ def sinalizacao_direita(img):
 def sinalizacao_esquerda(img):
 	status_ck_1, status_ck_2, status_ck_3 = False, False, False 
 		
-	img_area_ck, nome_ck, status_ck_1, status_ck_2, status_ck_3, distancia_placa = hsv.placas_checkpoints(img, var.dados_hsv)
+	img_area_ck, nome_ck, status_ck_1, status_ck_2, status_ck_3, distancia_placa = sinalizacao.placas_checkpoints(img, var.dados_hsv)
 	
 	if nome_ck == var.nome_check_1:
 		status_ck_1 = True
