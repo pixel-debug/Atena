@@ -11,7 +11,7 @@
 #	Script: Interface
 
 # --------------------------------------------------------
-
+import cv2
 import pygame
 import Variaveis as var
 
@@ -74,11 +74,11 @@ def confirma_opcao(op, nome):
 	return confirmacao_opcao
 
 
-
-
-
-
-
+def apresenta_tela(nome, imagem, pos_x, pos_y):
+	cv2.namedWindow(nome, cv2.WINDOW_KEEPRATIO);
+	cv2.moveWindow(nome, pos_x, pos_y);
+	cv2.resizeWindow(nome, var.tam_mini_tela_x, var.tam_mini_tela_y)
+	cv2.imshow(nome, imagem)
 
 
 
