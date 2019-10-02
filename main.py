@@ -189,46 +189,18 @@ class main:
 	
 			FAIXA_PEDESTRE = False
 			FAIXA_CONTENCAO = False
+			PARE = False
 
-			if(status_placa_pedestre is True):
-				FAIXA_PEDESTRE = False
-				print("Detectou Placa Pedestre! Andar cuidadosamente.")
-	
-				while(FAIXA_PEDESTRE is False):
-					_, _, _, a3, _, _, _, b3 = sensor.fototransistores()
-					print("Indo ate a faixa de conteção para aguardar \tA3:{:>5} B3:{:>5}".format(_, _, _, a3, _, _, _, b3))
-					
-					if(DETECCAO_OBSTACULOS_VISAO is False):	
-						motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					else:
-						motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-
-					if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
-						print("Chegou na faixa de contecao!")
-						FAIXA_PEDESTRE = True
-				
+			if(status_placa_pare is True):
+				print("Aguardando na placa pare")
 				for i in range(100000):
 					motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-
-				if(DETECCAO_OBSTACULOS_VISAO is False):	
-					if((a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
-						FAIXA_CONTENCAO = True
-
-						while(FAIXA_CONTENCAO is True):
-							_, _, _, a3, _, _, _, b3 = sensor.fototransistores()
-							print("Saindo da faixa de contenção \tA3:{:>5} B3:{:>5}".format(_, _, _, a3, _, _, _, b3))
-
-							if(DETECCAO_OBSTACULOS_VISAO is False):
-								print("Sem obstaculo! Prosseguir...")
-								gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)						
-
-							if((a3 >= var.CONST_A3) and (b3 >= var.CONST_B3)):
-								print("Saiu da faixa de contenção...")
-								FAIXA_CONTENCAO = False
-							
-				else:
-					motor.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)									
-
+				print("Saindo da placa pare")
+				for i in range(10000):
+					gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+			else:
+				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+				
 					
 
 			'''
