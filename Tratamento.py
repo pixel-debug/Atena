@@ -22,6 +22,7 @@ import Sensores as sensor
 import Interface as interface
 import Obstaculos as obstaculo
 import Gerenciador as gerencia
+import Variaveis_HSV as var_hsv
 import Sinalizacoes as sinalizacao
 
 # ########################### FUNCAO DE TRATAMENTO DA INTERFACE MENU ###############################
@@ -227,7 +228,7 @@ def sinalizacao_direita(img):
 
 	nome_placa, distancia_placa = sinalizacao.detecta_placas_direita(img, var.classificadores_placas_direita)
 
-	estado_semaforo, distancia_semaforo, status_verde = sinalizacao.semaforo(img, var.dados_semaforo)
+	nome_estado_semaforo, status_vermelho, status_verde = sinalizacao.hsv_semaforo(img, var_hsv.dados_semaforo)
 	
 	if nome_placa == var.nome_p1 and (distancia_placa > 15 and distancia_placa <= 20):
 		status_plc_pare = True
@@ -244,10 +245,10 @@ def sinalizacao_direita(img):
 	if nome_placa == var.nome_p5 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_proib_virar = True
 
-	if estado_semaforo == var.nome_semaforo_vermelho:
+	if nome_estado_semaforo == var_hsv.nome_semaforo_vermelho_hsv:
 		status_vermelho = True
 
-	if estado_semaforo == var.nome_semaforo_verde:
+	if nome_estado_semaforo == var_hsv.nome_semaforo_verde_hsv:
 		status_verde = True
 
 	retorno = [
