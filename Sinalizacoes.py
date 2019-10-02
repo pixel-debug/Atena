@@ -12,6 +12,7 @@
 
 # --------------------------------------------------------
 import cv2
+import numpy as np
 import Variaveis as var
 
 def detecta_placas_direita(img, classificadores):
@@ -48,7 +49,7 @@ def detecta_placas_direita(img, classificadores):
 				deteccao = status_desvio 
 
 		
-	return deteccao, nome_real, distancia_placa
+	return nome_real, distancia_placa
 
 
 
@@ -86,7 +87,7 @@ def detecta_placas_esquerda(img, classificadores):
 				deteccao = status_proibido_virar 
 
 		
-	return deteccao, nome_real, distancia_placa
+	return nome_real, distancia_placa
 
 
 def placas_checkpoints(img, dados_hsv):
@@ -98,9 +99,9 @@ def placas_checkpoints(img, dados_hsv):
 	img_clone = img.copy()
 
 	for d in dados_hsv:
-		nome, statusores_hsv_checkpoints = d
+		nome, hsv_checkpoints = d
 				
-		min_H, max_H, min_S, max_S, min_V, max_V = statusores_hsv_checkpoints
+		min_H, max_H, min_S, max_S, min_V, max_V = hsv_checkpoints
 		
 		hsv_min = np.array([min_H, min_S, min_V])
 		hsv_max = np.array([max_H, max_S, max_V])
@@ -134,7 +135,7 @@ def placas_checkpoints(img, dados_hsv):
 	return img_nova, nome_real, status_ck_1, status_ck_2, status_ck_3, distancia_placa
 
 
-
+'''
 def detecta_semaforo(img, classificadores):
 	nome, distancia_semaforo = "Semáforo", " - "
 	estado_vermelho, estado_amarelo, estado_verde =  False, False, False
@@ -159,6 +160,49 @@ def detecta_semaforo(img, classificadores):
 		estado_amarelo = True
 	if estado == verde:
 		estado_verde = True
+'''
+
+
+def semaforo(img, dados_hsv):
+	status_vermelho,  status_verde = False, False
+	img_nova, nome_real, distancia_placa = " - ", " - ",  " - "
+	
+	img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+	img_clone = img.copy()
+
+	for d in dados_hsv:
+		nome, hsv_semaforo = d
+				
+		min_H, max_H, min_S, max_S, min_V, max_V = hsv_semaforo
+		
+		hsv_min = np.array([min_H, min_S, min_V])
+		hsv_max = np.array([max_H, max_S, max_V])
+	
+		mascara = cv2.inRange(img_hsv, hsv_min, hsv_max)
+
+		img_resultado = cv2.bitwise_and(img, img, mask=mascara)
+	
+		_, contours, _ = cv2.findContours(mascara, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		for c in contours:
+			if (cv2.contourArea(c) > 1000):
+				x,y,w,h = cv2.boundingRect(c)
+				distancia_placa = calculo_distancia_placa(x, w)
+				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
+				cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+				cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+
+				if nome == var.nome_semaforo_vermelho:
+					nome_real = nome
+					status_vermelho = True
+
+				if nome == var.nome_semaforo_verde:
+					nome_real = nome
+					status_verde = True
+
+	return  nome_real, status_vermelho, status_verde
+
+
 
 
 		
