@@ -45,7 +45,7 @@ ctr_vel_motor_dir.start(0)
 
 time.sleep(1)
 
-
+CORRECAO_NIVEL_1, CORRECAO_NIVEL_2, CORRECAO_NIVEL_3 = False, False, False
 
 inicializacao = False
 autorizado = False
@@ -186,7 +186,7 @@ class main:
 				
 			DETECCAO_OBSTACULOS_VISAO = False
 
-	
+			'''
 			FAIXA_PEDESTRE = False
 			FAIXA_CONTENCAO = False
 			PARE = False
@@ -200,71 +200,117 @@ class main:
 					gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
 			else:
 				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
-				
+			'''	
 					
 
-			'''
 			# ------------------ *** Condicionais De Movimentacao *** -----------------------
 			
-			# Seguir em frente ou manter robô parado 	
+			# ------------------ Seguir em frente ou manter robô parado  -------------------- 	
 			if(MOVIMENTO_FRENTE is True):
 				print("Seguindo em frente...")
 				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)					
+			# -------------------------------------------------------------------------------
+
 			
-			# Correcao do motor da direita com Visao Comp 
+			# ---------------- Correcao do motor da direita com Visao Comp  -----------------
 			elif (CORRECAO_MOTOR_DIR_VISAO is True):
-				while(CORRECAO_MOTOR_DIR_VISAO is not False):
+				while(CORRECAO_MOTOR_DIR_VISAO is True):
 					print("Virar Esquerda com Visao") 
 					gerencia.correcao_motor_dir(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					CORRECAO_MOTOR_DIR_VISAO = False					
-		
-			# Correcao do motor da esquerda com Visao Comp 
+					CORRECAO_MOTOR_DIR_VISAO = False
+				if(CORRECAO_MOTOR_DIR_VISAO is True):
+					CORRECAO_MOTOR_DIR_VISAO = True	
+			# -------------------------------------------------------------------------------
+
+
+			# --------------- Correcao do motor da esquerda com Visao Comp  ----------------- 
 			elif (CORRECAO_MOTOR_ESQ_VISAO is True):
-				while(CORRECAO_MOTOR_ESQ_VISAO is not False):
+				while(CORRECAO_MOTOR_ESQ_VISAO is True):
 					print("Virar Direita com Visao")
 					gerencia.correcao_motor_esq(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					CORRECAO_MOTOR_ESQ_VISAO = False
-			
+				if(CORRECAO_MOTOR_ESQ_VISAO is True):
+					CORRECAO_MOTOR_ESQ_VISAO = True	
+			# -------------------------------------------------------------------------------
 		
-			# Detccao faixa direita Fototransitor
-			elif (status_a0 is True):
-				while(status_a0 is not False):
-					print("Virar Esquerda A0")
-					a0, _, _, _, _, _, _, _ = sensor.fototransistores() 
-					motor.movimento_esquerda(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(a0 >= var.CONST_A0): 
-						status_a0 = False
 
-			elif (status_a1 is True):
-				while(status_a1 is not False):
-					print("Virar Esquerda A1")
-					_, a1, _, _, _, _, _, _ = sensor.fototransistores() 
-					motor.movimento_esquerda(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(a1 >= var.CONST_A1): 
-						status_a1 = False
-
-			# Detccao faixa esquerda Fototransitor
-			elif (status_b0 is True):
-				while(status_b0 is not False):
-					print("Virar Direita B0")
-					_, _, _, _, b0, _, _, _ = sensor.fototransistores() 
-					motor.movimento_direita(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(b0 >= var.CONST_B0): 
-						status_b0 = False
-
-			elif (status_b1 is True):
-				while(status_b1 is not False):
-					print("Virar Direita B1")
-					_, _, _, _, _, b1, _, _ = sensor.fototransistores() 
-					motor.movimento_direita(var.velEmergencia, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(b1 >= var.CONST_B1): 
-						status_b1 = False
-
+			# -------------- Manter robô parado caso não atenda as condições  ---------------
 			else:
-				print("Anomalia, manter robô parado!")	
+				print("O Sistema apresentou uma anomalia! Aguardando...")
 				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-			# --------------------------------------------------------------------------------
-			'''			
+			# -------------------------------------------------------------------------------
+			
+			
+			'''
+			# ---------------------- Detccao faixa direita Fototransitor -------------------
+			if (status_a0 is True):
+				CORRECAO_NIVEL_2 = True
+				while(CORRECAO_NIVEL_2 is True):
+					print("Virar Esquerda A0")
+					a0, _, _, _, b0, b1, _, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if((a0 >= var.CONST_A0)  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+						CORRECAO_NIVEL_2 = False
+
+
+			if (status_a1 is True):
+				CORRECAO_NIVEL_1 = True
+				while(CORRECAO_NIVEL_1 is True):
+					print("Virar Esquerda A1")
+					_, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if((a1 >= var.CONST_A1) or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+						CORRECAO_NIVEL_1 = False
+			# -------------------------------------------------------------------------------
+
+
+			# ---------------------- Detccao faixa esquerda Fototransitor -------------------
+			if (status_b0 is True):
+				CORRECAO_NIVEL_2 = True
+				while(CORRECAO_NIVEL_2 is True):
+					print("Virar Direita B0")
+					a0, a1, _, _, b0, _, _, _ = sensor.fototransistores() 
+					motor.movimento_direita(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if((b0 >= var.CONST_B0) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+						CORRECAO_NIVEL_2 = False
+
+			if (status_b1 is True):
+				CORRECAO_NIVEL_1 = True
+				while(CORRECAO_NIVEL_1 is True):
+					print("Virar Direita B1")
+					a0, a1, _, _, _, b1, _, _ = sensor.fototransistores() 
+					motor.movimento_direita(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if((b1 >= var.CONST_B1) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+						CORRECAO_NIVEL_1 = False
+			# -------------------------------------------------------------------------------
+			
+
+			# --------- Metodo para fazer correcao de extrema emergencia (DIREITA) ----------
+			if((a3 <= var.CONST_A3) and (b3 >= var.CONST_B3)):
+				CORRECAO_NIVEL_3 = True
+				print("ALERTA MAXIMO!!! O robo esta saindo da faixa Direita... ")
+				while(CORRECAO_NIVEL_3 is True):		
+					a0, a1, _, a3, _, _, _, _ = sensor.fototransistores()
+					motor.movimento_esquerda(var.velEmergencia , ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(((a3 >= var.CONST_A3) and ((a0 <= var.CONST_A0) or (a1 <= var.CONST_A1) or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)))):
+						print("Correcao estabelecida!")	 
+						CORRECAO_NIVEL_3 = False
+			# -------------------------------------------------------------------------------			
+			
+
+			# -------- Metodo para fazer correcao de extrema emergencia (ESQUERDA) ---------
+			if((b3 <= var.CONST_B3) and (a3 >= var.CONST_A3)):
+				CORRECAO_NIVEL_3 = True
+				print("ALERTA MAXIMO!!! O robo esta saindo da faixa Esquerda... ")
+				while(CORRECAO_NIVEL_3 is True):		
+					_, _, _, _, b0, b1, _, b3 = sensor.fototransistores()
+					motor.movimento_direita(var.velEmergencia , ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(((b3 >= var.CONST_B3) and ((b0 <= var.CONST_B0) or (b1 <= var.CONST_B1) or (a0 <= var.CONST_A0) or (a1 <= var.CONST_A1)))):
+						print("Correcao estabelecida!")	 
+						CORRECAO_NIVEL_3 = False
+			# -------------------------------------------------------------------------------
+			'''
+					
 
 			# -------------------------- Apresentacao Telas ---------------------------------
 			interface.apresenta_tela("Sinalizacoes da Esquerda", imagem_sinalizacao_esq, 80, 10)
@@ -299,7 +345,7 @@ class main:
 			#print(DETECCAO_OBSTACULOS_VISAO)
 			#print(status_visao_faixa_dir, status_visao_faixa_esq, status_normalidade_faixa_dir, status_normalidade_faixa_esq, DETECCAO_OBSTACULOS_VISAO)
 			#print("\nDetectou Obstaculo: {0} \tValor: {1}".format(status_obstaculo_visao, 0))
-			print(status_placa_pare, status_placa_pedestre, status_placa_desvio, status_placa_60, status_placa_proib_virar, status_semaforo_vermelho, status_semaforo_verde)
+			#print(status_placa_pare, status_placa_pedestre, status_placa_desvio, status_placa_60, status_placa_proib_virar, status_semaforo_vermelho, status_semaforo_verde)
 	
 			capturaFrames.truncate(0)
 			
