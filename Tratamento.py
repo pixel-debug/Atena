@@ -101,14 +101,14 @@ def deteccao_faixas_visao(img):
 	'''
 
 	# --------------------------- Detecção das faixas com Visao ----------------------------------
-	if cx_dir >= 74:
+	if cx_dir >= 60 and cx_esq <= 73:
 		status_visao_faixa_dir = True
 
-	if cx_esq <= 45:
+	if cx_dir >= 50 and cx_esq <= 55:
 		status_visao_faixa_esq = True
 	# --------------------------------------------------------------------------------------------
 	
-	#print("Faixa Esq: {0} \tFaixa Dir: {1}: ".format(cx_esq, cx_dir))
+	print("Faixa Dir: {0}: \tFaixa Esq: {1} ".format(cx_dir, cx_esq))
 	#print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_visao_faixa_esq, cx_esq, status_visao_faixa_dir, cx_dir))
 
 	retorno = [
@@ -228,29 +228,29 @@ def sinalizacao_direita(img):
 
 	nome_placa, distancia_placa = sinalizacao.detecta_placas_direita(img, var.classificadores_placas_direita)
 
-	nome_estado_semaforo, status_vermelho, status_verde = sinalizacao.hsv_semaforo(img, var_hsv.dados_semaforo)
+	#nome_estado_semaforo, status_vermelho, status_verde = sinalizacao.hsv_semaforo(img, var_hsv.dados_semaforo)
 	
-	if nome_placa == var.nome_p1 and (distancia_placa > 15 and distancia_placa <= 20):
+	if nome_placa == var.nome_p1 and (distancia_placa > 9 and distancia_placa <= 20):
 		status_plc_pare = True
 
-	if nome_placa == var.nome_p2:
-		status_plc_desvio = True
-
-	if nome_placa == var.nome_p3 and (distancia_placa > 9 and distancia_placa <= 17):
+	if nome_placa == var.nome_p2 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_pedestre = True
+		
+	if nome_placa == var.nome_p3:
+		status_plc_desvio = True
 
 	if nome_placa == var.nome_p4 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_60 = True
 
 	if nome_placa == var.nome_p5 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_proib_virar = True
-
+	'''
 	if nome_estado_semaforo == var_hsv.nome_semaforo_vermelho_hsv:
 		status_vermelho = True
 
 	if nome_estado_semaforo == var_hsv.nome_semaforo_verde_hsv:
 		status_verde = True
-
+	'''
 	retorno = [
 				status_plc_pare, 
 				status_plc_pedestre, 
