@@ -98,7 +98,7 @@ class main:
 	   			imagem_faixa_dir,
 				status_visao_faixa_dir, 
 				status_visao_faixa_esq,
-				status_contencao_visao
+				status_faixa_contencao_visao
 			) = trata.deteccao_faixas_visao(imagem_pista)
 			
 			
@@ -181,16 +181,16 @@ class main:
 				CORRECAO_MOTOR_DIR_VISAO,
 				CORRECAO_MOTOR_ESQ_VISAO,
 				DETECCAO_OBSTACULOS_VISAO,
-				CONTENCAO
-			) = gerencia.definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
+				FAIXA_CONTENCAO_VISAO,
+				FAIXA_CONTENCAO_FOTO
+			) = gerencia.definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_faixa_contencao_visao, status_obstaculo_vl53x)
 			# -------------------------------------------------------------------------------
 			'''	
 			DETECCAO_OBSTACULOS_VISAO = False
 
 			CORRECAO_MOTOR_DIR_VISAO = False
 			CORRECAO_MOTOR_ESQ_VISAO = False
-			CORRECAO_EXTREMA_MOTOR_DIR = False
-			CORRECAO_EXTREMA_MOTOR_ESQ = False	
+
 			
 			
 			print(status_semaforo_vermelho, status_semaforo_verde)				
@@ -216,16 +216,14 @@ class main:
 					status_semaforo_vermelho = True
 			'''	
 			
-			'''
-			# Não deixa o robo se desorientar 
-			if(status_contencao_visao is True):
+			
+			# Tratamento especifico para faixa de contencao
+			if(FAIXA_CONTENCAO_VISAO is True):
 				print("faixa de contencao visao")
-				SAIR_FAIXA_CONTENCAO = True
 				CORRECAO_MOTOR_DIR_VISAO = False
 				CORRECAO_MOTOR_ESQ_VISAO = False
-				CORRECAO_EXTREMA_MOTOR_DIR = False
-				CORRECAO_EXTREMA_MOTOR_ESQ = False
-			'''
+				gerencia.interrupcao_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+			
 
 			
 
@@ -233,7 +231,7 @@ class main:
 			
 			# ------------------ Seguir em frente ou manter robô parado  -------------------- 	
 			if(MOVIMENTO_FRENTE is True):
-				#print("Seguindo em frente...")
+				print("Seguindo em frente...")
 				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)					
 			# -------------------------------------------------------------------------------
 
