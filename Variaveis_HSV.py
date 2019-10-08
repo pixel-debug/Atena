@@ -49,6 +49,11 @@ dados_checkpoints = [
 
 # ------------------------ Semáforo --------------------- 
 
+CONST_DETECCAO_SEMAFORO = 3200
+
+
+'''
+# Tarde/dia
 nome_semaforo_verde_hsv = "Sinal Verde"
 min_H_sem_verde = 0
 max_H_sem_verde = 93
@@ -56,17 +61,39 @@ min_S_sem_verde = 172
 max_S_sem_verde = 255 
 min_V_sem_verde = 99 
 max_V_sem_verde = 255
+'''
+
+# Noite
+nome_semaforo_verde_hsv = "Sinal Verde"
+min_H_sem_verde = 0
+max_H_sem_verde = 179
+min_S_sem_verde = 186
+max_S_sem_verde = 255 
+min_V_sem_verde = 10 
+max_V_sem_verde = 255
 
 
 semaforo_verde = [min_H_sem_verde, max_H_sem_verde, min_S_sem_verde, max_S_sem_verde, min_V_sem_verde, max_V_sem_verde]
 
 
+'''
+# Tarde/dia
 nome_semaforo_vermelho_hsv = "Sinal Vermelho"
 min_H_sem_vermelho = 0 
 max_H_sem_vermelho = 179
 min_S_sem_vermelho = 132
 max_S_sem_vermelho = 255
 min_V_sem_vermelho = 130 
+max_V_sem_vermelho = 255
+'''
+
+# Noite
+nome_semaforo_vermelho_hsv = "Sinal Vermelho"
+min_H_sem_vermelho = 0 
+max_H_sem_vermelho = 179
+min_S_sem_vermelho = 174
+max_S_sem_vermelho = 255
+min_V_sem_vermelho = 59 
 max_V_sem_vermelho = 255
 
 
