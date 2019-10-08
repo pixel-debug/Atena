@@ -261,17 +261,53 @@ class main:
 			# ---------------- Correcao do motor da direita com Visao Comp  -----------------
 			elif (CORRECAO_MOTOR_DIR_VISAO is True):
 				while(CORRECAO_MOTOR_DIR_VISAO is True):
+					if (status_a0 is True):
+						CORRECAO_NIVEL_2 = True
+						while(CORRECAO_NIVEL_2 is True):
+							print("Virar Esquerda A0")
+							a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
+							motor.movimento_esquerda(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+							if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+								CORRECAO_NIVEL_2 = False
+
+					if (status_a1 is True):
+						CORRECAO_NIVEL_1 = True
+						while(CORRECAO_NIVEL_1 is True):
+							print("Virar Esquerda A1")
+							a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
+							motor.movimento_esquerda(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+							if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+								CORRECAO_NIVEL_1 = False			
 					print("Virar Esquerda com Visao") 
 					gerencia.correcao_motor_dir(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					CORRECAO_MOTOR_DIR_VISAO = False
-				if(CORRECAO_MOTOR_DIR_VISAO is True):
-					CORRECAO_MOTOR_DIR_VISAO = True	
+					if(CORRECAO_MOTOR_DIR_VISAO is True):
+						CORRECAO_MOTOR_DIR_VISAO = True	
 			# -------------------------------------------------------------------------------
 
 
 			# --------------- Correcao do motor da esquerda com Visao Comp  ----------------- 
 			elif (CORRECAO_MOTOR_ESQ_VISAO is True):
 				while(CORRECAO_MOTOR_ESQ_VISAO is True):
+					if (status_b0 is True):
+						CORRECAO_NIVEL_2 = True
+						while(CORRECAO_NIVEL_2 is True):
+							print("Virar Direita B0")
+							a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
+							motor.movimento_direita(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+							if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+								CORRECAO_NIVEL_2 = False
+
+
+					if (status_b1 is True):
+						CORRECAO_NIVEL_1 = True	
+						while(CORRECAO_NIVEL_1 is True):
+							print("Virar Direita B1")
+							a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
+							motor.movimento_direita(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+							if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+								CORRECAO_NIVEL_1 = False
+
 					print("Virar Direita com Visao")
 					gerencia.correcao_motor_esq(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
 					CORRECAO_MOTOR_ESQ_VISAO = False
@@ -307,68 +343,62 @@ class main:
 			# -------------------------------------------------------------------------------
 
 
+			# -------------- Manter robô parado caso não atenda as condições  ---------------
+			else:
+				#print("O Sistema apresentou uma anomalia! Aguardando...")
+				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+			# -------------------------------------------------------------------------------
 
+
+
+			'''
 			# ---------------------- Detccao faixa direita Fototransitor -------------------
 			elif (status_a0 is True):
-				if(CORRECAO_MOTOR_DIR_VISAO is True):
-					CORRECAO_NIVEL_2 = True
-					while(CORRECAO_NIVEL_2 is True):
-						print("Virar Esquerda A0")
-						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
-						motor.movimento_esquerda(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
-							CORRECAO_NIVEL_2 = False
-				else:
-					status_a0 = False
+				CORRECAO_NIVEL_2 = True
+				while(CORRECAO_NIVEL_2 is True):
+					print("Virar Esquerda A0")
+					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+						CORRECAO_NIVEL_2 = False
 
 			elif (status_a1 is True):
-				if(CORRECAO_MOTOR_DIR_VISAO is True):
-					CORRECAO_NIVEL_1 = True
-					while(CORRECAO_NIVEL_1 is True):
-						print("Virar Esquerda A1")
-						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
-						motor.movimento_esquerda(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
-							CORRECAO_NIVEL_1 = False
-				else:
-					status_a1 = False
+				CORRECAO_NIVEL_1 = True
+				while(CORRECAO_NIVEL_1 is True):
+					print("Virar Esquerda A1")
+					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
+					motor.movimento_esquerda(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+						CORRECAO_NIVEL_1 = False
 			# -------------------------------------------------------------------------------
 
 
 			
 			# ---------------------- Detccao faixa esquerda Fototransitor -------------------
 			elif (status_b0 is True):
-				if(CORRECAO_MOTOR_ESQ_VISAO is True):
-					CORRECAO_NIVEL_2 = True
-					while(CORRECAO_NIVEL_2 is True):
-						print("Virar Direita B0")
-						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
-						motor.movimento_direita(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
-							CORRECAO_NIVEL_2 = False
-				else:
-					status_b0 = False
+				CORRECAO_NIVEL_2 = True
+				while(CORRECAO_NIVEL_2 is True):
+					print("Virar Direita B0")
+					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
+					motor.movimento_direita(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+						CORRECAO_NIVEL_2 = False
+
 
 			elif (status_b1 is True):
-				if(CORRECAO_MOTOR_ESQ_VISAO is True):
-					CORRECAO_NIVEL_1 = True	
-					while(CORRECAO_NIVEL_1 is True):
-						print("Virar Direita B1")
-						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
-						motor.movimento_direita(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
-						if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
-							CORRECAO_NIVEL_1 = False
-				else:
-					status_b1 = False
+				CORRECAO_NIVEL_1 = True	
+				while(CORRECAO_NIVEL_1 is True):
+					print("Virar Direita B1")
+					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
+					motor.movimento_direita(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+						CORRECAO_NIVEL_1 = False
+
 			# ------------------------------------------------------------------------------
+			'''
 
 
-
-			# -------------- Manter robô parado caso não atenda as condições  ---------------
-			else:
-				#print("O Sistema apresentou uma anomalia! Aguardando...")
-				motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-			# -------------------------------------------------------------------------------
+			
 			
 			
 
