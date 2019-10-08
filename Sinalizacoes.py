@@ -182,23 +182,26 @@ def hsv_semaforo(img, dados_hsv):
 	
 		_, contours, _ = cv2.findContours(mascara, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 		for c in contours:
-			if (cv2.contourArea(c) > 3000):
+			if (cv2.contourArea(c) > var_hsv.CONST_DETECCAO_SEMAFORO):
 				x,y,w,h = cv2.boundingRect(c)
 				distancia_placa = calculo_distancia_placa(x, w)
 				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0), 3)
-				cv2.putText(img, nome, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-				cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
-				print(distancia_placa)
-				if nome == var_hsv.nome_semaforo_vermelho_hsv:
-					nome_real = nome
+								
+				#print(cv2.contourArea(c))
+				if (nome == var_hsv.nome_semaforo_vermelho_hsv) and (cv2.contourArea(c) >= var_hsv.CONST_SEMAFORO_VERMELHO):
+					cv2.putText(img, var_hsv.nome_semaforo_vermelho_hsv, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+					cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 					status_vermelho = True
 					status_verde = False
 
-				elif nome == var_hsv.nome_semaforo_verde_hsv:
-					nome_real = nome
+				if (nome == var_hsv.nome_semaforo_verde_hsv and (cv2.contourArea(c) < var_hsv.CONST_SEMAFORO_VERDE)):
+					cv2.putText(img, var_hsv.nome_semaforo_verde_hsv, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+					cv2.putText(img, str(distancia_placa)+" cm", (x, y+h+30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 					status_vermelho = False
 					status_verde = True
-
+	
+				
+			
 	return  nome_real, status_vermelho, status_verde
 
 
