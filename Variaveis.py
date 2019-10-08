@@ -17,14 +17,20 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velNormal = 16
+velNormal = 14
 
-CONST_CORREC_REF = 1.85
-CONST_CORREC_INV = 1.70
+velReacao = 17
 
-velReacao = 23
-velVisao = 19
-velEmergencia = 20
+velCorrecaoN1 = 17
+
+velCorrecaoN2 = 19
+
+CONST_CORREC_REF = 1.90
+CONST_CORREC_INV = 1.87
+
+velEmergencia = 22
+
+velVisao = 16
 # --------------------------------------------------------
 
 
@@ -62,7 +68,7 @@ tam_original_tela_x, tam_original_tela_y = 840, 680
 tam_mini_tela_x, tam_mini_tela_y = 460, 300
 
 # Taxa de quadros por segundo
-taxa_quadros = 32
+taxa_quadros = 60
 
 cor_branco = (255, 255, 255)
 cor_preto = (0, 0, 0)
@@ -142,11 +148,11 @@ pontos_obstaculos = np.float32([[pt_obstaculo_1], [pt_obstaculo_2], [pt_obstacul
 classificador_p1 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare.xml')
 nome_p1 = "Pare"
 
-classificador_p2 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_desvio.xml')
-nome_p2 = "Desvio"
+classificador_p2 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
+nome_p2 = "Pedestre"
 
-classificador_p3 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
-nome_p3 = "Pedestre"
+classificador_p3 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_desvio.xml')
+nome_p3 = "Desvio"
 
 classificador_p4 = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_60.xml')
 nome_p4 = "60 km/h"
