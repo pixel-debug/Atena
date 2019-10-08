@@ -228,6 +228,22 @@ class main:
 
 				if((SINAL_VERDE is True) and (SINAL_VERMELHO is False) and (DETECCAO_OBSTACULOS_SENSOR is False)):
 					print("Prosseguir ate faixa de pedestre.")
+					while(FAIXA_CONTENCAO_FOTO is False):
+						a0, a1, _, a3, b0, b1, _, b3 = sensor.fototransistores()
+						gerencia.movimento_frente(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						print("...")
+						if(((a0 <= var.CONST_A0) and (b0 <= var.CONST_B0)) or ((a1 <= var.CONST_A1) and (b1 <= var.CONST_B1)) or (a3 <= var.CONST_A3) and (b3 <= var.CONST_B3)):
+							FAIXA_CONTENCAO_FOTO = True
+					print("Chegou na faixa pedestre. Prosseguir cuidadosamente...")
+					while(FAIXA_CONTENCAO_FOTO is True):
+						a0, a1, _, a3, b0, b1, _, b3 = sensor.fototransistores()
+						gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						print("...")
+						if(((a0 >= var.CONST_A0) and (b0 >= var.CONST_B0)) and ((a1 >= var.CONST_A1) and (b1 >= var.CONST_B1)) and (a3 >= var.CONST_A3) and (b3 >= var.CONST_B3)):
+							FAIXA_CONTENCAO_FOTO = False
+					print("Saiu da faixa de pedestre. Continuar percurso.")
+					break
+			
 				
 				print("Sinal Verde: {0}\tSinal Vermelho: {1}\tObstaculo: {2}".format(SINAL_VERDE, SINAL_VERMELHO, DETECCAO_OBSTACULOS_SENSOR))
 			
