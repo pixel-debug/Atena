@@ -215,7 +215,7 @@ class main:
 					motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)		
 					status_semaforo_vermelho = True
 			'''	
-			
+			SINAL_VERDE, SINAL_VERMELHO, DETECCAO_OBSTACULOS_SENSOR = False, False, False
 			
 			# Tratamento especifico para faixa de contencao
 			if(FAIXA_CONTENCAO_VISAO is True):
@@ -223,6 +223,7 @@ class main:
 				CORRECAO_MOTOR_DIR_VISAO = False
 				CORRECAO_MOTOR_ESQ_VISAO = False
 				gerencia.interrupcao_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+				print("Sinal Verde: {0}\tSinal Vermelho: {1}\tObstaculo: {2}".format(SINAL_VERDE, SINAL_VERMELHO, DETECCAO_OBSTACULOS_SENSOR))
 			
 
 			
