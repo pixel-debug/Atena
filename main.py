@@ -123,7 +123,7 @@ class main:
 			
 			status_obstaculo_vl53x = False
 
-			
+			'''
 			# Deteccao de placas na pista
 			(
 				status_placa_pare, 
@@ -136,14 +136,13 @@ class main:
 			) = trata.sinalizacao_direita(imagem_sinalizacao_dir)
 			
 			
-			'''
 			# Deteccao de checkpoints na pista
 			(
 				status_ck_1, 
 				status_ck_2, 
 				status_ck_3,
 			) = trata.sinalizacao_esquerda(imagem_sinalizacao_esq)
-			'''
+
 			# --------------------------------------------------------------------------------
 
 
@@ -172,6 +171,8 @@ class main:
 				break
 
 			# -------------------------------------------------------------------------------
+			'''
+
 
 
 			# ----------------------------- DEFININDO COMANDOS ------------------------------
@@ -183,15 +184,14 @@ class main:
 				CONTENCAO
 			) = gerencia.definicao_de_comandos(status_a0, status_a1, status_a2, status_a3, status_b0, status_b1, status_b2, status_b3, status_visao_faixa_dir, status_visao_faixa_esq, status_obstaculo_vl53x)
 			# -------------------------------------------------------------------------------
-				
+			'''	
 			DETECCAO_OBSTACULOS_VISAO = False
-					
-
 
 			CORRECAO_MOTOR_DIR_VISAO = False
 			CORRECAO_MOTOR_ESQ_VISAO = False
 			CORRECAO_EXTREMA_MOTOR_DIR = False
 			CORRECAO_EXTREMA_MOTOR_ESQ = False	
+			
 			
 			print(status_semaforo_vermelho, status_semaforo_verde)				
 			
@@ -214,7 +214,7 @@ class main:
 					print("Sinal verde esta fechado!")
 					motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)		
 					status_semaforo_vermelho = True
-				
+			'''	
 			
 			'''
 			# Não deixa o robo se desorientar 
@@ -237,26 +237,27 @@ class main:
 				gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)					
 			# -------------------------------------------------------------------------------
 
-
-			# ------------------ Metodo para detectar faixa de contencao --------------------
-			elif(CONTENCAO is True):
-				EXECUCAO = True
-				while(EXECUCAO is True):
-					a0, _, _, a3, b0, _, _, b3 = sensor.fototransistores()
-					print("Faixa de contenção \tA3:{:>5} B3:{:>5}".format(_, _, _, a3, _, _, _, b3))
-					
-
-					if(DETECCAO_OBSTACULOS_VISAO is False):
-						print("Sem obstaculo! Prosseguir...")
-						gerencia.movimento_frente(var.velNormal, ctr_vel_motor_dir, ctr_vel_motor_esq)						
-					else:
-						motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-	
-					if((a3 >= var.CONST_A3) and (b3 >= var.CONST_B3) and (a0 >= var.CONST_A0) and (b0 >= var.CONST_B0)):
-						print("Saiu da faixa de contenção...")
-						EXECUCAO = False
+			# ---------------- Correcao do motor da direita com Visao Comp  -----------------
+			elif (CORRECAO_MOTOR_DIR_VISAO is True):
+				while(CORRECAO_MOTOR_DIR_VISAO is True):
+					print("Virar Esquerda com Visao") 
+					gerencia.correcao_motor_dir(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					CORRECAO_MOTOR_DIR_VISAO = False
+				if(CORRECAO_MOTOR_DIR_VISAO is True):
+					CORRECAO_MOTOR_DIR_VISAO = True	
 			# -------------------------------------------------------------------------------
 
+
+			# --------------- Correcao do motor da esquerda com Visao Comp  ----------------- 
+			elif (CORRECAO_MOTOR_ESQ_VISAO is True):
+				while(CORRECAO_MOTOR_ESQ_VISAO is True):
+					print("Virar Direita com Visao")
+					gerencia.correcao_motor_esq(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
+					CORRECAO_MOTOR_ESQ_VISAO = False
+				if(CORRECAO_MOTOR_ESQ_VISAO is True):
+					CORRECAO_MOTOR_ESQ_VISAO = True	
+			# -------------------------------------------------------------------------------
+	
 
 			# --------- Metodo para fazer correcao de extrema emergencia (DIREITA) ----------
 			elif((a3 <= var.CONST_A3) and (b3 >= var.CONST_B3)):
@@ -288,78 +289,57 @@ class main:
 
 			# ---------------------- Detccao faixa direita Fototransitor -------------------
 			elif (status_a0 is True):
-				CORRECAO_NIVEL_2 = True
-				CORRECAO_MOTOR_DIR_VISAO = False
-				CORRECAO_MOTOR_ESQ_VISAO = False
-				while(CORRECAO_NIVEL_2 is True):
-					print("Virar Esquerda A0")
-					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
-					motor.movimento_esquerda(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
-						CORRECAO_NIVEL_2 = False
-
+				if(CORRECAO_MOTOR_DIR_VISAO is True):
+					CORRECAO_NIVEL_2 = True
+					while(CORRECAO_NIVEL_2 is True):
+						print("Virar Esquerda A0")
+						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
+						motor.movimento_esquerda(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+							CORRECAO_NIVEL_2 = False
+				else:
+					status_a0 = False
 
 			elif (status_a1 is True):
-				CORRECAO_NIVEL_1 = True
-				CORRECAO_MOTOR_DIR_VISAO = False
-				CORRECAO_MOTOR_ESQ_VISAO = False
-				while(CORRECAO_NIVEL_1 is True):
-					print("Virar Esquerda A1")
-					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
-					motor.movimento_esquerda(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
-						CORRECAO_NIVEL_1 = False
+				if(CORRECAO_MOTOR_DIR_VISAO is True):
+					CORRECAO_NIVEL_1 = True
+					while(CORRECAO_NIVEL_1 is True):
+						print("Virar Esquerda A1")
+						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores() 
+						motor.movimento_esquerda(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						if(((a0 >= var.CONST_A0) and (a1 >= var.CONST_A1))  or (b0 <= var.CONST_B0) or (b1 <= var.CONST_B1)): 
+							CORRECAO_NIVEL_1 = False
+				else:
+					status_a1 = False
 			# -------------------------------------------------------------------------------
 
 
 			
 			# ---------------------- Detccao faixa esquerda Fototransitor -------------------
 			elif (status_b0 is True):
-				CORRECAO_NIVEL_2 = True
-				CORRECAO_MOTOR_DIR_VISAO = False
-				CORRECAO_MOTOR_ESQ_VISAO = False
-				while(CORRECAO_NIVEL_2 is True):
-					print("Virar Direita B0")
-					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
-					motor.movimento_direita(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
-						CORRECAO_NIVEL_2 = False
+				if(CORRECAO_MOTOR_ESQ_VISAO is True):
+					CORRECAO_NIVEL_2 = True
+					while(CORRECAO_NIVEL_2 is True):
+						print("Virar Direita B0")
+						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
+						motor.movimento_direita(var.velCorrecaoN2, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+							CORRECAO_NIVEL_2 = False
+				else:
+					status_b0 = False
 
 			elif (status_b1 is True):
-				CORRECAO_NIVEL_1 = True
-				CORRECAO_MOTOR_DIR_VISAO = False
-				CORRECAO_MOTOR_ESQ_VISAO = False
-				while(CORRECAO_NIVEL_1 is True):
-					print("Virar Direita B1")
-					a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
-					motor.movimento_direita(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
-						CORRECAO_NIVEL_1 = False
-			# ------------------------------------------------------------------------------
-
-
-			
-			# ---------------- Correcao do motor da direita com Visao Comp  -----------------
-			elif (CORRECAO_MOTOR_DIR_VISAO is True):
-				while(CORRECAO_MOTOR_DIR_VISAO is True):
-					print("Virar Esquerda com Visao") 
-					gerencia.correcao_motor_dir(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					CORRECAO_MOTOR_DIR_VISAO = False
-				if(CORRECAO_MOTOR_DIR_VISAO is True):
-					CORRECAO_MOTOR_DIR_VISAO = True	
-			# -------------------------------------------------------------------------------
-
-
-
-			# --------------- Correcao do motor da esquerda com Visao Comp  ----------------- 
-			elif (CORRECAO_MOTOR_ESQ_VISAO is True):
-				while(CORRECAO_MOTOR_ESQ_VISAO is True):
-					print("Virar Direita com Visao")
-					gerencia.correcao_motor_esq(var.velVisao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-					CORRECAO_MOTOR_ESQ_VISAO = False
 				if(CORRECAO_MOTOR_ESQ_VISAO is True):
-					CORRECAO_MOTOR_ESQ_VISAO = True	
-			# -------------------------------------------------------------------------------
+					CORRECAO_NIVEL_1 = True	
+					while(CORRECAO_NIVEL_1 is True):
+						print("Virar Direita B1")
+						a0, a1, _, _, b0, b1, _, _ = sensor.fototransistores()  
+						motor.movimento_direita(var.velCorrecaoN1, ctr_vel_motor_dir, ctr_vel_motor_esq)
+						if(((b0 >= var.CONST_B0) and (b1 >= var.CONST_B1)) or (a0 <= var.CONST_A0) or (a1<= var.CONST_A1)): 
+							CORRECAO_NIVEL_1 = False
+				else:
+					status_b1 = False
+			# ------------------------------------------------------------------------------
 
 
 
@@ -371,7 +351,7 @@ class main:
 			
 			
 
-
+			
 			# -------------------------- Apresentacao Telas ---------------------------------
 			interface.apresenta_tela("Sinalizacoes da Esquerda", imagem_sinalizacao_esq, 80, 10)
 			interface.apresenta_tela("Imagem Original", imagem, 580, 10)
@@ -389,7 +369,7 @@ class main:
 
 
 
-			'''
+			'''		
 			# ----------------- Apresentacao Telas Monitor Pequeno ---------------------------
 			#cv2.imshow("Imagem Placas",imagem)
 			interface.apresenta_tela("Imagem Original", imagem, 10, 10)
@@ -397,8 +377,8 @@ class main:
 			#interface.apresenta_tela("Imagem Placas", imagem_detecao_placa, 500, 10)
 			#interface.apresenta_tela("Imagem obstaculos", imagem_obstaculos, 500, 10)
 			#interface.apresenta_tela("Imagem Perspe", imagem_perspectiva_pista, 500, 10)
-			#interface.apresenta_tela("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
-			#interface.apresenta_tela("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
+			interface.apresenta_tela("Imagem Faixa Esquerda", imagem_faixa_esq, 10, 400)
+			interface.apresenta_tela("Imagem Faixa Direita", imagem_faixa_dir, 500, 400)
 			# -------------------------------------------------------------------------------
 			'''
 			
