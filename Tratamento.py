@@ -59,9 +59,8 @@ def interface_menu(op):
 def deteccao_faixas_visao(img):
 
 	# ------------- Variaveis que irao definir o status de deteccao das faixas -------------------
-	status_visao_faixa_dir, status_visao_faixa_esq = False, False
+	status_visao_faixa_dir, status_visao_faixa_esq, status_faixa_contencao_visao = False, False, False
 
-	status_anormalidade_faixa_dir, status_anormalidade_faixa_esq = False, False
 	# --------------------------------------------------------------------------------------------
 
 
@@ -80,25 +79,7 @@ def deteccao_faixas_visao(img):
 	#print(soma_matriz_img_esq, soma_matriz_img_dir)
 	# --------------------------------------------------------------------------------------------
 
-	'''
-	# ------------- Verificação do status de normalidade na detecção das faixas ------------------
-	if((cx_dir <= 25) and (cx_dir >= 55)):
-		status_anormalidade_faixa_dir = True
-
-	if((cx_esq <= 63) and (cx_esq >= 93)):
-		status_anormalidade_faixa_esq = True
-
-	if(status_anormalidade_faixa_dir is False):
-		status_dir = "Normal"
-	else:
-		status_dir = "ANORMAL"
-
-	if(status_anormalidade_faixa_esq is False):
-		status_esq = "Normal"
-	else:
-		status_esq = "ANORMAL"
-	# --------------------------------------------------------------------------------------------
-	'''
+	
 
 	# --------------------------- Detecção das faixas com Visao ----------------------------------
 	if cx_dir >= 60 and cx_esq <= 73:
@@ -106,9 +87,12 @@ def deteccao_faixas_visao(img):
 
 	if cx_dir >= 50 and cx_esq <= 55:
 		status_visao_faixa_esq = True
+
+	if ((cx_dir >= 80 and cx_esq <= 30)):
+		status_contencao_visao = True
 	# --------------------------------------------------------------------------------------------
 	
-	print("Faixa Dir: {0}: \tFaixa Esq: {1} ".format(cx_dir, cx_esq))
+	#print("Faixa Dir: {0}: \tFaixa Esq: {1} \tFaixa de Contenção: {2}".format(cx_dir, cx_esq, status_contencao_visao))
 	#print("Faixa Esq: {0} {1} \tFaixa Dir: {2} {3}".format(status_visao_faixa_esq, cx_esq, status_visao_faixa_dir, cx_dir))
 
 	retorno = [
@@ -117,8 +101,7 @@ def deteccao_faixas_visao(img):
 				img_faixa_dir, 
 				status_visao_faixa_dir, 
 				status_visao_faixa_esq, 
-				status_anormalidade_faixa_dir, 
-				status_anormalidade_faixa_esq
+				status_faixa_contencao_visao
               ]
 
 	return retorno
@@ -228,9 +211,9 @@ def sinalizacao_direita(img):
 
 	nome_placa, distancia_placa = sinalizacao.detecta_placas_direita(img, var.classificadores_placas_direita)
 
-	#nome_estado_semaforo, status_vermelho, status_verde = sinalizacao.hsv_semaforo(img, var_hsv.dados_semaforo)
+	nome_estado_semaforo, status_vermelho, status_verde = sinalizacao.hsv_semaforo(img, var_hsv.dados_semaforo)
 	
-	if nome_placa == var.nome_p1 and (distancia_placa > 9 and distancia_placa <= 20):
+	if nome_placa == var.nome_p1 and (distancia_placa > 12 and distancia_placa <= 23):
 		status_plc_pare = True
 
 	if nome_placa == var.nome_p2 and (distancia_placa > 9 and distancia_placa <= 17):
@@ -244,13 +227,7 @@ def sinalizacao_direita(img):
 
 	if nome_placa == var.nome_p5 and (distancia_placa > 9 and distancia_placa <= 17):
 		status_plc_proib_virar = True
-	'''
-	if nome_estado_semaforo == var_hsv.nome_semaforo_vermelho_hsv:
-		status_vermelho = True
-
-	if nome_estado_semaforo == var_hsv.nome_semaforo_verde_hsv:
-		status_verde = True
-	'''
+	
 	retorno = [
 				status_plc_pare, 
 				status_plc_pedestre, 
