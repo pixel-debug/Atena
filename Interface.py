@@ -18,22 +18,7 @@ import Variaveis as var
 pygame.init()
 
 
-
-pos_x = 740/2 
-pos_y = 507/2
-tamBotao = 10
-
-pos_x_butao_igreja = 525
-pos_y_butao_igreja = 311
-
-pos_x_butao_teatro = 215
-pos_y_butao_teatro = 40
-
-pos_x_butao_museu = 293
-pos_y_butao_museu = 469
-
-
-tela = pygame.display.set_mode((740,507))
+tela = pygame.display.set_mode((var.tamTela_X_Interface, var.tamTela_Y_Interface))
 pygame.display.set_caption("Atena - Meta 2019")
 
 inciar = True
@@ -50,11 +35,11 @@ while inciar:
 	#fundo.fill(var.cor_branco)
 	#pygame.draw.rect(tela, var.cor_preto, [pos_x, pos_y, tamBotao, tamBotao])
 
-	pygame.draw.rect(tela, var.cor_azul, [pos_x_butao_igreja, pos_y_butao_igreja, tamBotao, tamBotao])
+	pygame.draw.rect(tela, var.cor_azul, [var.pos_x_butao_igreja, var.pos_y_butao_igreja, var.tamBotao, var.tamBotao])
 
-	pygame.draw.rect(tela, var.cor_vermelho, [pos_x_butao_teatro, pos_y_butao_teatro, tamBotao, tamBotao])
+	pygame.draw.rect(tela, var.cor_vermelho, [var.pos_x_butao_teatro, var.pos_y_butao_teatro, var.tamBotao, var.tamBotao])
 
-	pygame.draw.rect(tela, var.cor_verde, [pos_x_butao_museu, pos_y_butao_museu, tamBotao, tamBotao])
+	pygame.draw.rect(tela, var.cor_verde, [var.pos_x_butao_museu, var.pos_y_butao_museu, var.tamBotao, var.tamBotao])
 	
 	pygame.display.update()
 
