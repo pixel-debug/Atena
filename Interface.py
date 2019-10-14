@@ -25,23 +25,51 @@ inciar = True
 
 img_background = pygame.image.load("/home/pi/Projetos/Atena/Imagens/mapa.png")
 
+clock = pygame.time.Clock()
 
 while inciar:
 	tela.blit(img_background,(0,0))
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			inciar = False
-		print(event)
-	#fundo.fill(var.cor_branco)
-	#pygame.draw.rect(tela, var.cor_preto, [pos_x, pos_y, tamBotao, tamBotao])
+		#print(event)
+	
+	
+	mouse = pygame.mouse.get_pos()
+	print(mouse)
 
-	pygame.draw.rect(tela, var.cor_azul, [var.pos_x_butao_igreja, var.pos_y_butao_igreja, var.tamBotao, var.tamBotao])
+	# Teatro
+	if var.pos_x_butao_teatro + var.tamBotao > mouse[0] > var.pos_x_butao_teatro and var.pos_y_butao_teatro + var.tamBotao > mouse[1] > var.pos_y_butao_teatro:
+		pygame.draw.rect(tela, var.cor_azul_fraco, (var.pos_x_butao_teatro, var.pos_y_butao_teatro, var.tamBotao, var.tamBotao))
+	else:
+		pygame.draw.rect(tela, var.cor_azul, (var.pos_x_butao_teatro, var.pos_y_butao_teatro, var.tamBotao, var.tamBotao))
 
-	pygame.draw.rect(tela, var.cor_vermelho, [var.pos_x_butao_teatro, var.pos_y_butao_teatro, var.tamBotao, var.tamBotao])
 
-	pygame.draw.rect(tela, var.cor_verde, [var.pos_x_butao_museu, var.pos_y_butao_museu, var.tamBotao, var.tamBotao])
+
+	# igreja
+	if var.pos_x_butao_igreja + var.tamBotao > mouse[0] > var.pos_x_butao_igreja and var.pos_y_butao_igreja + var.tamBotao > mouse[1] > var.pos_y_butao_igreja:
+		pygame.draw.rect(tela, var.cor_vermelho_fraco, (var.pos_x_butao_igreja, var.pos_y_butao_igreja, var.tamBotao, var.tamBotao))
+	else:
+		pygame.draw.rect(tela, var.cor_vermelho, (var.pos_x_butao_igreja, var.pos_y_butao_igreja, var.tamBotao, var.tamBotao))
+		
+
+
+	# museu
+	if var.pos_x_butao_museu + var.tamBotao > mouse[0] > var.pos_x_butao_museu and var.pos_y_butao_museu + var.tamBotao > mouse[1] > var.pos_y_butao_museu:
+		pygame.draw.rect(tela, var.cor_verde_fraco, (var.pos_x_butao_museu, var.pos_y_butao_museu, var.tamBotao, var.tamBotao))
+	else:
+		pygame.draw.rect(tela, var.cor_verde, (var.pos_x_butao_museu, var.pos_y_butao_museu, var.tamBotao, var.tamBotao))
+
+
+
+	
+
+
+
+	
 	
 	pygame.display.update()
+	clock.tick(15)
 
 pygame.quit()
 
