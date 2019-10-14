@@ -15,31 +15,53 @@ import cv2
 import pygame
 import Variaveis as var
 
-#pygame.init()
+pygame.init()
 
 
-pos_x = var.tam_original_tela_x/2 
-pos_y = var.tam_original_tela_y/2
-tamanho = 10
-'''
-fundo = pygame.display.set_mode((var.tam_original_tela_x, var.tam_original_tela_y))
+
+pos_x = 740/2 
+pos_y = 507/2
+tamBotao = 10
+
+pos_x_butao_igreja = 525
+pos_y_butao_igreja = 311
+
+pos_x_butao_teatro = 215
+pos_y_butao_teatro = 40
+
+pos_x_butao_museu = 293
+pos_y_butao_museu = 469
+
+
+tela = pygame.display.set_mode((740,507))
 pygame.display.set_caption("Atena - Meta 2019")
 
 inciar = True
 
+img_background = pygame.image.load("/home/pi/Projetos/Atena/Imagens/mapa.png")
+
+
 while inciar:
+	tela.blit(img_background,(0,0))
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			inciar = False
 		print(event)
-	fundo.fill(var.cor_branco)
-	pygame.draw.rect(fundo, var.cor_preto, [pos_x, pos_y, tamanho, tamanho])
+	#fundo.fill(var.cor_branco)
+	#pygame.draw.rect(tela, var.cor_preto, [pos_x, pos_y, tamBotao, tamBotao])
+
+	pygame.draw.rect(tela, var.cor_azul, [pos_x_butao_igreja, pos_y_butao_igreja, tamBotao, tamBotao])
+
+	pygame.draw.rect(tela, var.cor_vermelho, [pos_x_butao_teatro, pos_y_butao_teatro, tamBotao, tamBotao])
+
+	pygame.draw.rect(tela, var.cor_verde, [pos_x_butao_museu, pos_y_butao_museu, tamBotao, tamBotao])
 	
 	pygame.display.update()
 
 pygame.quit()
-'''
 
+
+'''
 def menu_texto():
 	print(" ############################################### ")
 	print(" #         *** Atena - META 2019 ***           # ")
@@ -80,5 +102,5 @@ def apresenta_tela(nome, imagem, pos_x, pos_y):
 	cv2.resizeWindow(nome, var.tam_mini_tela_x, var.tam_mini_tela_y)
 	cv2.imshow(nome, imagem)
 
-
+'''
 
