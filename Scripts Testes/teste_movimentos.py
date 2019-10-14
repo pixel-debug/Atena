@@ -35,10 +35,11 @@ controle_velocidade_esquerda.start(0)
 try:
 	while (True):
 		motor.movimento_frente(var.velNormal, controle_velocidade_direita, controle_velocidade_esquerda)
-		time.sleep(2)	
+		time.sleep(3)	
 		motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 		time.sleep(0.8)
 
+		'''
 		motor.movimento_direita(var.velReacao, controle_velocidade_direita, controle_velocidade_esquerda)
 		time.sleep(2)	
 		motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
@@ -49,11 +50,11 @@ try:
 		time.sleep(2)	
 		motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 		time.sleep(0.8)
-
+		'''
 
 
 		motor.movimento_tras(var.velNormal, controle_velocidade_direita, controle_velocidade_esquerda)
-		time.sleep(1)
+		time.sleep(3)
 		motor.parar_movimento(controle_velocidade_direita, controle_velocidade_esquerda)
 		time.sleep(0.8)
 finally:

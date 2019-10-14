@@ -20,11 +20,11 @@ import cv2
 # Inicializacao da camera e parâmetros de resolucao e quadros por segundo capturado
 camera = PiCamera()
 camera.resolution = (720, 560)
-camera.framerate = 90
+camera.framerate = 30
 rawCapture = PiRGBArray(camera, size=(720, 560))
 time.sleep(0.1)
 
-#cont_frames = 0
+cont_frames = 0
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# O vetor com os frames capturados sao armazenados no vetor image	
@@ -36,9 +36,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
 
-	#print(cont_frames)	
+	print(cont_frames)	
 
-	#cont_frames += 1	
+	cont_frames += 1	
 	# Se prescionar a tecla Esc sai do programa
 	if cv2.waitKey(1) & 0xFF == 27:
 		break
