@@ -27,8 +27,14 @@ img_background = pygame.image.load("/home/pi/Projetos/Atena/Imagens/mapa.png")
 
 clock = pygame.time.Clock()
 
+
+def text_objects(text, font):
+    textSurface = font.render(text, True, var.cor_branco)
+    return textSurface, textSurface.get_rect()
+
+
 while inciar:
-	tela.blit(img_background,(0,0))
+	tela.blit(img_background,(0,var.deslocamento))
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			inciar = False
@@ -61,8 +67,10 @@ while inciar:
 		pygame.draw.rect(tela, var.cor_verde, (var.pos_x_butao_museu, var.pos_y_butao_museu, var.tamBotao, var.tamBotao))
 
 
-
-	
+	texto = pygame.font.Font("freesansbold.ttf", 25)
+	textoSurf, textoTitulo = text_objects("Por favor, selecione um destino abaixo...", texto) 
+	textoTitulo.center = (252, 25)
+	tela.blit(textoSurf, textoTitulo)
 
 
 
