@@ -15,13 +15,20 @@ import cv2
 import pygame
 import Variaveis as var
 
+
 pygame.init()
 
 
-tela = pygame.display.set_mode((var.tamTela_X_Interface, var.tamTela_Y_Interface))
+tela_inicial = pygame.display.set_mode((499, 325))
+#tela_gps = pygame.display.set_mode((var.tamTela_X_Interface, var.tamTela_Y_Interface))
+
 pygame.display.set_caption("Atena - Meta 2019")
 
 inciar = True
+
+
+img_telaInicial = pygame.image.load("/home/pi/Projetos/Atena/Imagens/telainicial.png")
+
 
 img_background = pygame.image.load("/home/pi/Projetos/Atena/Imagens/mapa.png")
 
@@ -34,7 +41,9 @@ def text_objects(text, font):
 
 
 while inciar:
-	tela.blit(img_background,(0,var.deslocamento))
+	tela_inicial.blit(img_telaInicial,(0,0))
+
+	#tela.blit(img_background,(0,var.deslocamento))
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			inciar = False
@@ -44,6 +53,24 @@ while inciar:
 	mouse = pygame.mouse.get_pos()
 	print(mouse)
 
+	# Botao Entrar
+	if var.pos_x_butao_iniciar + var.tamBotaoIniciar_x > mouse[0] > var.pos_x_butao_iniciar and var.pos_y_butao_iniciar + var.tamBotaoIniciar_y > mouse[1] > var.pos_y_butao_iniciar:
+		pygame.draw.rect(tela_inicial, var.cor_verde_fraco, (var.pos_x_butao_iniciar, var.pos_y_butao_iniciar, var.tamBotaoIniciar_x, var.tamBotaoIniciar_y))
+	else:
+		pygame.draw.rect(tela_inicial, var.cor_verde, (var.pos_x_butao_iniciar, var.pos_y_butao_iniciar, var.tamBotaoIniciar_x, var.tamBotaoIniciar_y))
+
+
+	# Botao Sair
+	if var.pos_x_butao_sair + var.tamBotaoIniciar_x > mouse[0] > var.pos_x_butao_sair and var.pos_y_butao_sair + var.tamBotaoIniciar_y > mouse[1] > var.pos_y_butao_sair:
+		pygame.draw.rect(tela_inicial, var.cor_vermelho_fraco, (var.pos_x_butao_sair, var.pos_y_butao_sair, var.tamBotaoIniciar_x, var.tamBotaoIniciar_y))
+	else:
+		pygame.draw.rect(tela_inicial, var.cor_vermelho, (var.pos_x_butao_sair, var.pos_y_butao_sair, var.tamBotaoIniciar_x, var.tamBotaoIniciar_y))
+
+
+
+
+
+	'''
 	# Teatro
 	if var.pos_x_butao_teatro + var.tamBotao > mouse[0] > var.pos_x_butao_teatro and var.pos_y_butao_teatro + var.tamBotao > mouse[1] > var.pos_y_butao_teatro:
 		pygame.draw.rect(tela, var.cor_azul_fraco, (var.pos_x_butao_teatro, var.pos_y_butao_teatro, var.tamBotao, var.tamBotao))
@@ -71,7 +98,7 @@ while inciar:
 	textoSurf, textoTitulo = text_objects("Por favor, selecione um destino abaixo...", texto) 
 	textoTitulo.center = (252, 25)
 	tela.blit(textoSurf, textoTitulo)
-
+	'''
 
 
 	
@@ -116,12 +143,12 @@ def confirma_opcao(op, nome):
 	confirmacao_opcao = int(input())
 	return confirmacao_opcao
 
-
+'''
 def apresenta_tela(nome, imagem, pos_x, pos_y):
 	cv2.namedWindow(nome, cv2.WINDOW_KEEPRATIO);
 	cv2.moveWindow(nome, pos_x, pos_y);
 	cv2.resizeWindow(nome, var.tam_mini_tela_x, var.tam_mini_tela_y)
 	cv2.imshow(nome, imagem)
 
-'''
+
 
