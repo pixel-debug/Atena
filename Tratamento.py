@@ -74,6 +74,8 @@ def deteccao_faixas_visao(img):
 	img_faixa_dir = img_filtros[var.y1_faixa_dir:var.y2_faixa_dir, var.x1_faixa_dir:var.x2_faixa_dir]
 	img_faixa_dir, cx_dir = pista.detecta_faixas(img_faixa_dir)
 
+	#interface.apresenta_tela("Sinali", img, 80, 705)
+
 	soma_matriz_img_esq = gerencia.analise_matriz_imagem(img_faixa_esq)
 	soma_matriz_img_dir = gerencia.analise_matriz_imagem(img_faixa_dir)
 	#print(soma_matriz_img_esq, soma_matriz_img_dir)
@@ -211,9 +213,9 @@ def sinalizacao_direita(img):
 
 	nome_placa, distancia_placa = sinalizacao.detecta_placas_direita(img, var.classificadores_placas_direita)
 
-	nome_estado_semaforo, status_vermelho, status_verde = sinalizacao.hsv_semaforo(img, var_hsv.dados_semaforo)
+	#nome_estado_semaforo, status_vermelho, status_verde = sinalizacao.hsv_semaforo(img, var_hsv.dados_semaforo)
 	
-	if nome_placa == var.nome_p1 and (distancia_placa > 12 and distancia_placa <= 23):
+	if nome_placa == var.nome_p1 and (distancia_placa > 15 and distancia_placa <= 21):
 		status_plc_pare = True
 
 	if nome_placa == var.nome_p2 and (distancia_placa > 9 and distancia_placa <= 17):
@@ -249,13 +251,13 @@ def sinalizacao_direita(img):
 def sinalizacao_esquerda(img):
 	status_ck_1, status_ck_2, status_ck_3 = False, False, False 
 		
-	img_area_ck, nome_ck, status_ck_1, status_ck_2, status_ck_3, distancia_placa = sinalizacao.placas_checkpoints(img, var.dados_hsv)
+	img_area_ck, nome_ck, status_ck_1, status_ck_2, status_ck_3, distancia_placa = sinalizacao.placas_checkpoints(img, var_hsv.dados_checkpoints)
 	
-	if nome_ck == var.nome_check_1:
+	if nome_ck == var_hsv.nome_check_1:
 		status_ck_1 = True
-	if nome_ck == var.nome_check_2:
+	if nome_ck == var_hsv.nome_check_2:
 		status_ck_2 = True
-	if nome_ck == var.nome_check_3:
+	if nome_ck == var_hsv.nome_check_3:
 		status_ck_3 = True
 	
 	return img_area_ck, status_ck_1, status_ck_2, status_ck_3
