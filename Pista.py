@@ -15,8 +15,8 @@
 import time
 import cv2
 import numpy as np
-import Tela as tela
 import Variaveis as var
+import Interface as interface
 
 
 def perspectiva_pista(img):
@@ -29,6 +29,8 @@ def perspectiva_pista(img):
 	cv2.line(img, var.pt_destino_1, var.pt_destino_3, (0,255,0), 4)
 	cv2.line(img, var.pt_destino_2, var.pt_destino_4, (0,255,0), 4)
 	cv2.line(img, var.pt_destino_3, var.pt_destino_4, (0,255,0), 4)
+
+	#interface.apresenta_tela("Imagem Original", img, 580, 10)
 
 	matriz = cv2.getPerspectiveTransform(var.pontos_pista, var.pontos_destino)
 	img = cv2.warpPerspective(img, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
