@@ -122,7 +122,7 @@ def placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq):
 		motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
 	
 	print("Andar ate nao ver placa pare")
-	for i in range(50000):	
+	for i in range(10000):	
 		motor.movimento_frente(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
 		
 	print("Saiu da placa pare")
@@ -132,34 +132,29 @@ def placa_pare(ctr_vel_motor_dir, ctr_vel_motor_esq):
 
 # ###################### FUNCAO PARA GERENCIAR ACAO PLACA PEDESTRE ##############################
 def placa_pedestre(ctr_vel_motor_dir, ctr_vel_motor_esq):
-	DETECCAO_FAIXA_PEDESTRE = False
-	deteccao_obstaculo = False
-	tempoPedestre = 0
-	print("Detectou Placa Pedestre! Andar cuidadosamente.")	
-	while(deteccao_obstaculo is not True):	
-		while(DETECCAO_FAIXA_PEDESTRE is not True):
-			a, b, c, d = sensor.fototransistores()
-			motor.movimento_frente(var.velNormal+2, ctr_vel_motor_dir, ctr_vel_motor_esq)			
-			if(b <= var.CONST_FT_DIR_SUP and c <= var.CONST_FT_ESQ_SUP):
-				break
-			elif(a <= var.CONST_ft_dir_sup and d <= var.CONST_FT_ESQ_SUP):
-				break
+	print("Placa de pedestre!")
+	gerencia.movimento_frente((var.velNormal), ctr_vel_motor_dir, ctr_vel_motor_esq)
+	if(FAIXA_CONTENCAO_VISAO is True):
+		CORRECAO_MOTOR_DIR_VISAO = False
+		CORRECAO_MOTOR_ESQ_VISAO = False
+		print("Faixa de conteção.")
+	if tempoFaixaContencao >= var.CONST_TEMPO_PLC_PEDESTRE:
+		FAIXA_CONTENCAO_VISAO = False
+		FAIXA_CONTENCAO_FOTO = True
+		gerencia.movimento_frente((var.velNormal+3), ctr_vel_motor_dir, ctr_vel_motor_esq)
+		tempoFaixaContencao += 1
+	print(tempoFaixaContencao)
 
-		print("Chegou na Faixa! Aguarda 5 segundos...")
-		motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
-		time.sleep(5)
 
-		print("Verifica ausencia de pedestre...")
-		if(deteccao_obstaculo is False):
-			print("pode continuar...")
-			while(tempoPedestre <= var.tempoReacaoPlacaPedestre):
-				motor.movimento_frente(var.velReacao, ctr_vel_motor_dir, ctr_vel_motor_esq)
-				tempoPedestre += 1
-			break
-			
-		else:
-			print("presença de obstaculo confirmada...")
-			motor.parar_movimento(ctr_vel_motor_dir, ctr_vel_motor_esq)
+	if(FAIXA_CONTENCAO_FOTO is True):
+		tempoFaixaContencao = 0
+		while(FAIXA_CONTENCAO_FOTO is True):
+			a0, a1, _, a3, b0, b1, _, b3 = sensor.fototransistores()
+			gerencia.movimento_frente((var.velNormal+2), ctr_vel_motor_dir, ctr_vel_motor_esq)
+			print("...")
+			if(((a0 >= var.CONST_A0) and (b0 >= var.CONST_B0)) and ((a1 >= var.CONST_A1) and (b1 >= var.CONST_B1)) and (a3 >= var.CONST_A3) and (b3 >= var.CONST_B3)):
+				FAIXA_CONTENCAO_FOTO = False
+				#FAIXA_CONTENCAO_VISAO = True
 # ###############################################################################################
 
 
