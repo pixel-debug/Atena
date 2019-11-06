@@ -28,4 +28,13 @@ def configuracoes():
 	GPIO.setup(var.pin_BUZINA, GPIO.OUT)
 
 
+	GPIO.setup(var.pin_LUZ_FREIO_DIR, GPIO.OUT)
+	GPIO.setup(var.pin_LUZ_FREIO_ESQ, GPIO.OUT)
+
+	GPIO.setup(var.pin_SETA_FRENTE_DIR, GPIO.OUT)
+	GPIO.setup(var.pin_SETA_FRENTE_ESQ, GPIO.OUT)
+
+	GPIO.setup(var.pin_SETA_TRAS_DIR, GPIO.OUT)
+	GPIO.setup(var.pin_SETA_TRAS_ESQ, GPIO.OUT)
+
 
