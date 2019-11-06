@@ -1,15 +1,15 @@
 
 # ---------------- Check points -------------------------
-area_min, area_max = 4000, 50000
+area_min, area_max = 4000, 56000
 
 
 nome_check_1 = "Museu."
-min_H_ck1 = 126 
-max_H_ck1 = 151
-min_S_ck1 = 70
-max_S_ck1 = 180
-min_V_ck1 = 77 
-max_V_ck1 = 255
+min_H_ck1 = 17
+max_H_ck1 = 163
+min_S_ck1 = 85
+max_S_ck1 = 255
+min_V_ck1 = 69 
+max_V_ck1 = 190
 
 placa_check_1 = [min_H_ck1, max_H_ck1, min_S_ck1, max_S_ck1, min_V_ck1, max_V_ck1]
 
@@ -35,9 +35,8 @@ placa_check_3 = [min_H_ck3, max_H_ck3, min_S_ck3, max_S_ck3, min_V_ck3, max_V_ck
 
 
 dados_checkpoints = [
-				(nome_check_1, placa_check_1),
-				(nome_check_2, placa_check_2),
-				(nome_check_3, placa_check_3)	
+				(nome_check_1, placa_check_1)
+	
 			]
 # --------------------------------------------------------
 
@@ -49,20 +48,21 @@ dados_checkpoints = [
 
 # ------------------------ Semáforo --------------------- 
 
-CONST_DETECCAO_SEMAFORO = 3200
+CONST_DETECCAO_SEMAFORO = 3000
+CONST_SEMAFORO_VERMELHO = 4500
+CONST_SEMAFORO_VERDE = 7400
 
 
-'''
 # Tarde/dia
 nome_semaforo_verde_hsv = "Sinal Verde"
-min_H_sem_verde = 0
-max_H_sem_verde = 93
-min_S_sem_verde = 172 
+min_H_sem_verde = 50 
+max_H_sem_verde = 80
+min_S_sem_verde = 134 
 max_S_sem_verde = 255 
-min_V_sem_verde = 99 
-max_V_sem_verde = 255
-'''
+min_V_sem_verde = 16 
+max_V_sem_verde = 165
 
+'''
 # Noite
 nome_semaforo_verde_hsv = "Sinal Verde"
 min_H_sem_verde = 0
@@ -71,22 +71,22 @@ min_S_sem_verde = 186
 max_S_sem_verde = 255 
 min_V_sem_verde = 10 
 max_V_sem_verde = 255
-
+'''
 
 semaforo_verde = [min_H_sem_verde, max_H_sem_verde, min_S_sem_verde, max_S_sem_verde, min_V_sem_verde, max_V_sem_verde]
 
 
-'''
+
 # Tarde/dia
 nome_semaforo_vermelho_hsv = "Sinal Vermelho"
-min_H_sem_vermelho = 0 
+min_H_sem_vermelho = 132 
 max_H_sem_vermelho = 179
-min_S_sem_vermelho = 132
+min_S_sem_vermelho = 196
 max_S_sem_vermelho = 255
-min_V_sem_vermelho = 130 
-max_V_sem_vermelho = 255
-'''
+min_V_sem_vermelho = 40 
+max_V_sem_vermelho = 201
 
+'''
 # Noite
 nome_semaforo_vermelho_hsv = "Sinal Vermelho"
 min_H_sem_vermelho = 0 
@@ -95,7 +95,7 @@ min_S_sem_vermelho = 174
 max_S_sem_vermelho = 255
 min_V_sem_vermelho = 59 
 max_V_sem_vermelho = 255
-
+'''
 
 semaforo_vermelho = [min_H_sem_vermelho, max_H_sem_vermelho, min_S_sem_vermelho, max_S_sem_vermelho, min_V_sem_vermelho, max_V_sem_vermelho]
 
