@@ -14,7 +14,6 @@
 import cv2
 import Variaveis as var
 import numpy as np
-import Tela as tela
 
 
 def perspectiva_obstaculo(img):
