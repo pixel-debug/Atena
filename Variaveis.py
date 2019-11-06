@@ -17,30 +17,28 @@ import cv2
 
 # --------------- Variaveis dos Motores -------------------
 # Velocidade Geral
-velNormal = 14
+velocidade = 40
 
-velReacao = 17
+velReacao = 15
 
-velCorrecaoN1 = 17
+velCorrecaoN1 = 23
 
-velCorrecaoN2 = 19
+velCorrecaoN2 = 24
 
-CONST_CORREC_REF = 1.90
-CONST_CORREC_INV = 1.87
+CONST_CORREC_REF = 1.35
+CONST_CORREC_INV = 1.40
 
-velEmergencia = 22
+velEmergencia = 20
 
-velVisao = 16
+velVisao = 23
 # --------------------------------------------------------
 
 
-# ----------------- Variaveis Tempo ----------------------
-tempoEsperaPlacaPare = 13
-tempoReacaoPlacaPedestre = 26
-tempoEsperaPlacaPesdestre = 2
+# --------------- Variaveis de Tempos --------------------
+CONST_TEMPO_PLC_PARE = 12
+CONST_TEMPO_PLC_PEDESTRE = 5
 
 # --------------------------------------------------------
-
 
 # -------------- Contantes dos Sensores ------------------
 # Constantes para atuação dos fototransistores
@@ -68,13 +66,61 @@ tam_original_tela_x, tam_original_tela_y = 840, 680
 tam_mini_tela_x, tam_mini_tela_y = 460, 300
 
 # Taxa de quadros por segundo
-taxa_quadros = 60
+taxa_quadros = 30
 
 cor_branco = (255, 255, 255)
 cor_preto = (0, 0, 0)
-cor_vermelho = (0, 0, 255)
+
+cor_azul = (0, 0, 255)
+cor_azul_fraco = (0, 0, 180)
+
 cor_verde = (0, 255, 0)
-cor_azul = (255, 0, 0)
+cor_verde_fraco = (0, 180, 0)
+
+cor_vermelho = (255, 0, 0)
+cor_vermelho_fraco = (180, 0, 0)
+# --------------------------------------------------------
+
+
+
+
+# --------------- Variaveis Interface --------------------
+tamBotao = 10
+
+tamBotaoIniciar_x = 150
+tamBotaoIniciar_y = 35
+
+deslocamento = 50
+
+pos_x_butao_iniciar = 170
+pos_y_butao_iniciar = 90
+
+pos_x_butao_sair = 170
+pos_y_butao_sair = 140
+
+pos_x_butao_teatro = 525
+pos_y_butao_teatro = 311 + deslocamento
+
+pos_x_butao_igreja = 215
+pos_y_butao_igreja = 40 + deslocamento
+
+pos_x_butao_museu = 293
+pos_y_butao_museu = 469 + deslocamento
+
+tamTela_X_Interface = 740
+tamTela_Y_Interface = 507 + deslocamento
+
+
+tamTela_X_ImgBack = 500
+tamTela_y_ImgBack = 600
+
+
+pos_x_butao_confirma = 170 
+pos_y_butao_confirma = 395
+
+pos_x_nega = 170
+pos_y_nega = 455
+
 # --------------------------------------------------------
 
 
@@ -176,6 +222,9 @@ classificadores_placas_direita = 	[
 classificador_semaforo = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo_verde.xml')
 nome_semaforo_verde = "Sinal Aberto"
 
+classificadores_semaforo_verde = 	[
+										(nome_semaforo_verde, classificador_semaforo)
+									] 
 # --------------------------------------------------------
 
 
@@ -193,7 +242,16 @@ pin_IN3 = 5		# Sentido Horário
 pin_IN4 = 6		# Sentido Anti-horário
 
 # Bozina
-pin_BUZINA = 26
+pin_BUZINA = 22
+
+pin_SETA_FRENTE_DIR = 21
+pin_SETA_FRENTE_ESQ = 18
+
+pin_LUZ_FREIO_ESQ = 26
+pin_SETA_TRAS_ESQ = 19
+
+pin_LUZ_FREIO_DIR = 17
+pin_SETA_TRAS_DIR = 27	
 # --------------------------------------------------------
 
 
