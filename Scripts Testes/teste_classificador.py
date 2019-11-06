@@ -26,32 +26,22 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pare.xml')
 
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_desvio.xml')
+
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
+
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_60.xml')
 
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_proibido_virar.xml')
 
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo_verde.xml')
-
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_cachorro.xml')
-
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_desvio.xml')
-
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_homem.xml')
-
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_mulher.xml')
-
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_pedestre.xml')
-
 #classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_virar.xml')
 
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_checkpoint1.xml')
 
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_checkpoint2.xml')
-
-#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_checkpoint3.xml')
+#classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_servicos.xml')
 
 
-classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo_verde.xml')
+classificador = cv2.CascadeClassifier('/home/pi/Projetos/Atena/Classificadores/cascade_semaforo.xml')
+
 
 # Captura dos quadros por segundo
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):

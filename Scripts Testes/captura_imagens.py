@@ -25,7 +25,7 @@ camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
 
-cont_imagem = 5002
+cont_imagem = 1
 
 
 
@@ -35,7 +35,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	imagem = frame.array
 
 	#if cv2.waitKey(1) & 0xFF == ord('c'):
-	cv2.imwrite("database/3/" + str(cont_imagem) + ".jpg",imagem)
+	cv2.imwrite("4/" + str(cont_imagem) + ".jpg",imagem)
 	print(str(cont_imagem)+"º imagem capturada com sucesso! Pressione 'ESC' para encerrar...")
 	cont_imagem += 1    
 	
@@ -45,7 +45,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Faz a limpeza do stream e faz a preparacao para a captura dos proximos frames
 	rawCapture.truncate(0)
 
-	if cv2.waitKey(1) & 0xFF == 27 or cont_imagem > 7500:
+	if cv2.waitKey(1) & 0xFF == 27 or cont_imagem > 3000:
 		break
 
 cv2.destroyAllWindows()
