@@ -98,6 +98,10 @@ Para realizar a detecção e identificação das placas de trânsito, utilizou-s
 A imagem a seguir mostra exemplos de placas utilizadas:
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Placas.png)
 
+Especificamente para as placas de localização, aplicou-se o algoritmo de OCR para identificar quais caracteres estavam presentes nelas. Para isso, empregou-se o Tesseract que é uma OCR engine de código aberto (HOFFSTAETTER, 2019). Além do Haar Cascade e do OCR, o algoritmo de detecção de cores via HSV foi empregado com o objetivo de isolar a imagem da placa para uma melhor detecção e, além disso, gerar mais um parâmetro seguro de identificação de todas as placas.  
+
+O Tesseract foi desenvolvido entre 1984 e 1994 nos laboratórios de pesquisa da HP como um projeto de pesquisa PhD. A motivação de sua criação era desenvolver uma OCR engine precisa e robusta, o que, na época, não existia. A partir de 2005, a HP tornou seu código aberto e, desde então, muitos colaboradores, cada vez mais, tem melhorado seu código e desempenho. 
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
