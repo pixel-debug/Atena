@@ -14,6 +14,19 @@ Um robô autônomo é um sistema que dispõe de sensores e outros sistemas de ha
 Os robôs que atuam no trânsito têm que ser capazes de interpretar corretamente as informações do seu ambiente, evitar situações perigosas para as pessoas e para ele mesmo, movimentar-se de acordo com as normas de trânsito e alcançar o seu destino, tarefas que são bastante desafiadoras tanto para robôs quanto para seres humanos. O Código de Trânsito Brasileiro (CTB) define regras específicas de circulação que devem ser respeitadas por todos os usuários da via. A partir daí, surge a necessidade de criar métodos mais interativos de aprendizagem, sendo a robótica uma grande aliada do processo.
 Neste contexto, este projeto trabalha com alguns aspectos da dinâmica do trânsito utilizando um mini robô autônomo em um cenário urbano com vias, placas, pedestres, dentre outros elementos.
 
+### 1.1 Objetivos
+
+O objetivo do trabalho é possibilitar, com a utilização de um protótipo de veículo elétrico em um cenário educativo, a demonstração de conceitos de robótica e também o aprendizado da dinâmica do trânsito, como por exemplo:
+* Controle de movimentação e velocidade;
+* Detecção de delimitações da pista;
+* Parada obrigatória;
+* Detecção de faixa de pedestres;
+* Detecção de outras placas;
+* Leitura dos caracteres das placas de localização;
+* Funcionamento do semáforo;
+* Navegação até o destino escolhido; e
+* Parada ao detectar obstáculos dinâmicos.
+
 
 
 
