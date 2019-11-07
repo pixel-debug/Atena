@@ -57,6 +57,18 @@ Iniciamos nosso projeto desenvolvendo um protótipo de carro elétrico, com capa
 
 O protótipo pode ser considerado de baixo custo, pois seu custo total é inferior a R$ 600,00.
 
+### 2.2. Desenvolvimento da Pista 
+
+Esta etapa consistiu em:
+* Definição do Projeto da Pista; 
+* Obtenção de Material para a Pista;
+* Desenvolvimento da Pista; e 
+* Desenvolvimento Cenário (Construções e Personagens).
+
+Na segunda etapa, definimos o projeto da pista, cujo o trajeto desenvolvido foi o mais apropriado dadas as limitações mecânicas do robô. As madeiras para construção da pista foram doadas pela empresa Madeireira Paranaense, apoiadora do projeto e, de posse das mesmas, iniciamos o processo de pintura e criação do trajeto através da fixação das fitas isolantes. 
+
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Pista.png)
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
