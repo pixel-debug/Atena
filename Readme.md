@@ -27,7 +27,29 @@ O objetivo do trabalho é possibilitar, com a utilização de um protótipo de v
 * Navegação até o destino escolhido; e
 * Parada ao detectar obstáculos dinâmicos.
 
+### 1.2. Cronograma
 
+O desenvolvimento do projeto teve início em agosto de 2019, após a equipe ter sido formada em julho. Durante os meses de agosto, setembro e outubro foram realizadas diversas tarefas que podem ser resumidas nas seguintes etapas:
+* Desenvolvimento do Protótipo;
+* Desenvolvimento da Pista;
+* Preparação das Imagens e Objetos e Treinamento;
+* Implementação e teste de Algoritmos no  Robô; e
+* Interface do Robô.
+
+
+## 2. Desenvolvimento do projeto
+
+O robô construído para o projeto possui um computador embarcado Raspberry Pi, uma câmera, um sensor de distância à laser, fototransistores, uma ponte H, motores, baterias, e sua estrutura foi desenvolvida com madeira MDF e uma chapa metálica. Os dados dos sensores são utilizados pelos algoritmos de visão computacional para obter informações sobre o ambiente. Algoritmos de controle de movimentação e velocidade foram implementados para possibilitar o movimento do robô no cenário.
+As seções a seguir apresentam as tarefas realizadas em cada etapa do projeto e, quando necessário, a fundamentação teórica resumida dos conceitos envolvidos. Uma ferramenta que ajudou bastante na organização das tarefas, no gerenciamento do cronograma e no compartilhamento de informações entre os integrantes do projeto foi o Trello, uma aplicação web que permite fazer uma lista de tarefas com vários recursos relacionados. 
+
+### 2.1. Desenvolvimento do Protótipo 
+
+Esta etapa consistiu em:
+* Elaboração do Projeto do Protótipo;
+* Configurações do Raspberry Pi 3 B+;
+* Implementação dos Componentes e Sensores;
+* Montagem do Protótipo; e
+* Testes Básicos.
 
 
 
