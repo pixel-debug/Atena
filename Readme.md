@@ -69,6 +69,12 @@ Na segunda etapa, definimos o projeto da pista, cujo o trajeto desenvolvido foi 
 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Pista.png)
 
+Posteriormente, criamos o cenário por meio do reaproveitamento de materiais recicláveis como caixas de papelão, palitos e palha de aço. Os personagens e veículos de plástico foram obtidos em uma loja de brinquedos.
+
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Cenario_1.png)
+
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Cenario_2.png)
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
