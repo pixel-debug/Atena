@@ -51,7 +51,9 @@ Esta etapa consistiu em:
 * Montagem do Protótipo; e
 * Testes Básicos.
 
+Iniciamos nosso projeto desenvolvendo um protótipo de carro elétrico, com capacidade de embarcar os componentes eletrônicos propostos. Em seguida, realizamos a instalação e configuração dos softwares necessários para o funcionamento do computador embarcado Raspberry Pi. Uma rede virtual privada (VNC) foi criada para que fosse possível acessar remotamente o computador embarcado no robô, permitindo a transmissão das imagens para um monitor externo. Alguns itens como parafusos, espaçadores e Jumpers foram necessários para a montagem do protótipo e o modo de fixação e adaptação de cada elemento do projeto no chassi foi pensado com intuito de facilitar a mobilidade do protótipo.
 
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Atena.png)
 
 ## Desenvolvido com
 
