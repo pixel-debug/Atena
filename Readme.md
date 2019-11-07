@@ -75,6 +75,29 @@ Posteriormente, criamos o cenário por meio do reaproveitamento de materiais rec
 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Cenario_2.png)
 
+### 2.3. Preparação das Imagens e Objetos e Treinamento 
+
+Esta etapa consistiu em:
+* Definição das placas e objetos que foram utilizados na pista;
+* Impressão e montagem das placas e semáforos;
+* Coleta das fotos das placas, objetos, pedestres e imagens negativas; e
+* Realização do treinamento dos classificadores.
+
+As principais tarefas são detalhadas nas subseções a seguir.
+
+#### 2.3.1. Detecção de Placas de Sinalização
+
+Nesta etapa foram trabalhados os seguintes algoritmos:
+* Haar Cascade
+* Algoritmo OCR 
+* Algoritmo HSV
+* Tesseract e Pytesseract
+
+Para realizar a detecção e identificação das placas de trânsito, utilizou-se um algoritmo de Aprendizado de Máquina chamado classificador em cascata (Haar Cascade), que identifica objetos baseado em uma base de dados contendo imagens positivas e imagens negativas. O classificador em cascata consiste de estágios, em que cada estágio é formado por classificadores mais simples (fracos) (BATISTA, 2017). Para o classificador conseguir diferenciar os objetos das imagens, é necessário realizar um treinamento com imagens positivas e negativas, que irá resultar em um modelo que descreve como são as características do objeto da categoria escolhida. As características escolhidas foram as de Haar.
+
+A imagem a seguir mostra exemplos de placas utilizadas:
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Placas.png)
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
