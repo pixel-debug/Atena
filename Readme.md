@@ -55,6 +55,8 @@ Iniciamos nosso projeto desenvolvendo um protótipo de carro elétrico, com capa
 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/Atena.png)
 
+O protótipo pode ser considerado de baixo custo, pois seu custo total é inferior a R$ 600,00.
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
