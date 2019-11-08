@@ -104,6 +104,12 @@ Especificamente para as placas de localização, aplicou-se o algoritmo de OCR p
 
 O Tesseract foi desenvolvido entre 1984 e 1994 nos laboratórios de pesquisa da HP como um projeto de pesquisa PhD. A motivação de sua criação era desenvolver uma OCR engine precisa e robusta, o que, na época, não existia. A partir de 2005, a HP tornou seu código aberto e, desde então, muitos colaboradores, cada vez mais, tem melhorado seu código e desempenho. 
 
+#### 2.3.2. Detecção de pista
+
+Através da imagem capturada pela câmera foi possível fazer a detecção da pista e suas respectivas faixas. A primeira imagem corresponde à imagem original com a visão do robô. Na segunda imagem, utilizou-se a função de desenho de linhas da biblioteca OpenCV (cv2.line) para fazer o desenho dos retângulos vermelho e verde. Cada retângulo foi criado a partir da definição de 4 pontos (x,y).
+
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/deteccao_pista_1.png)
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
