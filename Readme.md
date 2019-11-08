@@ -145,7 +145,7 @@ O semáforo possui três leds de alto brilho das cores vermelho, verde e amarelo
 
 * A imagem filtrada é então convertida para escala de cinza utilizando a média ponderada dos canais R (Red - vermelho), G (Green - verde) e B (Blue - azul): 
 
-valor do pixel = 0.299*R + 0.587*G + 0.114*B
+                                 valor do pixel = 0.299*R + 0.587*G + 0.114*B
 
 * É realizada uma binarização simples utilizando um limiar cujo valor é 140. 
 
@@ -165,7 +165,9 @@ Os principais módulos da arquitetura de navegação podem ser vistos no esquema
 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/arquitetura.png)
 
-O robô possui determinadas configurações de hardware que devem ser administradas pelo programa principal. O robô também possui sensores, estes são responsáveis por coletar informações referentes ao mundo externo. Esses dados coletados pelos sensores são recebidos pelo programa principal que repassa os mesmos até chegar no script de tratamento. O script de tratamento é responsável por tratar os dados obtidos pelos sensores, ou seja, ele indica quando há a presença de obstáculos, de sinalização, avisa quando o robô está saindo da faixa e também trata a missão definida pelo usuário, que é recepcionada pela interface.
+O robô possui determinadas configurações de hardware que devem ser administradas pelo programa principal. O robô também possui sensores, estes são responsáveis por coletar informações referentes ao mundo externo. Esses dados coletados pelos sensores são recebidos pelo programa principal que repassa os mesmos até chegar no script de tratamento. 
+
+O script de tratamento é responsável por tratar os dados obtidos pelos sensores, ou seja, ele indica quando há a presença de obstáculos, de sinalização, avisa quando o robô está saindo da faixa e também trata a missão definida pelo usuário, que é recepcionada pela interface.
 
 O script gerenciador vai gerenciar a utilização dos motores de acordo com as regras pré-definidas e de acordo com o tratamento dos sensores.
 
@@ -227,7 +229,7 @@ Para as versões disponíveis, consulte as tags neste repositório.
 
 ## Orientadora
 
-* **Natália Cosse Batista** - *Professora D.Sc. no* [CEFET-MG](http://www.cefetmg.br/)
+* **Natália Cosse Batista** - *Professora D.Sc. do Departamento de Computação do* [CEFET-MG](http://www.cefetmg.br/)
  
 ## Licença
 
