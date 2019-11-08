@@ -110,6 +110,15 @@ Através da imagem capturada pela câmera foi possível fazer a detecção da pi
 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/deteccao_pista_1.png)
 
+Os quatros pontos que definem o retângulo vermelho e os quatro pontos que definem o retângulo verde foram associados aos vetores denominados "pontos_pista" e "pontos_destino", respectivamente. Com esses vetores, foi possível utilizar as funções de transformação e consolidação perspectiva, que faz transformações geométricas de imagens 3D para uma nova dimensão 2D, permitindo sua exibição e manipulação, conforme a terceira imagem.
+
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/deteccao_pista_2.png)
+
+Para fazer a detecção das faixas, utilizaram-se das duas regiões de interesse para criar duas novas imagens correspondentes às faixas da esquerda e da direita.
+Com a criação das duas imagens correspondentes às regiões de interesse da faixa esquerda e direita, foi realizado a aplicação de alguns filtros para: conversão para escala de cinza, aplicação da função para distorção da imagem (cv2.GaussianBlur), binarização da imagem (cv2.inRagen), e a detecção de bordas com a função cv2.Canny.
+Por fim, depois de realizado o processo de detecção das bordas, foi efetuada a detecção de contornos através da função cv2.moments, para calcular a área e o centróide da imagem. Com isso, duas linhas brancas pequenas, uma horizontal e outra vertical, foram criadas cujo ponto de interseção entre elas que corresponde ao centróide da imagem. Como esse centro de massa da imagem oscila conforme o robô se movimenta, é possível determinar quando o robô está saindo da faixa.
+
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
