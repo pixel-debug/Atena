@@ -159,7 +159,7 @@ O Flood Fill é um algoritmo que encontra pixels conectados cuja cor é similar 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/obstaculo_1.png)
 
 
-2.4.  Implementação e Teste de Algoritmos no Robô
+#### 2.4. Implementação e Teste de Algoritmos no Robô
 
 Os principais módulos da arquitetura de navegação podem ser vistos no esquema a seguir. A implementação dos módulos foi realizada em linguagem Python utilizando as bibliotecas OpenCV (OPENCV, 2019) e Pytesseract (HOFFSTAETTER, 2019).
 
@@ -169,6 +169,27 @@ O robô possui determinadas configurações de hardware que devem ser administra
 
 O script gerenciador vai gerenciar a utilização dos motores de acordo com as regras pré-definidas e de acordo com o tratamento dos sensores.
 
+
+## 3. Resultados
+
+Os experimentos com cada módulo mostraram o potencial da metodologia aplicada para a simulação da dinâmica do trânsito. Como resultados do projeto, podem-se citar o robô, o cenário e as implementações realizadas que permitem a demonstração de: controle de movimentação e velocidade; detecção de delimitações da pista; parada obrigatória; detecção de faixa de pedestres; detecção de outras placas; leitura dos caracteres das placas de localização; funcionamento do semáforo; navegação até o destino escolhido; e parada ao detectar obstáculos dinâmicos. Cada módulo pode ser executado separadamente, permitindo verificar o funcionamento dos algoritmos e conceitos teóricos. 
+
+Entretanto, devido a limitações do Raspberry Pi, ainda não foi possível testar todos os módulos integrados. Verificou-se em alguns testes que o Raspberry Pi não conseguiu processar todos esses módulos simultaneamente. Por exemplo, em testes cujo objetivo era que o robô navegasse um determinado percurso, detectasse e obedecesse as placas de pare, de pedestre, de desvio e o semáforo.
+
+Nestes testes, inicialmente o robô andava corretamente no trajeto, mas em algum momento ele não conseguia identificar e/ou processar a ação correspondente a uma placa, ou então em outro momento ele conseguia identificar e processar as placas ou semáforo, mas repentinamente saía do trajeto mesmo com os fototransistores. Concluiu-se então que quando o robô sai da pista é devido ao fato que o Raspberry não conseguiu obter e interpretar o valor do fototransistor antes robô executar a ação de virar/corrigir para dentro da faixa.
+
+Em relação ao ambiente escolhido, que foi um cenário em miniatura construído com fundo preto e a pista delimitada por linhas brancas, construções de papel e personagens de brinquedo (como mostrado em figuras anteriores), há vantagens e desvantagens. Esse tipo de ambiente, por um lado, facilita a detecção das faixas e obstáculos devido ao alto contraste das cores escolhidas para a pista. Por outro lado, a possibilidade de alterações, como o surgimento de obstáculos imprevistos, aumenta a dificuldade dos algoritmos.
+
+
+## 4. Considerações finais
+
+O protótipo desenvolvido poderá ser usado para realizar demonstrações que facilitem o aprendizado de estudantes sobre as aplicações de sistemas inteligentes e possibilitará que educadores trabalhem com as placas de sinalização, regras de circulação para pedestres e motoristas, esquemas referenciais e a importância de respeitar as normas de trânsito de forma lúdica.
+
+As crianças poderiam aprender o conceito de automação em si. No sentido de que a robótica surge para tornar ações mecânicas em ações facilmente realizadas por máquinas.
+Para alunos do ensino médio, o projeto introduz circuitos e componentes eletrônicos necessários para sua realização. Dessa forma, entender o circuito é entender o funcionamento e a criação do robô. Além disso, os conceitos e as bibliotecas de programação também poderiam ser aprendidos através desse projeto.
+Os alunos do ensino superior aprenderiam as mesmas coisas dos alunos do ensino médio, porém com um rigor teórico maior.
+
+Como trabalhos futuros, será realizada a integração de todos os módulos, a alteração do computador embarcado ou utilização de uma outra máquina com maior poder de processamento com um modelo cliente-servidor. Além disso, novas funcionalidades poderão ser implementadas, tais como a detecção de outras placas de sinalização.
 
 ## Desenvolvido com
 
