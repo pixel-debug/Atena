@@ -137,6 +137,28 @@ O semáforo foi construído a partir de projeto obtido no site Thingiverse e imp
 
 O semáforo possui três leds de alto brilho das cores vermelho, verde e amarelo. Os leds são controlados por um microcontrolador Arduino que alterna a sequência de acionamento deles, de forma a imitar um semáforo real. Os leds vermelho e verde permanecem acesos por 15 segundos, enquanto que o amarelo fica aceso por 5 segundos.
 
+#### 2.3.4. Detecção de obstáculos
+
+   Para detectar impedimentos na pista, foi implementado um algoritmo em linguagem C++ utilizando a biblioteca CImg (TSCHUMPERLÉ, 2003). Para cada quadro (frame) obtido da câmera do robô, são realizados os passos explicados a seguir.
+
+* Inicialmente, é feito um borramento na imagem utilizando o filtro da mediana (função blur_median), que suaviza a imagem, ou seja, remove pequenos detalhes da imagem e possibilita preencher pequenas descontinuidades em linhas (GONZALEZ, 2003).
+
+* A imagem filtrada é então convertida para escala de cinza utilizando a média ponderada dos canais R (Red - vermelho), G (Green - verde) e B (Blue - azul): 
+
+valor do pixel = 0.299*R + 0.587*G + 0.114*B
+
+* É realizada uma binarização simples utilizando um limiar cujo valor é 140. 
+
+* A imagem é cortada (função crop) para eliminar regiões que não são de interesse na detecção, por exemplo regiões mais distantes do robô.O resultado das quatro primeiras etapas podem ser vistas na figura abaixo (à direita).
+
+*  Aplica-se o algoritmo Flood Fill (função draw_fill) para encontrar todos os pixels pretos que estejam ligados, partindo da parte central inferior da imagem. Esses pixels tendem a ser área livre da pista.
+O Flood Fill é um algoritmo que encontra pixels conectados cuja cor é similar ao pixel de origem (semente), gerando uma área que pode ser considerada uniforme na imagem. É como se houvesse uma "inundação" em alguma parte da imagem e somente os pixels de cores similares que estivessem interligados fossem "molhados". Nesta etapa obtém-se a imagem abaixo.
+
+* São analisados então 15 perfis (linhas) da imagem, isto é, é realizada a contagem de pixels de cada cor seguidos (pixels contíguos de mesma cor formam uma região). Os impedimentos na pista são detectados a partir dessa análise. Por exemplo, uma região vermelha entre duas brancas e com largura suficiente para a passagem do robô pode indicar pista livre. Faixa de pedestre também é detectada pela repetição do padrão da faixa (por exemplo, se houver mais de quatro repetições do padrão preto/branco, com uma largura mínima para cada região e se a medida das regiões não variar muito, há indicativo de faixa de pedestres). Após a análise de cada perfil, os perfis das metades superior (e da inferior) da imagem são combinados para gerar o resultado final. A figura a seguir mostra os perfis utilizados na imagem de exemplo.
+
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/obstaculo_1.png)
+
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
