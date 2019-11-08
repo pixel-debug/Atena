@@ -191,6 +191,20 @@ Os alunos do ensino superior aprenderiam as mesmas coisas dos alunos do ensino m
 
 Como trabalhos futuros, será realizada a integração de todos os módulos, a alteração do computador embarcado ou utilização de uma outra máquina com maior poder de processamento com um modelo cliente-servidor. Além disso, novas funcionalidades poderão ser implementadas, tais como a detecção de outras placas de sinalização.
 
+
+## Referências
+
+BATISTA, N. Projeto - Etapa 3: Treinamento. Belo Horizonte: CEFET-MG, 2017. Disponível em: <https://sites.google.com/site/nataliacefetmg>. Acesso em 17 out. 2019.
+
+GONZALEZ, R. e Woods, R. Processamento de Imagens Digitais. Editora Edgard Blücher, primeira edição, 2003.
+
+HOFFSTAETTER, S. et al. Pytesseract. Versão 0.3.0. [S.l.]: Python Software Foundation, 2019. Disponível em: <https://pypi.org/project/pytesseract>. Acesso em: 17 out. 2019.
+
+OPENCV. Versão 3.4.4. [S.l.]: 2019. Disponível em: <https://opencv.org>. Acesso em: 17 out. 2019.
+
+TSCHUMPERLÉ, D. The CImg Library. INRIA Sophia-Antipolis: Odyssée group, 2003. Disponível em: <http://cimg.eu/>. Acesso em: 17 out. 2019.
+
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
