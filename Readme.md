@@ -159,6 +159,17 @@ O Flood Fill é um algoritmo que encontra pixels conectados cuja cor é similar 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/obstaculo_1.png)
 
 
+2.4.  Implementação e Teste de Algoritmos no Robô
+
+Os principais módulos da arquitetura de navegação podem ser vistos no esquema a seguir. A implementação dos módulos foi realizada em linguagem Python utilizando as bibliotecas OpenCV (OPENCV, 2019) e Pytesseract (HOFFSTAETTER, 2019).
+
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/arquitetura.png)
+
+O robô possui determinadas configurações de hardware que devem ser administradas pelo programa principal. O robô também possui sensores, estes são responsáveis por coletar informações referentes ao mundo externo. Esses dados coletados pelos sensores são recebidos pelo programa principal que repassa os mesmos até chegar no script de tratamento. O script de tratamento é responsável por tratar os dados obtidos pelos sensores, ou seja, ele indica quando há a presença de obstáculos, de sinalização, avisa quando o robô está saindo da faixa e também trata a missão definida pelo usuário, que é recepcionada pela interface.
+
+O script gerenciador vai gerenciar a utilização dos motores de acordo com as regras pré-definidas e de acordo com o tratamento dos sensores.
+
+
 ## Desenvolvido com
 
 * [Python Software Foundation](https://maven.apache.org/) - Linguagem de programação;
