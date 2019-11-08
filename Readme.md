@@ -122,8 +122,12 @@ Para as versões disponíveis, consulte as tags neste repositório.
 
 * **Estanislau de Sena Filho** - *Estudante de Engenharia de Computação no* [CEFET-MG](http://www.cefetmg.br/)
 * **José Antônio Carneiro Ávila** - *Estudante de Engenharia de Computação no* [CEFET-MG](http://www.cefetmg.br/)
-* **Natália Cosse Batista** - *D.Sc. Professora no* [CEFET-MG](http://www.cefetmg.br/)
 
+
+## Orientadora
+
+* **Natália Cosse Batista** - *Professora D.Sc. no* [CEFET-MG](http://www.cefetmg.br/)
+ 
 ## Licença
 
 Este não é um projeto licenciado. Seu objetivo é exclusivo para estudar e aprender sobre visão computacional.
