@@ -1,5 +1,7 @@
 # Atena
 
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/pare1.gif)
+
 ## Resumo
 
 Veículos autônomos são robôs que dispõem de sensores e sistemas avançados de controle que lhes permitem movimentar de forma independente e sem intervenção de um motorista humano. Esses robôs têm sido desenvolvidos
