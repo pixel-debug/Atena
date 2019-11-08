@@ -1,6 +1,6 @@
 # Atena
 
-            ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/pare1.gif)
+![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/pare1.gif)
 
 ## Resumo
 
