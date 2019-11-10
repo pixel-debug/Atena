@@ -138,7 +138,7 @@ O semáforo possui três leds de alto brilho das cores vermelho, verde e amarelo
 
 * É realizada uma binarização simples utilizando um limiar cujo valor é 140. 
 
-* A imagem é cortada (função crop) para eliminar regiões que não são de interesse na detecção, por exemplo regiões mais distantes do robô.O resultado das quatro primeiras etapas podem ser vistas na figura abaixo (à direita).
+* A imagem é cortada (função crop) para eliminar regiões que não são de interesse na detecção, por exemplo regiões mais distantes do robô. O resultado das quatro primeiras etapas podem ser vistas na figura abaixo (à direita).
 
 *  Aplica-se o algoritmo Flood Fill (função draw_fill) para encontrar todos os pixels pretos que estejam ligados, partindo da parte central inferior da imagem. Esses pixels tendem a ser área livre da pista.
 O Flood Fill é um algoritmo que encontra pixels conectados cuja cor é similar ao pixel de origem (semente), gerando uma área que pode ser considerada uniforme na imagem. É como se houvesse uma "inundação" em alguma parte da imagem e somente os pixels de cores similares que estivessem interligados fossem "molhados". Nesta etapa obtém-se a imagem abaixo.
