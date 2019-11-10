@@ -39,7 +39,7 @@ O objetivo do trabalho é possibilitar, com a utilização de um protótipo de v
 
 O robô construído para o projeto possui um computador embarcado Raspberry Pi, uma câmera, um sensor de distância à laser, fototransistores, uma ponte H, motores, baterias, e sua estrutura foi desenvolvida com madeira MDF e uma chapa metálica. Os dados dos sensores são utilizados pelos algoritmos de visão computacional para obter informações sobre o ambiente. Algoritmos de controle de movimentação e velocidade foram implementados para possibilitar o movimento do robô no cenário.
 
-As seções a seguir apresentam as tarefas realizadas em cada etapa do projeto e, quando necessário, a fundamentação teórica resumida dos conceitos envolvidos. Uma ferramenta que ajudou bastante na organização das tarefas, no gerenciamento do cronograma e no compartilhamento de informações entre os integrantes do projeto foi o Trello, uma aplicação web que permite fazer uma lista de tarefas com vários recursos relacionados. 
+As seções a seguir apresentam as tarefas realizadas em cada etapa do projeto e, quando necessário, a fundamentação teórica resumida dos conceitos envolvidos. 
 
 ### 2.1. Desenvolvimento do Protótipo 
 
