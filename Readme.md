@@ -34,15 +34,6 @@ O objetivo do trabalho é possibilitar, com a utilização de um protótipo de v
 * Navegação até o destino escolhido; e
 * Parada ao detectar obstáculos dinâmicos.
 
-### 1.2. Cronograma
-
-O desenvolvimento do projeto teve início em agosto de 2019, após a equipe ter sido formada em julho. Durante os meses de agosto, setembro e outubro foram realizadas diversas tarefas que podem ser resumidas nas seguintes etapas:
-* Desenvolvimento do Protótipo;
-* Desenvolvimento da Pista;
-* Preparação das Imagens e Objetos e Treinamento;
-* Implementação e teste de Algoritmos no  Robô; e
-* Interface do Robô.
-
 
 ## 2. Desenvolvimento do projeto
 
