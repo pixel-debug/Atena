@@ -9,8 +9,6 @@ como solução para o problema dos acidentes de trânsito que causam grande núm
 
 O protótipo de baixo custo utiliza um computador Raspberry-Pi e uma câmera para executar ações como: identificação de placas de sinalização, detecção de delimitações da pista, acionamento da buzina, além de determinar o controle de movimentação e velocidade. Para detecção e reconhecimento da sinalização horizontal e vertical, são utilizados algoritmos de visão computacional. Algoritmos de controle de movimentação e velocidade foram implementados para possibilitar o movimento do robô no ambiente. 
 
-O projeto poderá facilitar o aprendizado de crianças e adolescentes sobre as aplicações de sistemas inteligentes e possibilitará que educadores trabalhem com as placas de sinalização, regras de circulação para pedestres e motoristas, esquemas referenciais e a importância de respeitar as normas de trânsito de forma lúdica.
-
 Palavras-chave: Inteligência Artificial. Veículo autônomo. Educação.
 
 
