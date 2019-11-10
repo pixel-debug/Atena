@@ -107,7 +107,7 @@ Através da imagem capturada pela câmera foi possível fazer a detecção da pi
 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/deteccao_pista_1.png)
 
-Os quatros pontos que definem o retângulo vermelho e os quatro pontos que definem o retângulo verde foram associados aos vetores denominados "pontos_pista" e "pontos_destino", respectivamente. Com esses vetores, foi possível utilizar as funções de transformação e consolidação perspectiva, que faz transformações geométricas de imagens 3D para uma nova dimensão 2D, permitindo sua exibição e manipulação, conforme a terceira imagem.
+Os quatros pontos que definem o retângulo vermelho e os quatro pontos que definem o retângulo verde foram associados aos vetores denominados "pontos_pista" e "pontos_destino", respectivamente. Com esses vetores, foi possível utilizar as funções de transformação e consolidação perspectiva, que faz transformações geométricas de imagens 3D para uma nova dimensão 2D, permitindo sua exibição e manipulação, conforme a imagem abaixo.
 
 ![alt text](https://raw.githubusercontent.com/EstanislauFilho/Atena/master/Imagens/deteccao_pista_2.png)
 
