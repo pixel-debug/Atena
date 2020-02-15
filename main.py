@@ -14,18 +14,21 @@
 # --------------------------------------------------------
 
 import RPi.GPIO as GPIO
+from configuracoes import Configuracoes
 
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
 
 class Main():
-	
-	def __inti__(self):
-		pass
+
+	def __init__(self):
+		self.configura = Configuracoes()
+
 
 	def main(self):
-		pass
+		self.configura.pinos_GPIOS()
+
 
 if __name__ == '__main__':
 	execute_app = Main()
