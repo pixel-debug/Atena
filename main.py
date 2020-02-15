@@ -20,14 +20,19 @@ GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
 
+
 class Main():
 
 	def __init__(self):
 		self.configura = Configuracoes()
-
-
+		
+		
+	def incializacao(self):
+		self.configura.pinos_MOTORES()
+		self.configura.pinos_VELOCIDADE()
+		
 	def main(self):
-		self.configura.pinos_GPIOS()
+		self.incializacao()
 
 
 if __name__ == '__main__':
