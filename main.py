@@ -13,6 +13,12 @@
 
 # --------------------------------------------------------
 
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setwarnings(False)
+
 class Main():
 	
 	def __inti__(self):
