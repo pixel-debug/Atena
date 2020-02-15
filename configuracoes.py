@@ -28,11 +28,25 @@ class Configuracoes():
 		self.pin_IN4 = 6		# Sentido Anti-horário
 
 
-	def pinos_GPIOS(self):
+	def pinos_MOTORES(self):
 		GPIO.setup(self.pin_ENA, GPIO.OUT)
 		GPIO.setup(self.pin_IN1, GPIO.OUT)	
 		GPIO.setup(self.pin_IN2, GPIO.OUT)
+
 		GPIO.setup(self.pin_ENB, GPIO.OUT)
 		GPIO.setup(self.pin_IN3, GPIO.OUT)	
 		GPIO.setup(self.pin_IN4, GPIO.OUT)
-		print("GPIO's configurados com sucesso...")
+		print("Motores configurados com sucesso...")
+
+	def pinos_VELOCIDADE(self):
+		controle_motor_esq = GPIO.PWM(self.pin_ENB, 500) 
+		controle_motor_dir = GPIO.PWM(self.pin_ENA, 500)
+		controle_motor_esq.start(0)
+		controle_motor_dir.start(0)
+		print("Controle de velocidade configurado com sucesso...")
+
+
+
+
+
+
