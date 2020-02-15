@@ -14,20 +14,41 @@
 # --------------------------------------------------------
 
 import RPi.GPIO as GPIO
+from configuracoes import Configuracoes
 
 class Motores():
 	
 	def __init__(self):
-		pass
+		self.configura = Configuracoes()
 
-	def seguir_Frente(velocidade, controle_motor_dir, controle_motor_esq):
-		pass
+	def frente(velocidade, controle_motor_dir, controle_motor_esq):
+		GPIO.output(self.configura.pin_IN1, True)
+		GPIO.output(self.configura.pin_IN2, False)
+		controle_motor_dir.ChangeDutyCycle(velocidade)
+
+		GPIO.output(self.configura.pin_IN3, True)
+		GPIO.output(self.configura.pin_IN4, False)
+		controle_motor_esq.ChangeDutyCycle(velocidade)
 	
-	def virar_Esq(velocidade, controle_motor_dir, controle_motor_esq):
+
+	def esquerda(velocidade, controle_motor_dir, controle_motor_esq):
 		pass
 
-	def virar_Dir(velocidade, controle_motor_dir, controle_motor_esq):
+	def direita(velocidade, controle_motor_dir, controle_motor_esq):
 		pass
 
-	def marcha_Re(velocidade, controle_motor_dir, controle_motor_esq):
-		pass
+	def tras(velocidade, controle_motor_dir, controle_motor_esq):
+		GPIO.output(self.configura.pin_IN1, False)
+		GPIO.output(self.configura.pin_IN2, False)
+		controle_velocidade_direita.ChangeDutyCycle(velocidade)
+
+		GPIO.output(self.configura.pin_IN3, False)
+		GPIO.output(self.configura.pin_IN4, False)
+		controle_velocidade_esquerda.ChangeDutyCycle(velocidade)
+
+
+
+
+
+
+
