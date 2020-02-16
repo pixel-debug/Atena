@@ -19,13 +19,17 @@ class Configuracoes():
 	def __init__(self):
 		# Motores da Direita
 		self.pin_ENA = 12	# PWM motor da direita
-		self.pin_IN1 = 20	# Sentido Horário
-		self.pin_IN2 = 16	# Sentido Anti-horário
+		self.pin_IN1 = 16	# Sentido Horário
+		self.pin_IN2 = 20	# Sentido Anti-horário
 
 		# Motores da Esquerda
 		self.pin_ENB = 13	# PWM motor da esquerda
 		self.pin_IN3 = 5		# Sentido Horário
 		self.pin_IN4 = 6		# Sentido Anti-horário
+
+		# Controle de velocidade
+		self.controle_motor_esq = None
+		self.controle_motor_dir = None
 
 
 	def pinos_MOTORES(self):
@@ -39,10 +43,10 @@ class Configuracoes():
 		print("Motores configurados com sucesso...")
 
 	def pinos_VELOCIDADE(self):
-		controle_motor_esq = GPIO.PWM(self.pin_ENB, 500) 
-		controle_motor_dir = GPIO.PWM(self.pin_ENA, 500)
-		controle_motor_esq.start(0)
-		controle_motor_dir.start(0)
+		self.controle_motor_esq = GPIO.PWM(self.pin_ENB, 500) 
+		self.controle_motor_dir = GPIO.PWM(self.pin_ENA, 500)
+		self.controle_motor_esq.start(0)
+		self.controle_motor_dir.start(0)
 		print("Controle de velocidade configurado com sucesso...")
 
 
