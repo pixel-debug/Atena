@@ -21,7 +21,7 @@ class Motores():
 	def __init__(self):
 		self.configura = Configuracoes()
 
-	def frente(velocidade, controle_motor_dir, controle_motor_esq):
+	def frente(self, velocidade, controle_motor_dir, controle_motor_esq):
 		GPIO.output(self.configura.pin_IN1, True)
 		GPIO.output(self.configura.pin_IN2, False)
 		controle_motor_dir.ChangeDutyCycle(velocidade)
@@ -37,14 +37,23 @@ class Motores():
 	def direita(velocidade, controle_motor_dir, controle_motor_esq):
 		pass
 
-	def tras(velocidade, controle_motor_dir, controle_motor_esq):
+	def tras(self, velocidade, controle_motor_dir, controle_motor_esq):
+		GPIO.output(self.configura.pin_IN1, False)
+		GPIO.output(self.configura.pin_IN2, True)
+		controle_motor_dir.ChangeDutyCycle(velocidade)
+
+		GPIO.output(self.configura.pin_IN3, False)
+		GPIO.output(self.configura.pin_IN4, True)
+		controle_motor_esq.ChangeDutyCycle(velocidade)
+
+	def parar(self, velocidade, controle_motor_dir, controle_motor_esq):
 		GPIO.output(self.configura.pin_IN1, False)
 		GPIO.output(self.configura.pin_IN2, False)
-		controle_velocidade_direita.ChangeDutyCycle(velocidade)
+		controle_motor_dir.ChangeDutyCycle(velocidade)
 
 		GPIO.output(self.configura.pin_IN3, False)
 		GPIO.output(self.configura.pin_IN4, False)
-		controle_velocidade_esquerda.ChangeDutyCycle(velocidade)
+		controle_motor_esq.ChangeDutyCycle(velocidade)
 
 
 
