@@ -27,7 +27,7 @@ class Main():
 
 	def __init__(self):
 		self.configura = Configuracoes()
-		self.movimentar = Motores()
+		self.movimento = Motores()
 		
 	def incializacao(self):
 		self.configura.pinos_MOTORES()
@@ -37,9 +37,13 @@ class Main():
 		self.incializacao()
 
 		while(True):	
-			self.movimentar.frente(20, self.configura.controle_motor_dir, self.configura.controle_motor_esq)
+			self.movimento.direita(16, self.configura.controle_motor_dir, self.configura.controle_motor_esq)
 			time.sleep(1)
-			self.movimentar.tras(20, self.configura.controle_motor_dir, self.configura.controle_motor_esq)
+			self.movimento.parar(0, self.configura.controle_motor_dir, self.configura.controle_motor_esq)
+			time.sleep(1)
+			self.movimento.esquerda(16, self.configura.controle_motor_dir, self.configura.controle_motor_esq)
+			time.sleep(1)
+			self.movimento.parar(0, self.configura.controle_motor_dir, self.configura.controle_motor_esq)
 			time.sleep(1)
 
 if __name__ == '__main__':
