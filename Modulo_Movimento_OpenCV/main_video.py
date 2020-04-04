@@ -11,10 +11,10 @@ import cv2
 import numpy as np
 video = cv2.VideoCapture("video.mp4")
 
-pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (50,445), (695,445), (0,510), (735,510)
+pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (70,340), (570,340), (10,410), (620,410)
 
 
-pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (150,0), (590,0), (150,680), (590,680)
+pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (150,0), (480,0), (150,420), (480,420)
 
 pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
 pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
@@ -31,15 +31,15 @@ def perspectiva_pista(img):
 	cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
 	cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
 
-	#matriz = cv2.getPerspectiveTransform(var.pontos_pista, var.pontos_destino)
-	#img = cv2.warpPerspective(img, matriz, (var.tam_original_tela_x, var.tam_original_tela_y)) 
+	matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
+	img = cv2.warpPerspective(img, matriz, (680, 420)) 
 	return img
 
 while(True):
     status, frame = video.read()
     
     # Redimensionamento da imagem
-    imagem = cv2.resize(frame, (780, 520))
+    imagem = cv2.resize(frame, (680, 420))
       
     imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     
@@ -53,7 +53,7 @@ while(True):
     
     
     
-    imagem = perspectiva_pista(imagem)
+    imagem_perspectiva_pista = perspectiva_pista(imagem)
     
     
     
@@ -63,6 +63,7 @@ while(True):
     #cv2.imshow("Imagem Tresh", imagem_tresh)
     #cv2.imshow("Imagem Canny", imagem_canny)
     #cv2.imshow("Imagem Final", imagem_final)
+    cv2.imshow("Perspectiva Pista", imagem_perspectiva_pista)
 
     if cv2.waitKey(1) & 0xFF == 27:
         break
