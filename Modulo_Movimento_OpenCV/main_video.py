@@ -12,8 +12,6 @@ import numpy as np
 video = cv2.VideoCapture("video.mp4")
 
 pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (70,340), (570,340), (10,410), (620,410)
-
-
 pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (150,0), (480,0), (150,420), (480,420)
 
 pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
@@ -53,7 +51,7 @@ while(True):
     
     
     
-    imagem_perspectiva_pista = perspectiva_pista(imagem)
+    imagem_perspectiva_pista = perspectiva_pista(imagem.copy())
     
     
     
