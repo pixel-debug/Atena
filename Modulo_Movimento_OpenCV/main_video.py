@@ -87,11 +87,21 @@ while(True):
     # Imagem da perspectiva da pista pista com aplicação dos filtros 
     imagem_pista_filtrada = filtros_faixas(imagem_pista)
     
-    # Imagem das faixas da pista separadas 
-    imagem_faixa_esq = imagem_pista_filtrada[0:420, 0:340]
-    imagem_faixa_dir = imagem_pista_filtrada[0:420, 341:680]    
+    # Imagem da faixa da esquerda
+    imagem_faixa_esq = imagem_pista_filtrada[0:420, 100:360]
+    imagem_faixa_esq, cx_esq = detecta_faixas(imagem_faixa_esq.copy())
     
-
+    # Imagem da faixa da direta
+    imagem_faixa_dir = imagem_pista_filtrada[0:420, 300:560]    
+    imagem_faixa_dir, cx_dir = detecta_faixas(imagem_faixa_dir.copy())
+    
+    
+    if cx_esq >= 70 and cx_esq <= 105:
+        print("Fazer correção motores da esquerda! {0}".format(cx_esq))
+    elif cx_dir >= 165 and cx_dir <= 195:
+        print("Fazer correção motores da direita! {0}".format(cx_dir))
+    else:
+        print(cx_esq, cx_dir)
     
     # Apresentação Imagens
     #cv2.imshow("Imagem Original", imagem)  
@@ -101,8 +111,7 @@ while(True):
     #cv2.imshow("Imagem Canny", imagem_canny)
     #cv2.imshow("Imagem Final", imagem_final)
     #cv2.imshow("Perspectiva Pista", imagem_perspectiva_pista)
-    #cv2.imshow("Perspectiva Pista Filtrada", imagem_perspectiva_pista_final)
-    #cv2.imshow("Faixas Detectadas", imagem_faixas_detectadas)
+    cv2.imshow("Perspectiva Pista Filtrada", imagem_pista_filtrada)
     cv2.imshow("Faixa Esquerda", imagem_faixa_esq)
     cv2.imshow("Faixa Direita", imagem_faixa_dir)
     
