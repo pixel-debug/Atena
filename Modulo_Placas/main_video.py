@@ -27,8 +27,14 @@ while(True):
     # Redimensionamento da imagem
     imagem = cv2.resize(frame, (680, 420))
     
-    
-    
+    imagem_gray = cv2.cvtColor(imagem,cv2.COLOR_BGR2GRAY)
+			
+    imagem_placa = classificador_pare.detectMultiScale(imagem_gray, scaleFactor=1.1, minNeighbors=10)
+	
+    for (x,y,w,h) in imagem_placa:
+        cv2.rectangle(imagem,(x,y),(x+w,y+h),(255,0,0),2)
+        cv2.putText(imagem, "pare", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+		
     
     # Apresenta Imagens
     cv2.imshow("Imagem", imagem)
