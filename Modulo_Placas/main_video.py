@@ -17,6 +17,10 @@ video = cv2.VideoCapture("video.mp4")
 while(True):
     status, frame = video.read()
     
+    # Redimensionamento da imagem
+    imagem = cv2.resize(frame, (680, 420))
+    
+    cv2.imshow("Imagem", imagem)
     
     if cv2.waitKey(1) & 0xFF == 27:
         break
