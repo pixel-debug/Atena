@@ -11,7 +11,7 @@ import cv2
 import numpy as np
 
 
-video = cv2.VideoCapture("video.mp4")
+video = cv2.VideoCapture("/home/estanislau/Projetos/Atena/video.mp4")
 
 classificador_pare = cv2.CascadeClassifier('/home/estanislau/Projetos/Atena/Modulo_Placas/Classificadores/cascade_pare.xml')
 
