@@ -12,7 +12,7 @@ import time
 
 video = cv2.VideoCapture("/home/estanislau/Projetos/Atena/video.mp4")
 
-cont_imagem = 1
+cont_imagem = 100
 cont_execucao = 1
 
 
