@@ -9,7 +9,7 @@ Created on Thu Apr  2 20:44:38 2020
 
 import cv2
 import numpy as np
-video = cv2.VideoCapture("/home/estanislau/Projetos/Atena/video.mp4")
+video = cv2.VideoCapture("/home/estanislau/Projetos/Atena/Videos/video.mp4")
 
 pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (70,340), (570,340), (10,410), (620,410)
 pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (150,0), (480,0), (150,420), (480,420)
