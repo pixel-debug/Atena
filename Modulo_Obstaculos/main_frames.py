@@ -11,13 +11,16 @@ import cv2
 import numpy as np
 #import glob
 
-imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/287.jpg")
+#imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/248.jpg")
+#imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/272.jpg")
+#imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/287.jpg")
+imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/309.jpg") 
 
-   
+
 # Imagem da faixa da esquerda
 #imagem_obstaculos = imagem_c[210:420, 0:680]
 
-largura, altura = 680, 420
+largura, altura = 340, 210
 
 # Redimensionamento da imagem
 imagem = cv2.resize(imagem, (largura, altura))
@@ -26,28 +29,32 @@ imagem_c = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     
 semente = imagem_c[(altura-1), int(largura/2)]
     
-#th, imagem_th = cv2.threshold(imagem_pista, 220, 255, cv2.THRESH_BINARY);
-    
+ini_eixo_x = 0
+mei_eixo_x = int(largura/2)
+fim_eixo_x = largura
+
+ini_eixo_y = (altura-1)
+fim_eixo_y = int(altura/2)    
+
 cont_elementos = 0 
 
-for y in range((altura-1), int(altura/2), -1):
-    for x in range(int(largura/2), largura):
-        if imagem_c[y,x] <= semente:
+for y in range(ini_eixo_y, fim_eixo_y, -1):
+    for x in range(mei_eixo_x, fim_eixo_x):
+        if imagem_c[y,x] <= 1.7*semente:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
             cont_elementos += 1
         else:
             break
         
-    for x in range(int(largura/2), (largura-largura), -1):
-        if imagem_c[y,x]  <= semente:
+    for x in range(mei_eixo_x, ini_eixo_x, -1):
+        if imagem_c[y,x]  <= 1.7*semente:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
             cont_elementos += 1
         else:
             break
-    '''    
-    if imagem_c[y,x] > 125:
-        break
-    '''
+   
+   
+
     
 print(cont_elementos)
 
@@ -62,35 +69,6 @@ cv2.waitKey(0)
 
 
 cv2.destroyAllWindows() 
-
-
-
-
-
-
-
-
-
-
-
-
-semente = (420,340)
-'''
-nelem = 0
-for y in range(420):
-    for x in range(680):
-        if image_c[y,x] < 130:
-            nelem += 1
-            cv2.floodFill(image, None, (x,y), (0,0,255))
-
-print("Number of elements: ", nelem)
-'''
-
-#cv2.imshow("image", image)
-#cv2.waitKey(0)
-
-
-
 
 
 
