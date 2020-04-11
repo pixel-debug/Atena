@@ -11,51 +11,24 @@ import cv2
 import numpy as np
 #import glob
 
-imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Semaforo/211.jpg")
-
-pt_pista_1, pt_pista_2, pt_pista_3, pt_pista_4 = (140,230), (540,230), (30,410), (650,410)
-pt_destino_1, pt_destino_2, pt_destino_3, pt_destino_4 = (230,0), (440,0), (230,420), (440,420)
-
-pontos_pista = np.float32([[pt_pista_1], [pt_pista_2], [pt_pista_3], [pt_pista_4]])
-pontos_destino = np.float32([[pt_destino_1], [pt_destino_2], [pt_destino_3], [pt_destino_4]])
-
-
-
-def perspectiva_pista(img):
-    '''
-    cv2.line(img, pt_pista_1, pt_pista_2, (0,0,255), 4)
-    cv2.line(img, pt_pista_1, pt_pista_3, (0,0,255), 4)
-    cv2.line(img, pt_pista_2, pt_pista_4, (0,0,255), 4)
-    cv2.line(img, pt_pista_3, pt_pista_4, (0,0,255), 4)
-    
-    cv2.line(img, pt_destino_1, pt_destino_2, (0,255,0), 4)
-    cv2.line(img, pt_destino_1, pt_destino_3, (0,255,0), 4)
-    cv2.line(img, pt_destino_2, pt_destino_4, (0,255,0), 4)
-    cv2.line(img, pt_destino_3, pt_destino_4, (0,255,0), 4)
-    '''
-    matriz = cv2.getPerspectiveTransform(pontos_pista, pontos_destino)
-    img = cv2.warpPerspective(img, matriz, (680, 420)) 
-    return img
-
+imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/218.jpg")
 
    
 # Imagem da faixa da esquerda
 #imagem_obstaculos = imagem_c[210:420, 0:680]
 
-#while(True):
+
 # Redimensionamento da imagem
 imagem = cv2.resize(imagem, (680, 420))
       
 imagem_c = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     
-# Imagens da perspectiva da pista sem filtros aplicados
-imagem_pista = perspectiva_pista(imagem)
     
-th, imagem_th = cv2.threshold(imagem_pista, 220, 255, cv2.THRESH_BINARY);
+#th, imagem_th = cv2.threshold(imagem_pista, 220, 255, cv2.THRESH_BINARY);
     
 
 ###
-for y in range(230,420):
+for y in range(419, 230, -1):
     for x in range(340, 680):
         if imagem_c[y,x] <= 125:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
