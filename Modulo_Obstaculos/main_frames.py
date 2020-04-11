@@ -24,6 +24,7 @@ imagem = cv2.resize(imagem, (largura, altura))
       
 imagem_c = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     
+semente = imagem_c[(altura-1), int(largura/2)]
     
 #th, imagem_th = cv2.threshold(imagem_pista, 220, 255, cv2.THRESH_BINARY);
     
@@ -31,14 +32,14 @@ cont_elementos = 0
 
 for y in range((altura-1), int(altura/2), -1):
     for x in range(int(largura/2), largura):
-        if imagem_c[y,x] <= 125:
+        if imagem_c[y,x] <= semente:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
             cont_elementos += 1
         else:
             break
         
     for x in range(int(largura/2), (largura-largura), -1):
-        if imagem_c[y,x] <= 125:
+        if imagem_c[y,x]  <= semente:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
             cont_elementos += 1
         else:
