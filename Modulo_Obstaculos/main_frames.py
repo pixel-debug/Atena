@@ -11,7 +11,7 @@ import cv2
 import numpy as np
 #import glob
 
-imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/218.jpg")
+imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/237.jpg")
 
    
 # Imagem da faixa da esquerda
@@ -26,20 +26,24 @@ imagem_c = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     
 #th, imagem_th = cv2.threshold(imagem_pista, 220, 255, cv2.THRESH_BINARY);
     
-
+cont_elementos = 0 
 ###
 for y in range(419, 230, -1):
     for x in range(340, 680):
         if imagem_c[y,x] <= 125:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
+            cont_elementos += 1
         else:
             break
         
     for x in range(340, 0, -1):
         if imagem_c[y,x] <= 125:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
+            cont_elementos += 1
         else:
             break
+        
+print(cont_elementos)
 '''
 if imagem_c[x, 680-1] > 125:
         cv2.floodFill(imagem, None, (340, x),255)
