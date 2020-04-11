@@ -11,15 +11,16 @@ import cv2
 import numpy as np
 #import glob
 
-imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/237.jpg")
+imagem =  cv2.imread("/home/estanislau/Projetos/Atena/Videos/Frames_Video/287.jpg")
 
    
 # Imagem da faixa da esquerda
 #imagem_obstaculos = imagem_c[210:420, 0:680]
 
+largura, altura = 680, 420
 
 # Redimensionamento da imagem
-imagem = cv2.resize(imagem, (680, 420))
+imagem = cv2.resize(imagem, (largura, altura))
       
 imagem_c = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     
@@ -27,35 +28,27 @@ imagem_c = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
 #th, imagem_th = cv2.threshold(imagem_pista, 220, 255, cv2.THRESH_BINARY);
     
 cont_elementos = 0 
-###
-for y in range(419, 230, -1):
-    for x in range(340, 680):
+
+for y in range((altura-1), int(altura/2), -1):
+    for x in range(int(largura/2), largura):
         if imagem_c[y,x] <= 125:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
             cont_elementos += 1
         else:
             break
         
-    for x in range(340, 0, -1):
+    for x in range(int(largura/2), (largura-largura), -1):
         if imagem_c[y,x] <= 125:
             cv2.floodFill(imagem, None, (x, y),(0, 0, 255))
             cont_elementos += 1
         else:
             break
-        
+    '''    
+    if imagem_c[y,x] > 125:
+        break
+    '''
+    
 print(cont_elementos)
-'''
-if imagem_c[x, 680-1] > 125:
-        cv2.floodFill(imagem, None, (340, x),255)
-
-for y in range(680):
-    if imagem_c[0,y] <= 125:
-        cv2.floodFill(imagem, None, (y,0),0)
-    if imagem_c[420-1, y] > 125:
-        cv2.floodFill(imagem, None, (y, 420-1), 0)
-'''
-####
-
 
 
 # Apresentação Imagens
